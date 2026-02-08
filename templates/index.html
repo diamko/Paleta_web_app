@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Palet
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="gradient-text text-center mb-4">Создание цветовой палитры</h1>
+            <p class="text-center mb-5">Загрузите изображение, и мы извлечем из него уникальную цветовую палитру</p>
+
+            <!-- Upload Zone -->
+            <div id="uploadZone" class="upload-zone border border-2 border-dashed rounded p-5 text-center mb-4" style="cursor: pointer;">
+                <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+                <h5>Перетащите изображение сюда или нажмите для выбора</h5>
+                <p class="text-muted">Поддерживаемые форматы: PNG, JPG, JPEG, WebP (макс. 16MB)</p>
+                <button id="browseBtn" type="button" class="btn btn-primary">Выбрать файл</button>
+            </div>
+
+            <!-- Hidden File Input -->
+            <input type="file" id="imageInput" accept="image/*" style="display: none;">
+
+            <!-- Upload Form (hidden) -->
+            <form id="uploadForm" style="display: none;">
+                <input type="hidden" name="color_count" id="colorCountHidden" value="5">
+            </form>
+
+            <!-- Loading Indicator -->
+            <div id="loadingIndicator" class="text-center d-none">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Загрузка...</span>
+                </div>
+                <p class="mt-2">Анализируем изображение...</p>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultSection" class="d-none">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Изображение</h4>
+                        <img id="imagePreview" class="img-fluid rounded" alt="Загруженное изображение" style="display: none;">
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Цветовая палитра</h4>
+                        <div id="colorPalette" class="d-flex flex-wrap gap-2 mb-3"></div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <label for="colorCountSelect" class="form-label">Количество цветов:</label>
+                    <select id="colorCountSelect" class="form-select d-inline-block w-auto">
+                        <option value="3">3</option>
+                        <option value="5" selected>5</option>
+                        <option value="7">7</option>
+                        <option value="10">10</option>
+                    </select>
+                    <button id="reanalyzeBtn" type="button" class="btn btn-secondary ms-2">Пересчитать</button>
+                    <button id="newImageBtn" type="button" class="btn btn-outline-secondary ms-2">Загрузить новое</button>
+                </div>
+
+                <div class="mt-4">
+                    <h5>Действия</h5>
+                    {% if current_user.is_authenticated %}
+                        <button id="savePaletteBtn" type="button" class="btn btn-success me-2 my-2" 
+                                data-bs-toggle="modal" data-bs-target="#saveModal">Сохранить палитру</button>
+                    {% else %}
+                        <p class="text-muted mb-2">Чтобы сохранить палитру, <a href="{{ url_for('login') }}">войдите</a> или <a href="{{ url_for('register') }}">зарегистрируйтесь</a>.</p>
+                    {% endif %}
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-primary export-option" data-format="json">Экспорт JSON</button>
+                        <button type="button" class="btn btn-outline-primary export-option" data-format="gpl">Экспорт GPL</button>
+                        <button type="button" class="btn btn-outline-primary export-option" data-format="ase">Экспорт ASE</button>
+                        <button type="button" class="btn btn-outline-primary export-option" data-format="csv">Экспорт CSV</button>
+                        <button type="button" class="btn btn-outline-primary export-option" data-format="aco">Экспорт ACO</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if current_user.is_authenticated %}
+<div class="container mt-5 mb-4" id="recentUploadsSection">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h3 class="mb-3">Недавние изображения (за 7 дней)</h3>
+            <p class="text-muted">Выберите одно из изображений, чтобы снова сгенерировать палитру на его основе.</p>
+
+            <p id="recentUploadsEmpty" class="text-muted fst-italic {% if recent_uploads %}d-none{% endif %}">
+                Пока у вас нет недавних загрузок.
+            </p>
+
+            <div id="recentUploadsRow" class="row g-3 {% if not recent_uploads %}d-none{% endif %}">
+                {% for upload in recent_uploads %}
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100 shadow-sm">
+                        <div class="ratio ratio-4x3">
+                            <img src="{{ url_for('uploaded_file', filename=upload.filename) }}"
+                                 class="card-img-top object-fit-cover"
+                                 alt="Недавнее изображение">
+                        </div>
+                        <div class="card-body p-2">
+                            <small class="text-muted d-block mb-2">
+                                {{ upload.created_at.strftime('%d.%m.%Y %H:%M') }}
+                            </small>
+                            <button type="button"
+                                    class="btn btn-sm btn-outline-primary w-100 btn-use-upload"
+                                    data-filename="{{ upload.filename }}">
+                                Использовать
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+<script src="{{ url_for('static', filename='js/palette.js') }}"></script>
+{% endblock %}

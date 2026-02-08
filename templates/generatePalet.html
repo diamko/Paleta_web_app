@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Генерация случайной палитры
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="gradient-text text-center mb-4">Генерация случайной палитры</h1>
+            <p class="text-center mb-5">Создайте уникальную цветовую палитру с помощью генератора случайных цветов</p>
+
+            <div class="text-center mb-4">
+                <label for="colorCount" class="form-label">Количество цветов:</label>
+                <select id="colorCount" class="form-select d-inline-block w-auto">
+                    <option value="3">3</option>
+                    <option value="5" selected>5</option>
+                    <option value="7">7</option>
+                    <option value="10">10</option>
+                </select>
+                <button id="generateBtn" type="button" class="btn btn-primary ms-2">Сгенерировать палитру</button>
+            </div>
+
+            <!-- Color Palette -->
+            <div id="colorPalette" class="d-flex flex-wrap gap-2 mb-3 justify-content-center"></div>
+
+            <div id="actionsSection" class="mt-4 text-center d-none">
+                <h5>Действия</h5>
+                {% if current_user.is_authenticated %}
+                    <button id="savePaletteBtn" type="button" class="btn btn-success me-2 my-2" data-bs-toggle="modal" data-bs-target="#saveModal">Сохранить палитру</button>
+                {% else %}
+                    <p class="text-muted mb-2">Чтобы сохранить палитру, <a href="{{ url_for('login') }}">войдите</a> или <a href="{{ url_for('register') }}">зарегистрируйтесь</a>.</p>
+                {% endif %}
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-primary export-option" data-format="json">Экспорт JSON</button>
+                    <button type="button" class="btn btn-outline-primary export-option" data-format="gpl">Экспорт GPL</button>
+                    <button type="button" class="btn btn-outline-primary export-option" data-format="ase">Экспорт ASE</button>
+                    <button type="button" class="btn btn-outline-primary export-option" data-format="csv">Экспорт CSV</button>
+                    <button type="button" class="btn btn-outline-primary export-option" data-format="aco">Экспорт ACO</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/randomPalette.js') }}"></script>
+{% endblock %}
