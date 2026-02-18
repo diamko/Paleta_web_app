@@ -290,5 +290,4 @@ Please read the full contribution guides:
 This project is licensed under the MIT License.
 
 See:
-- [`LICENSE`](LICENSE) (standard filename),
-- [`LICENCE`](LICENCE) (same MIT text).
+- [`LICENSE`](LICENSE)

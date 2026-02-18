@@ -319,5 +319,4 @@ Paleta/
 Проект распространяется по лицензии MIT.
 
 См. файлы:
-- [`LICENSE`](LICENSE) (стандартное имя),
-- [`LICENCE`](LICENCE) (тот же текст MIT).
+- [`LICENSE`](LICENSE)
