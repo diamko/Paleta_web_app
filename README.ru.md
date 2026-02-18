@@ -1,6 +1,10 @@
 # Paleta
 
-English version: [`README.md`](README.md)
+<p align="right">
+  🌍  <strong>Язык:</strong>
+  🇬🇧  <a href="README.md">English</a> |
+  🇷🇺  Русский
+</p>
 
 [![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-2.3-black.svg)](https://flask.palletsprojects.com/)
