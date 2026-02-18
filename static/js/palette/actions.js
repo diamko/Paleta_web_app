@@ -150,7 +150,7 @@ export function bindPaletteActions({ elements, state, paletteView, markerControl
                     showToast(data.error || 'Ошибка при сохранении', 'error');
                 }
             } catch (error) {
-                console.error('Save error:', error);
+                console.error('Ошибка сохранения:', error);
                 showToast('Ошибка при сохранении палитры', 'error');
             }
         });
@@ -189,7 +189,7 @@ export function bindPaletteActions({ elements, state, paletteView, markerControl
                     document.body.removeChild(link);
                 }
             } catch (error) {
-                console.error('Export error:', error);
+                console.error('Ошибка экспорта:', error);
                 showToast('Ошибка при экспорте', 'error');
             }
         });

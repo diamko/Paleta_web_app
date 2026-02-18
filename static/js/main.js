@@ -66,15 +66,6 @@ if (logo) {
     });
 }
 
-// Лёгкий параллакс-эффект для основного контента при прокрутке
-window.addEventListener('scroll', function () {
-    const scrolled = window.pageYOffset;
-    const content = document.querySelector('.content');
-    if (content) {
-        content.style.transform = `translateY(${scrolled * 0.05}px)`;
-    }
-});
-
 // Плавное появление страницы при начале загрузки
 window.addEventListener('load', function () {
     document.body.style.opacity = '0';
@@ -98,16 +89,6 @@ document.addEventListener('DOMContentLoaded', function () {
         saveModalElement.addEventListener('hidden.bs.modal', function () {
             const paletteNameInput = document.getElementById('paletteName');
             if (paletteNameInput) paletteNameInput.value = '';
-
-            setTimeout(() => {
-                const backdrop = document.querySelector('.modal-backdrop');
-                if (backdrop) {
-                    backdrop.remove();
-                }
-                document.body.classList.remove('modal-open');
-                document.body.style.overflow = '';
-                document.body.style.paddingRight = '';
-            }, 50);
         });
     }
 

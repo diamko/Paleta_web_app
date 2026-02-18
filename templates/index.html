@@ -11,7 +11,7 @@
             <h1 class="gradient-text text-center mb-4">Создание цветовой палитры</h1>
             <p class="text-center mb-5">Загрузите изображение, и мы извлечем из него уникальную цветовую палитру</p>
 
-            <!-- Upload Zone -->
+            <!-- Область загрузки -->
             <div id="uploadZone" class="upload-zone border border-2 border-dashed rounded p-5 text-center mb-4" style="cursor: pointer;">
                 <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
                 <h5>Перетащите изображение сюда или нажмите для выбора</h5>
@@ -19,15 +19,15 @@
                 <button id="browseBtn" type="button" class="btn btn-primary">Выбрать файл</button>
             </div>
 
-            <!-- Hidden File Input -->
+            <!-- Скрытый ввод файла -->
             <input type="file" id="imageInput" accept="image/*" style="display: none;">
 
-            <!-- Upload Form (hidden) -->
+            <!-- Форма загрузки (скрыта) -->
             <form id="uploadForm" style="display: none;">
                 <input type="hidden" name="color_count" id="colorCountHidden" value="5">
             </form>
 
-            <!-- Loading Indicator -->
+            <!-- Индикатор загрузки -->
             <div id="loadingIndicator" class="text-center d-none">
                 <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">Загрузка...</span>
@@ -35,7 +35,7 @@
                 <p class="mt-2">Анализируем изображение...</p>
             </div>
 
-            <!-- Results Section -->
+            <!-- Блок результатов -->
             <div id="resultSection" class="d-none">
                 <div class="row extract-results-row">
                     <div class="col-12 col-lg-6 extract-image-col">

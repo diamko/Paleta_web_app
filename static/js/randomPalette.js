@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     showToast(data.error || 'Ошибка при сохранении', 'error');
                 }
             } catch (error) {
-                console.error('Save error:', error);
+                console.error('Ошибка сохранения:', error);
                 showToast('Ошибка при сохранении палитры', 'error');
             }
         });
@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.body.removeChild(a);
                 }
             } catch (error) {
-                console.error('Export error:', error);
+                console.error('Ошибка экспорта:', error);
                 showToast('Ошибка при экспорте', 'error');
             }
         });

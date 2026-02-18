@@ -1,4 +1,13 @@
 export function createPaletteActions({ state, showToast }) {
+    function buildDownloadFilename(name, format) {
+        const safeName = (name || '')
+            .trim()
+            .replace(/[\\/:*?"<>|]/g, '_')
+            .replace(/^\.+|\.+$/g, '');
+
+        return `${safeName || 'palette'}.${format}`;
+    }
+
     function exportPalette(format, colors, name) {
         return fetch(`/api/export?format=${format}`, {
             method: 'POST',
@@ -17,7 +26,7 @@ export function createPaletteActions({ state, showToast }) {
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = `${name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.${format}`;
+            link.download = buildDownloadFilename(name, format);
             document.body.appendChild(link);
             link.click();
             window.URL.revokeObjectURL(url);
