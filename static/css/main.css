@@ -371,6 +371,85 @@ header.scrolled {
 }
 
 /* ===== PALETTE STYLES ===== */
+#colorPalette {
+    align-items: flex-start;
+}
+
+.palette-edit-item {
+    width: 132px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: var(--shadow-light);
+}
+
+.palette-edit-preview {
+    width: 100%;
+    height: 86px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.palette-edit-preview:hover {
+    transform: translateY(-2px);
+}
+
+.palette-edit-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.palette-edit-picker {
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    padding: 0;
+    overflow: hidden;
+}
+
+.palette-edit-picker::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.palette-edit-picker::-webkit-color-swatch {
+    border: none;
+}
+
+.palette-edit-picker::-moz-color-swatch {
+    border: none;
+}
+
+.palette-edit-hex {
+    width: 100%;
+    min-width: 0;
+    padding: 5px 7px;
+    border: 1px solid var(--medium-gray);
+    border-radius: 8px;
+    font-size: 12px;
+    font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+}
+
+.palette-edit-hex:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(106, 17, 203, 0.12);
+}
+
+.palette-edit-hint {
+    font-size: 0.9rem;
+}
+
 .color-swatch {
     width: 80px;
     height: 80px;
@@ -678,6 +757,15 @@ footer {
         width: 70px;
         height: 70px;
     }
+
+    .palette-edit-item {
+        width: 122px;
+        padding: 7px;
+    }
+
+    .palette-edit-preview {
+        height: 78px;
+    }
 }
 
 /* Extra small devices (portrait phones, less than 576px) */
@@ -720,6 +808,15 @@ footer {
     .color-swatch .hex-code {
         font-size: 9px;
         padding: 3px 5px;
+    }
+
+    .palette-edit-item {
+        width: calc(50% - 0.5rem);
+        min-width: 120px;
+    }
+
+    .palette-edit-preview {
+        height: 74px;
     }
     
     .btn {

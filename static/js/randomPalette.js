@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const colorPalette = document.getElementById('colorPalette');
     const colorCountSelect = document.getElementById('colorCount');
     const savePaletteBtn = document.getElementById('savePaletteBtn');
+    const confirmSaveBtn = document.getElementById('confirmSaveBtn');
     const exportOptions = document.querySelectorAll('.export-option');
 
     let currentColors = [];
@@ -19,24 +20,100 @@ document.addEventListener('DOMContentLoaded', function() {
     function generateRandomColors(count) {
         const colors = [];
         for (let i = 0; i < count; i++) {
-            const color = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+            const color = `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0').toUpperCase()}`;
             colors.push(color);
         }
         return colors;
+    }
+
+    function normalizeHexColor(value) {
+        if (typeof value !== 'string') return null;
+        const sanitized = value.trim().toUpperCase();
+
+        if (/^#[0-9A-F]{6}$/.test(sanitized)) return sanitized;
+        if (/^[0-9A-F]{6}$/.test(sanitized)) return `#${sanitized}`;
+
+        if (/^#[0-9A-F]{3}$/.test(sanitized)) {
+            return `#${sanitized[1]}${sanitized[1]}${sanitized[2]}${sanitized[2]}${sanitized[3]}${sanitized[3]}`;
+        }
+        if (/^[0-9A-F]{3}$/.test(sanitized)) {
+            return `#${sanitized[0]}${sanitized[0]}${sanitized[1]}${sanitized[1]}${sanitized[2]}${sanitized[2]}`;
+        }
+
+        return null;
     }
 
     // Функция отображения палитры
     function displayPalette(colors) {
         colorPalette.innerHTML = '';
 
-        colors.forEach(color => {
-            // Создаем элемент для каждого цвета
-            const swatch = document.createElement('div');
-            swatch.className = 'color-swatch';
-            swatch.style.backgroundColor = color;
-            swatch.innerHTML = `<div class="hex-code">${color}</div>`;
-            swatch.addEventListener('click', () => copyToClipboard(color));
-            colorPalette.appendChild(swatch);
+        if (!Array.isArray(colors) || colors.length === 0) {
+            currentColors = [];
+            return;
+        }
+
+        currentColors = colors.map(color => normalizeHexColor(color) || '#000000');
+
+        currentColors.forEach((color, index) => {
+            const item = document.createElement('div');
+            item.className = 'palette-edit-item';
+            item.innerHTML = `
+                <button type="button" class="palette-edit-preview" title="Скопировать HEX"></button>
+                <div class="palette-edit-controls">
+                    <input type="color" class="palette-edit-picker" value="${color.toLowerCase()}" aria-label="Выбор цвета ${index + 1}">
+                    <input type="text" class="palette-edit-hex" value="${color}" maxlength="7" spellcheck="false" aria-label="HEX цвета ${index + 1}">
+                </div>
+            `;
+
+            const preview = item.querySelector('.palette-edit-preview');
+            const picker = item.querySelector('.palette-edit-picker');
+            const hexInput = item.querySelector('.palette-edit-hex');
+
+            preview.style.backgroundColor = color;
+
+            const applyColor = (rawValue, showError = false) => {
+                const normalized = normalizeHexColor(rawValue);
+                if (!normalized) {
+                    if (showError) {
+                        hexInput.value = currentColors[index];
+                        showToast('Введите корректный HEX-код, например #A1B2C3', 'error');
+                    }
+                    return false;
+                }
+
+                currentColors[index] = normalized;
+                preview.style.backgroundColor = normalized;
+                picker.value = normalized.toLowerCase();
+                hexInput.value = normalized;
+                return true;
+            };
+
+            preview.addEventListener('click', () => copyToClipboard(currentColors[index]));
+
+            picker.addEventListener('input', () => {
+                applyColor(picker.value);
+            });
+
+            hexInput.addEventListener('input', () => {
+                hexInput.value = hexInput.value.toUpperCase();
+                const normalized = normalizeHexColor(hexInput.value);
+                if (normalized) {
+                    applyColor(normalized);
+                }
+            });
+
+            hexInput.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    hexInput.blur();
+                }
+            });
+
+            hexInput.addEventListener('blur', () => {
+                applyColor(hexInput.value, true);
+            });
+
+            colorPalette.appendChild(item);
         });
 
         //  Показываем секцию с действиями (сохранить, экспортировать)
@@ -65,92 +142,99 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     //  Обработчик для сохранения палитры
-    savePaletteBtn.addEventListener('click', () => {
-        if (currentColors.length === 0) {
-            showToast('Сначала сгенерируйте палитру!', 'error');
-            return;
-        }
-
-        //  Заполняем модальное окно текущими цветами
-        const modalPalette = document.getElementById('modalPalette');
-        modalPalette.innerHTML = '';
-
-        currentColors.forEach(color => {
-            const colorDiv = document.createElement('div');
-            colorDiv.className = 'color-swatch-small';
-            colorDiv.style.backgroundColor = color;
-            colorDiv.style.width = '30px';
-            colorDiv.style.height = '30px';
-            colorDiv.style.borderRadius = '5px';
-            modalPalette.appendChild(colorDiv);
-        });
-
-        //  Очищаем поле ввода названия палитры
-        document.getElementById('paletteName').value = '';
-        
-        // Модальное окно откроется через data-bs-toggle
-    });
-
-    //  Обработчик для подтверждения сохранения палитры
-    document.getElementById('confirmSaveBtn').addEventListener('click', async () => {
-        const paletteNameInput = document.getElementById('paletteName');
-        const originalValue = paletteNameInput?.value || '';
-        const paletteName = originalValue.trim();
-        
-        // Если пользователь ввел только пробелы - это ошибка
-        if (originalValue && !paletteName) {
-            showToast('Название палитры не может состоять только из пробелов', 'error');
-            return;
-        }
-        
-        // Если название пустое (пользователь ничего не ввел), используем значение по умолчанию
-        const finalName = paletteName || 'Моя палитра';
-        
-        const saveModal = bootstrap.Modal.getInstance(document.getElementById('saveModal'));
-        
-        try {
-            const response = await fetch('/api/palettes/save', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: finalName,
-                    colors: currentColors
-                })
-            });
-
-            if (!response.ok) {
-                if (response.status === 401) {
-                    showToast('Сессия истекла. Пожалуйста, войдите снова.', 'error');
-                    window.location.href = '/login';
-                    return;
-                }
-                // Для других ошибок, попробуем получить сообщение из ответа
-                let errorMessage = 'Ошибка при сохранении';
-                try {
-                    const errorData = await response.json();
-                    errorMessage = errorData.error || errorMessage;
-                } catch (e) {
-                    // Если не JSON, оставляем общее сообщение
-                }
-                showToast(errorMessage, 'error');
+    if (savePaletteBtn) {
+        savePaletteBtn.addEventListener('click', () => {
+            if (currentColors.length === 0) {
+                showToast('Сначала сгенерируйте палитру!', 'error');
                 return;
             }
 
-            const data = await response.json();
+            //  Заполняем модальное окно текущими цветами
+            const modalPalette = document.getElementById('modalPalette');
+            if (modalPalette) {
+                modalPalette.innerHTML = '';
 
-            if (data.success) {
-                showToast('Палитра сохранена!');
-                if (saveModal) saveModal.hide();
-            } else {
-                showToast(data.error || 'Ошибка при сохранении', 'error');
+                currentColors.forEach(color => {
+                    const colorDiv = document.createElement('div');
+                    colorDiv.className = 'color-swatch-small';
+                    colorDiv.style.backgroundColor = color;
+                    colorDiv.style.width = '30px';
+                    colorDiv.style.height = '30px';
+                    colorDiv.style.borderRadius = '5px';
+                    modalPalette.appendChild(colorDiv);
+                });
             }
-        } catch (error) {
-            console.error('Save error:', error);
-            showToast('Ошибка при сохранении палитры', 'error');
-        }
-    });
+
+            //  Очищаем поле ввода названия палитры
+            const paletteNameInput = document.getElementById('paletteName');
+            if (paletteNameInput) {
+                paletteNameInput.value = '';
+            }
+        });
+    }
+
+    //  Обработчик для подтверждения сохранения палитры
+    if (confirmSaveBtn) {
+        confirmSaveBtn.addEventListener('click', async () => {
+            const paletteNameInput = document.getElementById('paletteName');
+            const originalValue = paletteNameInput?.value || '';
+            const paletteName = originalValue.trim();
+
+            // Если пользователь ввел только пробелы - это ошибка
+            if (originalValue && !paletteName) {
+                showToast('Название палитры не может состоять только из пробелов', 'error');
+                return;
+            }
+
+            // Если название пустое (пользователь ничего не ввел), используем значение по умолчанию
+            const finalName = paletteName || 'Моя палитра';
+
+            const saveModal = bootstrap.Modal.getInstance(document.getElementById('saveModal'));
+
+            try {
+                const response = await fetch('/api/palettes/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: finalName,
+                        colors: currentColors
+                    })
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        showToast('Сессия истекла. Пожалуйста, войдите снова.', 'error');
+                        window.location.href = '/login';
+                        return;
+                    }
+                    // Для других ошибок, попробуем получить сообщение из ответа
+                    let errorMessage = 'Ошибка при сохранении';
+                    try {
+                        const errorData = await response.json();
+                        errorMessage = errorData.error || errorMessage;
+                    } catch (e) {
+                        // Если не JSON, оставляем общее сообщение
+                    }
+                    showToast(errorMessage, 'error');
+                    return;
+                }
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showToast('Палитра сохранена!');
+                    if (saveModal) saveModal.hide();
+                } else {
+                    showToast(data.error || 'Ошибка при сохранении', 'error');
+                }
+            } catch (error) {
+                console.error('Save error:', error);
+                showToast('Ошибка при сохранении палитры', 'error');
+            }
+        });
+    }
 
     //  Обработчики для экспорта палитры
     exportOptions.forEach(option => {

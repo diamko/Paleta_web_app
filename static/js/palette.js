@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 //  Сохраняем имя файла и палитру в localStorage для восстановления при перезагрузке
                 localStorage.setItem('lastImageFilename', data.filename);
-                localStorage.setItem('lastPalette', JSON.stringify(data.palette));
+                localStorage.setItem('lastPalette', JSON.stringify(currentColors));
 
                 // Мгновенное добавление в блок "Недавние изображения" (если он есть)
                 addRecentUploadCard(data.filename);
@@ -242,18 +242,99 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function normalizeHexColor(value) {
+        if (typeof value !== 'string') return null;
+        const sanitized = value.trim().toUpperCase();
+
+        if (/^#[0-9A-F]{6}$/.test(sanitized)) return sanitized;
+        if (/^[0-9A-F]{6}$/.test(sanitized)) return `#${sanitized}`;
+
+        if (/^#[0-9A-F]{3}$/.test(sanitized)) {
+            return `#${sanitized[1]}${sanitized[1]}${sanitized[2]}${sanitized[2]}${sanitized[3]}${sanitized[3]}`;
+        }
+        if (/^[0-9A-F]{3}$/.test(sanitized)) {
+            return `#${sanitized[0]}${sanitized[0]}${sanitized[1]}${sanitized[1]}${sanitized[2]}${sanitized[2]}`;
+        }
+
+        return null;
+    }
+
     // Функция отображения палитры
     function displayPalette(colors) {
         colorPalette.innerHTML = '';
-        
-        colors.forEach(color => {
-            const swatch = document.createElement('div');
-            swatch.className = 'color-swatch';
-            swatch.style.backgroundColor = color;
-            swatch.innerHTML = `<div class="hex-code">${color}</div>`;
-            swatch.addEventListener('click', () => copyToClipboard(color));
-            colorPalette.appendChild(swatch);
+
+        if (!Array.isArray(colors) || colors.length === 0) {
+            currentColors = [];
+            localStorage.removeItem('lastPalette');
+            return;
+        }
+
+        currentColors = colors.map(color => normalizeHexColor(color) || '#000000');
+
+        currentColors.forEach((color, index) => {
+            const item = document.createElement('div');
+            item.className = 'palette-edit-item';
+            item.innerHTML = `
+                <button type="button" class="palette-edit-preview" title="Скопировать HEX"></button>
+                <div class="palette-edit-controls">
+                    <input type="color" class="palette-edit-picker" value="${color.toLowerCase()}" aria-label="Выбор цвета ${index + 1}">
+                    <input type="text" class="palette-edit-hex" value="${color}" maxlength="7" spellcheck="false" aria-label="HEX цвета ${index + 1}">
+                </div>
+            `;
+
+            const preview = item.querySelector('.palette-edit-preview');
+            const picker = item.querySelector('.palette-edit-picker');
+            const hexInput = item.querySelector('.palette-edit-hex');
+
+            preview.style.backgroundColor = color;
+
+            const applyColor = (rawValue, showError = false) => {
+                const normalized = normalizeHexColor(rawValue);
+                if (!normalized) {
+                    if (showError) {
+                        hexInput.value = currentColors[index];
+                        showToast('Введите корректный HEX-код, например #A1B2C3', 'error');
+                    }
+                    return false;
+                }
+
+                currentColors[index] = normalized;
+                preview.style.backgroundColor = normalized;
+                picker.value = normalized.toLowerCase();
+                hexInput.value = normalized;
+                localStorage.setItem('lastPalette', JSON.stringify(currentColors));
+                return true;
+            };
+
+            preview.addEventListener('click', () => copyToClipboard(currentColors[index]));
+
+            picker.addEventListener('input', () => {
+                applyColor(picker.value);
+            });
+
+            hexInput.addEventListener('input', () => {
+                hexInput.value = hexInput.value.toUpperCase();
+                const normalized = normalizeHexColor(hexInput.value);
+                if (normalized) {
+                    applyColor(normalized);
+                }
+            });
+
+            hexInput.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    hexInput.blur();
+                }
+            });
+
+            hexInput.addEventListener('blur', () => {
+                applyColor(hexInput.value, true);
+            });
+
+            colorPalette.appendChild(item);
         });
+
+        localStorage.setItem('lastPalette', JSON.stringify(currentColors));
     }
 
     // Функция копирования в буфер обмена
@@ -332,7 +413,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success) {
                 currentColors = data.palette;
                 displayPalette(currentColors);
-                localStorage.setItem('lastPalette', JSON.stringify(data.palette));
+                localStorage.setItem('lastPalette', JSON.stringify(currentColors));
                 showToast('Палитра пересчитана!');
             } else {
                 showToast('Ошибка при пересчете палитры', 'error');
