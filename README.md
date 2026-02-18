@@ -278,6 +278,7 @@ Please read the full contribution guide: [`CONTRIBUTING.md`](CONTRIBUTING.md).
 ## Author
 
 - Diana Konanerova
+- Yuliya Tyurina
 
 ## License
 
