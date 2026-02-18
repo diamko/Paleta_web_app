@@ -3,8 +3,8 @@
 
 <p align="right">
   🌍  <strong>Язык:</strong>
-  🇬🇧  English |
-  🇷🇺  <a href="CONTRIBUTING.md">Русский</a>
+  🇬🇧  <a href="CONTRIBUTING.md">English</a> |
+  🇷🇺  Русский
 </p>
 
 Спасибо за интерес к развитию веб-приложения Paleta.
