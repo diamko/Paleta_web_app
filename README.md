@@ -238,8 +238,11 @@ Paleta/
 ├─ utils/
 ├─ templates/
 ├─ static/
+├─ LICENSE
+├─ LICENCE
 ├─ requirements.txt
-└─ README.md
+├─ README.md
+└─ README.ru.md
 ```
 
 ## Testing
@@ -267,7 +270,9 @@ Manual smoke test checklist:
 
 Contributions are welcome.
 
-Please read the full contribution guide: [`CONTRIBUTING.md`](CONTRIBUTING.md).
+Please read the full contribution guides:
+[`CONTRIBUTING.md`](CONTRIBUTING.md) (EN),
+[`CONTRIBUTING.ru.md`](CONTRIBUTING.ru.md) (RU).
 
 1. Fork the repo.
 2. Create a branch: `git checkout -b feature/your-feature-name`.
@@ -282,7 +287,8 @@ Please read the full contribution guide: [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## License
 
-This repository currently does not include a `LICENSE` file.
+This project is licensed under the MIT License.
 
-Until a license is added, default copyright rules apply.
-If you plan to open-source collaboration, add a license first (for example MIT or GPL).
+See:
+- [`LICENSE`](LICENSE) (standard filename),
+- [`LICENCE`](LICENCE) (same MIT text).

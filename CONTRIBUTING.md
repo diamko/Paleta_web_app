@@ -1,5 +1,11 @@
 # Contributing to Paleta
 
+<p align="right">
+  🌍  <strong>Язык:</strong>
+  🇬🇧  English |
+  🇷🇺  <a href="CONTRIBUTING.ru.md">Русский</a>
+</p>
+
 Thanks for your interest in contributing to Paleta.
 
 Our goal is to build fast, reliable, and trouble-free open-source Python projects for all communities. We love your input and want to make every contribution transparent and effortless.

@@ -257,6 +257,8 @@ Paleta/
 ├─ utils/
 ├─ templates/
 ├─ static/
+├─ LICENSE
+├─ LICENCE
 ├─ requirements.txt
 ├─ README.md
 └─ README.ru.md
@@ -293,6 +295,10 @@ Paleta/
 
 Контрибьюции приветствуются.
 
+Подробные правила участия:
+[`CONTRIBUTING.ru.md`](CONTRIBUTING.ru.md) (RU),
+[`CONTRIBUTING.md`](CONTRIBUTING.md) (EN).
+
 1. Сделайте fork репозитория.
 2. Создайте ветку: `git checkout -b feature/your-feature-name`.
 3. Зафиксируйте изменения: `git commit -m "Add: your feature"`.
@@ -310,7 +316,8 @@ Paleta/
 
 ## Лицензия
 
-В репозитории пока нет файла `LICENSE`.
+Проект распространяется по лицензии MIT.
 
-Пока лицензия не добавлена, действует стандартное авторское право.
-Если вы планируете открытое использование проекта, добавьте лицензию (например, MIT или GPL).
+См. файлы:
+- [`LICENSE`](LICENSE) (стандартное имя),
+- [`LICENCE`](LICENCE) (тот же текст MIT).
