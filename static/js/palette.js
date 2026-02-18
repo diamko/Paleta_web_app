@@ -5,6 +5,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const uploadForm = document.getElementById('uploadForm');
     const resultSection = document.getElementById('resultSection');
     const imagePreview = document.getElementById('imagePreview');
+    const imageStage = document.getElementById('imageStage');
+    const markerLayer = document.getElementById('markerLayer');
+    const activeLoupe = document.getElementById('activeLoupe');
+    const activeLoupeCanvas = document.getElementById('activeLoupeCanvas');
+    const activeLoupeHex = document.getElementById('activeLoupeHex');
     const colorPalette = document.getElementById('colorPalette');
     const loadingIndicator = document.getElementById('loadingIndicator');
     const reanalyzeBtn = document.getElementById('reanalyzeBtn');
@@ -19,6 +24,19 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let currentImageFile = null;
     let currentColors = [];
+    let paletteControls = [];
+    let markerPositions = [];
+    let markerElements = [];
+    let activeMarkerIndex = -1;
+    let draggingMarkerIndex = -1;
+    let draggingPointerId = null;
+
+    const sampleCanvas = document.createElement('canvas');
+    const sampleCtx = sampleCanvas.getContext('2d', { willReadFrequently: true });
+    const loupeCtx = activeLoupeCanvas ? activeLoupeCanvas.getContext('2d') : null;
+    if (loupeCtx) {
+        loupeCtx.imageSmoothingEnabled = false;
+    }
 
     // Функция для конвертации DataURL (строки base64) обратно в Blob-объект
     function dataURLToBlob(dataURL) {
@@ -33,6 +51,324 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         return new Blob([uInt8Array], {type: contentType});
+    }
+
+    function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, value));
+    }
+
+    function rgbToHex(r, g, b) {
+        return `#${[r, g, b].map(channel => channel.toString(16).padStart(2, '0')).join('').toUpperCase()}`;
+    }
+
+    function buildDefaultMarkerPositions(count) {
+        if (count <= 0) return [];
+
+        if (count === 1) {
+            return [{ x: 0.5, y: 0.5 }];
+        }
+
+        const cols = Math.ceil(Math.sqrt(count));
+        const rows = Math.ceil(count / cols);
+        const points = [];
+
+        for (let i = 0; i < count; i++) {
+            const col = i % cols;
+            const row = Math.floor(i / cols);
+            points.push({
+                x: (col + 0.5) / cols,
+                y: (row + 0.5) / rows,
+            });
+        }
+
+        return points;
+    }
+
+    function rebuildSampleCanvas() {
+        if (!imagePreview || !sampleCtx || !imagePreview.naturalWidth || !imagePreview.naturalHeight) {
+            return false;
+        }
+
+        sampleCanvas.width = imagePreview.naturalWidth;
+        sampleCanvas.height = imagePreview.naturalHeight;
+        sampleCtx.clearRect(0, 0, sampleCanvas.width, sampleCanvas.height);
+        sampleCtx.drawImage(imagePreview, 0, 0, sampleCanvas.width, sampleCanvas.height);
+        return true;
+    }
+
+    function sampleHexAtNormalized(normX, normY) {
+        if (!sampleCanvas.width || !sampleCanvas.height) {
+            if (!rebuildSampleCanvas()) return null;
+        }
+
+        const x = Math.round(clamp(normX, 0, 1) * (sampleCanvas.width - 1));
+        const y = Math.round(clamp(normY, 0, 1) * (sampleCanvas.height - 1));
+        const pixel = sampleCtx.getImageData(x, y, 1, 1).data;
+
+        return rgbToHex(pixel[0], pixel[1], pixel[2]);
+    }
+
+    function hideActiveLoupe() {
+        if (activeLoupe) {
+            activeLoupe.classList.add('d-none');
+        }
+    }
+
+    function drawLoupe(normX, normY) {
+        if (!loupeCtx || !activeLoupeCanvas) return;
+        if (!sampleCanvas.width || !sampleCanvas.height) {
+            if (!rebuildSampleCanvas()) return;
+        }
+
+        const sourceRadius = 6;
+        const centerX = Math.round(clamp(normX, 0, 1) * (sampleCanvas.width - 1));
+        const centerY = Math.round(clamp(normY, 0, 1) * (sampleCanvas.height - 1));
+        const srcX = clamp(centerX - sourceRadius, 0, sampleCanvas.width - 1);
+        const srcY = clamp(centerY - sourceRadius, 0, sampleCanvas.height - 1);
+        const srcWidth = Math.min(sourceRadius * 2 + 1, sampleCanvas.width - srcX);
+        const srcHeight = Math.min(sourceRadius * 2 + 1, sampleCanvas.height - srcY);
+
+        loupeCtx.clearRect(0, 0, activeLoupeCanvas.width, activeLoupeCanvas.height);
+        loupeCtx.imageSmoothingEnabled = false;
+        loupeCtx.drawImage(
+            sampleCanvas,
+            srcX, srcY, srcWidth, srcHeight,
+            0, 0, activeLoupeCanvas.width, activeLoupeCanvas.height
+        );
+
+        const center = activeLoupeCanvas.width / 2;
+        loupeCtx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+        loupeCtx.lineWidth = 1.5;
+        loupeCtx.beginPath();
+        loupeCtx.moveTo(center - 10, center);
+        loupeCtx.lineTo(center + 10, center);
+        loupeCtx.moveTo(center, center - 10);
+        loupeCtx.lineTo(center, center + 10);
+        loupeCtx.stroke();
+    }
+
+    function updateActiveLoupe() {
+        if (
+            !activeLoupe ||
+            !imageStage ||
+            activeMarkerIndex < 0 ||
+            !markerPositions[activeMarkerIndex] ||
+            imagePreview.style.display === 'none'
+        ) {
+            hideActiveLoupe();
+            return;
+        }
+
+        const markerPosition = markerPositions[activeMarkerIndex];
+        const stageRect = imageStage.getBoundingClientRect();
+        const imageRect = imagePreview.getBoundingClientRect();
+
+        if (!stageRect.width || !imageRect.width || !imageRect.height) {
+            hideActiveLoupe();
+            return;
+        }
+
+        drawLoupe(markerPosition.x, markerPosition.y);
+
+        const markerX = (imageRect.left - stageRect.left) + markerPosition.x * imageRect.width;
+        const markerY = (imageRect.top - stageRect.top) + markerPosition.y * imageRect.height;
+
+        const loupeWidth = activeLoupe.offsetWidth || 116;
+        const loupeHeight = activeLoupe.offsetHeight || 132;
+        let loupeLeft = markerX + 18;
+        let loupeTop = markerY - loupeHeight - 12;
+
+        if (loupeLeft + loupeWidth > stageRect.width) {
+            loupeLeft = stageRect.width - loupeWidth - 6;
+        }
+        if (loupeLeft < 6) {
+            loupeLeft = 6;
+        }
+        if (loupeTop < 6) {
+            loupeTop = markerY + 18;
+        }
+        if (loupeTop + loupeHeight > stageRect.height - 4) {
+            loupeTop = stageRect.height - loupeHeight - 4;
+        }
+
+        activeLoupe.style.left = `${loupeLeft}px`;
+        activeLoupe.style.top = `${loupeTop}px`;
+        activeLoupe.classList.remove('d-none');
+
+        if (activeLoupeHex) {
+            activeLoupeHex.textContent = currentColors[activeMarkerIndex] || '#000000';
+        }
+    }
+
+    function setActiveMarker(index) {
+        if (!Array.isArray(markerElements) || markerElements.length === 0) return;
+
+        activeMarkerIndex = index;
+        markerElements.forEach((markerElement, markerIndex) => {
+            markerElement.classList.toggle('active', markerIndex === activeMarkerIndex);
+        });
+        updateActiveLoupe();
+    }
+
+    function clearMarkers() {
+        window.removeEventListener('pointermove', handleMarkerPointerMove);
+        window.removeEventListener('pointerup', handleMarkerPointerUp);
+        window.removeEventListener('pointercancel', handleMarkerPointerUp);
+
+        markerPositions = [];
+        markerElements = [];
+        activeMarkerIndex = -1;
+        draggingMarkerIndex = -1;
+        draggingPointerId = null;
+
+        if (markerLayer) {
+            markerLayer.innerHTML = '';
+        }
+
+        hideActiveLoupe();
+    }
+
+    function setColorAtIndex(index, rawValue, options = {}) {
+        const normalized = normalizeHexColor(rawValue);
+        const showError = !!options.showError;
+
+        if (!normalized || index < 0 || index >= currentColors.length) {
+            if (showError && paletteControls[index]?.hexInput) {
+                paletteControls[index].hexInput.value = currentColors[index] || '#000000';
+                showToast('Введите корректный HEX-код, например #A1B2C3', 'error');
+            }
+            return false;
+        }
+
+        currentColors[index] = normalized;
+
+        const controls = paletteControls[index];
+        if (controls) {
+            controls.preview.style.backgroundColor = normalized;
+            controls.picker.value = normalized.toLowerCase();
+            controls.hexInput.value = normalized;
+        }
+
+        const markerElement = markerElements[index];
+        if (markerElement) {
+            markerElement.style.backgroundColor = normalized;
+        }
+
+        localStorage.setItem('lastPalette', JSON.stringify(currentColors));
+
+        if (activeMarkerIndex === index) {
+            updateActiveLoupe();
+        }
+
+        return true;
+    }
+
+    function moveMarkerFromClient(index, clientX, clientY, sampleColor = true) {
+        if (!imagePreview || !markerPositions[index]) return;
+
+        const imageRect = imagePreview.getBoundingClientRect();
+        if (!imageRect.width || !imageRect.height) return;
+
+        const normX = clamp((clientX - imageRect.left) / imageRect.width, 0, 1);
+        const normY = clamp((clientY - imageRect.top) / imageRect.height, 0, 1);
+        markerPositions[index] = { x: normX, y: normY };
+
+        const markerElement = markerElements[index];
+        if (markerElement) {
+            markerElement.style.left = `${normX * 100}%`;
+            markerElement.style.top = `${normY * 100}%`;
+        }
+
+        if (sampleColor) {
+            const sampledHex = sampleHexAtNormalized(normX, normY);
+            if (sampledHex) {
+                setColorAtIndex(index, sampledHex);
+            }
+        }
+
+        setActiveMarker(index);
+    }
+
+    function handleMarkerPointerMove(event) {
+        if (event.pointerId !== draggingPointerId || draggingMarkerIndex < 0) return;
+        moveMarkerFromClient(draggingMarkerIndex, event.clientX, event.clientY, true);
+    }
+
+    function handleMarkerPointerUp(event) {
+        if (event.pointerId !== draggingPointerId) return;
+
+        if (draggingMarkerIndex >= 0 && markerElements[draggingMarkerIndex]) {
+            markerElements[draggingMarkerIndex].classList.remove('dragging');
+        }
+
+        draggingMarkerIndex = -1;
+        draggingPointerId = null;
+
+        window.removeEventListener('pointermove', handleMarkerPointerMove);
+        window.removeEventListener('pointerup', handleMarkerPointerUp);
+        window.removeEventListener('pointercancel', handleMarkerPointerUp);
+    }
+
+    function renderMarkers() {
+        if (!markerLayer) return;
+
+        markerLayer.innerHTML = '';
+        markerElements = [];
+
+        markerPositions.forEach((position, index) => {
+            const markerButton = document.createElement('button');
+            markerButton.type = 'button';
+            markerButton.className = 'palette-marker';
+            markerButton.style.left = `${position.x * 100}%`;
+            markerButton.style.top = `${position.y * 100}%`;
+            markerButton.style.backgroundColor = currentColors[index] || '#000000';
+            markerButton.setAttribute('aria-label', `Маркер цвета ${index + 1}`);
+
+            markerButton.addEventListener('pointerdown', (event) => {
+                if (event.button !== 0) return;
+
+                event.preventDefault();
+                draggingMarkerIndex = index;
+                draggingPointerId = event.pointerId;
+                markerButton.classList.add('dragging');
+
+                rebuildSampleCanvas();
+                moveMarkerFromClient(index, event.clientX, event.clientY, true);
+
+                window.addEventListener('pointermove', handleMarkerPointerMove);
+                window.addEventListener('pointerup', handleMarkerPointerUp);
+                window.addEventListener('pointercancel', handleMarkerPointerUp);
+            });
+
+            markerButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                setActiveMarker(index);
+            });
+
+            markerLayer.appendChild(markerButton);
+            markerElements.push(markerButton);
+        });
+
+        if (markerElements.length > 0) {
+            setActiveMarker(activeMarkerIndex >= 0 ? activeMarkerIndex : 0);
+        } else {
+            hideActiveLoupe();
+        }
+    }
+
+    function resetMarkersForPalette(forceReset = false) {
+        if (!Array.isArray(currentColors) || currentColors.length === 0) {
+            clearMarkers();
+            return;
+        }
+
+        if (forceReset || markerPositions.length !== currentColors.length) {
+            markerPositions = buildDefaultMarkerPositions(currentColors.length);
+            activeMarkerIndex = markerPositions.length ? 0 : -1;
+        }
+
+        renderMarkers();
+        updateActiveLoupe();
     }
 
     // При загрузке страницы пытаемся восстановить poslednyuyu палитру из localStorage
@@ -57,6 +393,15 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Ошибка загрузки сохраненных данных:', e);
         }
     }
+
+    imagePreview.addEventListener('load', () => {
+        rebuildSampleCanvas();
+        resetMarkersForPalette(false);
+    });
+
+    window.addEventListener('resize', () => {
+        updateActiveLoupe();
+    });
 
     // Открыть диалог выбора файла
     browseBtn.addEventListener('click', () => imageInput.click());
@@ -122,6 +467,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         currentImageFile = file;
+        clearMarkers();
         showLoading(true);
 
         try {
@@ -262,14 +608,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Функция отображения палитры
     function displayPalette(colors) {
         colorPalette.innerHTML = '';
+        paletteControls = [];
 
         if (!Array.isArray(colors) || colors.length === 0) {
             currentColors = [];
             localStorage.removeItem('lastPalette');
+            clearMarkers();
             return;
         }
 
         currentColors = colors.map(color => normalizeHexColor(color) || '#000000');
+        resetMarkersForPalette(true);
 
         currentColors.forEach((color, index) => {
             const item = document.createElement('div');
@@ -285,38 +634,20 @@ document.addEventListener('DOMContentLoaded', function() {
             const preview = item.querySelector('.palette-edit-preview');
             const picker = item.querySelector('.palette-edit-picker');
             const hexInput = item.querySelector('.palette-edit-hex');
-
-            preview.style.backgroundColor = color;
-
-            const applyColor = (rawValue, showError = false) => {
-                const normalized = normalizeHexColor(rawValue);
-                if (!normalized) {
-                    if (showError) {
-                        hexInput.value = currentColors[index];
-                        showToast('Введите корректный HEX-код, например #A1B2C3', 'error');
-                    }
-                    return false;
-                }
-
-                currentColors[index] = normalized;
-                preview.style.backgroundColor = normalized;
-                picker.value = normalized.toLowerCase();
-                hexInput.value = normalized;
-                localStorage.setItem('lastPalette', JSON.stringify(currentColors));
-                return true;
-            };
+            paletteControls[index] = { preview, picker, hexInput };
+            setColorAtIndex(index, color);
 
             preview.addEventListener('click', () => copyToClipboard(currentColors[index]));
 
             picker.addEventListener('input', () => {
-                applyColor(picker.value);
+                setColorAtIndex(index, picker.value);
             });
 
             hexInput.addEventListener('input', () => {
                 hexInput.value = hexInput.value.toUpperCase();
                 const normalized = normalizeHexColor(hexInput.value);
                 if (normalized) {
-                    applyColor(normalized);
+                    setColorAtIndex(index, normalized);
                 }
             });
 
@@ -328,13 +659,14 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             hexInput.addEventListener('blur', () => {
-                applyColor(hexInput.value, true);
+                setColorAtIndex(index, hexInput.value, { showError: true });
             });
 
             colorPalette.appendChild(item);
         });
 
         localStorage.setItem('lastPalette', JSON.stringify(currentColors));
+        updateActiveLoupe();
     }
 
     // Функция копирования в буфер обмена
@@ -432,6 +764,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Сбросить состояние
             currentImageFile = null;
             currentColors = [];
+            paletteControls = [];
+            clearMarkers();
             
             // Показать зону загрузки
             uploadZone.style.display = 'block';

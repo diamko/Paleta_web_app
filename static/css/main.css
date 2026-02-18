@@ -434,7 +434,7 @@ header.scrolled {
     padding: 5px 7px;
     border: 1px solid var(--medium-gray);
     border-radius: 8px;
-    font-size: 12px;
+    font-size: 14px;
     font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
     text-transform: uppercase;
     letter-spacing: 0.2px;
@@ -447,6 +447,108 @@ header.scrolled {
 }
 
 .palette-edit-hint {
+    font-size: 0.9rem;
+}
+
+.image-stage {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.image-stage img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.marker-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.palette-marker {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35), inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+    cursor: grab;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    touch-action: none;
+}
+
+.palette-marker::before,
+.palette-marker::after {
+    content: '';
+    position: absolute;
+    background: rgba(255, 255, 255, 0.95);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.palette-marker::before {
+    width: 14px;
+    height: 2px;
+}
+
+.palette-marker::after {
+    width: 2px;
+    height: 14px;
+}
+
+.palette-marker:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+.palette-marker.active {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45), 0 0 0 3px rgba(255, 255, 255, 0.45), inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+    transform: translate(-50%, -50%) scale(1.08);
+}
+
+.palette-marker.dragging {
+    cursor: grabbing;
+}
+
+.active-loupe {
+    position: absolute;
+    width: 90px;
+    padding: 5px;
+    border-radius: 12px;
+    background: rgba(28, 28, 28, 0.86);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(3px);
+    z-index: 3;
+    pointer-events: none;
+}
+
+.active-loupe canvas {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    image-rendering: pixelated;
+}
+
+.active-loupe-hex {
+    text-align: center;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+}
+
+.marker-hint {
+    margin-top: 8px;
     font-size: 0.9rem;
 }
 
@@ -766,6 +868,15 @@ footer {
     .palette-edit-preview {
         height: 78px;
     }
+
+    .palette-marker {
+        width: 26px;
+        height: 26px;
+    }
+
+    .active-loupe {
+        width: 100px;
+    }
 }
 
 /* Extra small devices (portrait phones, less than 576px) */
@@ -817,6 +928,10 @@ footer {
 
     .palette-edit-preview {
         height: 74px;
+    }
+
+    .marker-hint {
+        font-size: 0.82rem;
     }
     
     .btn {
