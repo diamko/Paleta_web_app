@@ -1,6 +1,10 @@
 # Paleta
 
-Russian version: [`README.ru.md`](README.ru.md)
+<p align="right">
+  🌍  <strong>Язык:</strong>
+  🇬🇧  English |
+  🇷🇺  <a href="README.ru.md">Русский</a>
+</p>
 
 [![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-2.3-black.svg)](https://flask.palletsprojects.com/)
@@ -32,20 +36,24 @@ The project is aimed at designers, frontend developers, and anyone who works wit
 ## Why Paleta
 
 ### Goal
+
 To provide a practical, browser-based tool for turning visual references into reusable color palettes.
 
 ### Problem It Solves
+
 - Manual color picking from images is slow and inconsistent.
 - Exporting palettes to design-tool formats often requires extra tools.
 - Managing multiple palettes in one place is inconvenient without authentication and storage.
 
 ### What Was Learned During Development
+
 - Building modular Flask architecture with separated routes and utilities.
 - Integrating image processing and color clustering (Pillow + NumPy + scikit-learn KMeans).
 - Implementing authentication and per-user data management with Flask-Login + SQLAlchemy.
 - Supporting multi-format export workflows (JSON, GPL, ASE, CSV, ACO).
 
 ### What Makes It Different
+
 - Two generation modes: from image and random.
 - Inline palette editing (color picker + HEX field + copy to clipboard).
 - Palette management inside account (save, rename, delete, filter, sort).
@@ -174,6 +182,7 @@ If you want another DB engine, update `SQLALCHEMY_DATABASE_URI` in `config.py`.
 ### Guest mode (without account)
 
 You can:
+
 - extract palette from image,
 - generate random palettes,
 - edit and copy HEX colors,
@@ -182,6 +191,7 @@ You can:
 ### Authenticated mode
 
 You also get:
+
 - saving palettes to your personal library,
 - rename/delete palettes,
 - search/filter/sort in "My Palettes",
@@ -199,6 +209,7 @@ You also get:
 ### Authentication rules
 
 Registration password requirements:
+
 - length 4 to 16 characters,
 - at least one uppercase letter,
 - at least one digit,
@@ -206,14 +217,14 @@ Registration password requirements:
 
 ## API Endpoints
 
-| Method | Endpoint | Description |
-|---|---|---|
-| `POST` | `/api/upload` | Upload image and extract palette |
-| `POST` | `/api/palettes/save` | Save palette (login required) |
-| `POST` | `/api/palettes/rename/<palette_id>` | Rename palette (login required) |
-| `DELETE` | `/api/palettes/delete/<palette_id>` | Delete palette (login required) |
-| `POST` | `/api/export?format=<type>` | Export palette (`json`, `gpl`, `ase`, `csv`, `aco`) |
-| `GET` | `/static/uploads/<filename>` | Serve uploaded image |
+| Method   | Endpoint                            | Description                                         |
+| -------- | ----------------------------------- | --------------------------------------------------- |
+| `POST`   | `/api/upload`                       | Upload image and extract palette                    |
+| `POST`   | `/api/palettes/save`                | Save palette (login required)                       |
+| `POST`   | `/api/palettes/rename/<palette_id>` | Rename palette (login required)                     |
+| `DELETE` | `/api/palettes/delete/<palette_id>` | Delete palette (login required)                     |
+| `POST`   | `/api/export?format=<type>`         | Export palette (`json`, `gpl`, `ase`, `csv`, `aco`) |
+| `GET`    | `/static/uploads/<filename>`        | Serve uploaded image                                |
 
 ## Project Structure
 
@@ -236,6 +247,7 @@ Paleta/
 Automated tests are not added yet.
 
 Manual smoke test checklist:
+
 1. Register and login.
 2. Upload image and generate palette.
 3. Recalculate palette with a different color count.
@@ -254,6 +266,8 @@ Manual smoke test checklist:
 ## Contributing
 
 Contributions are welcome.
+
+Please read the full contribution guide: [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 1. Fork the repo.
 2. Create a branch: `git checkout -b feature/your-feature-name`.
