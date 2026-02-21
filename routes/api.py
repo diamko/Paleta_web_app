@@ -15,7 +15,7 @@ from flask_login import current_user, login_required
 
 from config import Config
 from extensions import db
-from flask_babel import gettext as _
+from flask_babel import force_locale, gettext as _
 from models.palette import Palette
 from models.upload import Upload
 from utils.export_handler import export_palette_data
@@ -96,6 +96,40 @@ def _normalize_palette_colors(colors):
         normalized.append(color.upper())
 
     return normalized
+
+
+def _translated_variants(message_id: str) -> set[str]:
+    variants: set[str] = set()
+    translated = _(message_id)
+    if isinstance(translated, str):
+        value = translated.strip()
+        if value:
+            variants.add(value)
+
+    for lang in ("ru", "en"):
+        if lang not in Config.SUPPORTED_LANGUAGES:
+            continue
+        with force_locale(lang):
+            localized = _(message_id)
+        if isinstance(localized, str):
+            value = localized.strip()
+            if value:
+                variants.add(value)
+
+    return variants
+
+
+def _default_palette_base_variants() -> set[str]:
+    variants = _translated_variants("Моя палитра")
+    variants.update({"Моя палитра", "My Palette"})
+    return variants
+
+
+def _default_palette_aliases() -> set[str]:
+    aliases = set(_default_palette_base_variants())
+    aliases.update(_translated_variants("Без названия"))
+    aliases.update({"Untitled Palette", "Random Palette"})
+    return aliases
 
 
 def register_routes(app):
@@ -185,17 +219,12 @@ def register_routes(app):
                     400,
                 )
 
-            default_base_name = _("Моя палитра")
-            default_names = {
-                default_base_name,
-                _("Без названия"),
-                "Untitled Palette",
-                "Random Palette",
-                "",
-            }
+            default_base_name = _("Моя палитра").strip()
+            default_base_variants = _default_palette_base_variants()
+            default_names = _default_palette_aliases()
 
             if not palette_name or palette_name in default_names:
-                base_name = default_base_name
+                base_name = palette_name if palette_name in default_base_variants else default_base_name
 
                 existing = Palette.query.filter_by(
                     user_id=current_user.id,
