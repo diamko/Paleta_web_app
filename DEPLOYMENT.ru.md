@@ -50,6 +50,8 @@ openssl rand -hex 32
 - `SECRET_KEY=<длинная случайная строка>`
 - `DATABASE_URL=sqlite:////app/instance/paleta.db`
 - `SESSION_COOKIE_SECURE=true`
+- `CORS_ENABLED=false`
+- `MAX_IMAGE_PIXELS=20000000`
 
 ## 4. Запуск контейнера
 

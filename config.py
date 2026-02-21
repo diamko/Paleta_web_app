@@ -20,6 +20,25 @@ def _get_env_bool(name: str, default: bool = False) -> bool:
     return value.strip().lower() in {"1", "true", "yes", "on"}
 
 
+def _get_env_int(name: str, default: int) -> int:
+    """Преобразует переменную окружения в int."""
+    value = os.environ.get(name)
+    if value is None:
+        return default
+    try:
+        return int(value.strip())
+    except ValueError:
+        return default
+
+
+def _get_env_list(name: str, default: list[str] | None = None) -> list[str]:
+    """Преобразует переменную окружения вида 'a,b,c' в список."""
+    value = os.environ.get(name)
+    if value is None:
+        return list(default or [])
+    return [item.strip() for item in value.split(",") if item.strip()]
+
+
 def _is_production() -> bool:
     """Определяет production-режим по FLASK_ENV."""
     return os.environ.get("FLASK_ENV", "").strip().lower() == "production"
@@ -52,10 +71,28 @@ class Config:
     SESSION_COOKIE_SECURE = _get_env_bool("SESSION_COOKIE_SECURE", default=_PRODUCTION)
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = os.environ.get("SESSION_COOKIE_SAMESITE", "Lax")
+    REMEMBER_COOKIE_SECURE = SESSION_COOKIE_SECURE
+    REMEMBER_COOKIE_HTTPONLY = True
+    REMEMBER_COOKIE_SAMESITE = SESSION_COOKIE_SAMESITE
+
+    CORS_ENABLED = _get_env_bool("CORS_ENABLED", default=False)
+    CORS_ORIGINS = _get_env_list(
+        "CORS_ORIGINS",
+        default=[
+            "http://127.0.0.1:5000",
+            "http://localhost:5000",
+            "https://diamko.ru",
+            "https://www.diamko.ru",
+        ],
+    )
 
     UPLOAD_FOLDER = os.environ.get("UPLOAD_FOLDER", "static/uploads")
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
     ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
+    ALLOWED_IMAGE_FORMATS = {"png", "jpeg", "webp"}
+    MAX_IMAGE_PIXELS = _get_env_int("MAX_IMAGE_PIXELS", 20_000_000)
+    MIN_COLOR_COUNT = _get_env_int("MIN_COLOR_COUNT", 3)
+    MAX_COLOR_COUNT = _get_env_int("MAX_COLOR_COUNT", 15)
 
     @staticmethod
     def allowed_file(filename: str) -> bool:

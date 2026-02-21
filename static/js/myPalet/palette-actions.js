@@ -1,3 +1,5 @@
+import { withCsrfHeaders } from '../security/csrf.js';
+
 export function createPaletteActions({ state, showToast }) {
     function buildDownloadFilename(name, format) {
         const safeName = (name || '')
@@ -11,9 +13,9 @@ export function createPaletteActions({ state, showToast }) {
     function exportPalette(format, colors, name) {
         return fetch(`/api/export?format=${format}`, {
             method: 'POST',
-            headers: {
+            headers: withCsrfHeaders({
                 'Content-Type': 'application/json',
-            },
+            }),
             body: JSON.stringify({ colors }),
         }).then(async response => {
             if (!response.ok) {
@@ -62,9 +64,9 @@ export function createPaletteActions({ state, showToast }) {
 
         fetch(`/api/palettes/delete/${idToDelete}`, {
             method: 'DELETE',
-            headers: {
+            headers: withCsrfHeaders({
                 'Content-Type': 'application/json',
-            },
+            }),
         })
             .then(response => response.json())
             .then(data => {
@@ -119,9 +121,9 @@ export function createPaletteActions({ state, showToast }) {
 
         fetch(`/api/palettes/rename/${idToRename}`, {
             method: 'POST',
-            headers: {
+            headers: withCsrfHeaders({
                 'Content-Type': 'application/json',
-            },
+            }),
             body: JSON.stringify({ name: newName }),
         })
             .then(response => {

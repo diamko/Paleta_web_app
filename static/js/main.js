@@ -100,9 +100,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Очистка сохранённой палитры в localStorage при выходе из аккаунта
-    const logoutBtn = document.querySelector('a[href="/logout"]');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
+    const logoutForm = document.getElementById('logoutForm');
+    if (logoutForm) {
+        logoutForm.addEventListener('submit', () => {
             localStorage.removeItem('lastImageFilename');
             localStorage.removeItem('lastPalette');
             localStorage.removeItem('lastImageDataURL');

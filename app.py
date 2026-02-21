@@ -106,9 +106,11 @@
  - Для production рекомендуется запуск через gunicorn
 """
 
+import hmac
 import os
+import secrets
 
-from flask import Flask
+from flask import Flask, flash, jsonify, redirect, request, session, url_for
 
 from config import Config
 from extensions import db, login_manager, cors
@@ -116,6 +118,7 @@ from routes.pages import register_routes as register_page_routes
 from routes.auth import register_routes as register_auth_routes
 from routes.api import register_routes as register_api_routes
 from utils.cleanup import cleanup_old_uploads
+from utils.rate_limit import InMemoryRateLimiter
 
 
 def create_app() -> Flask:
@@ -126,10 +129,15 @@ def create_app() -> Flask:
     # Инициализация расширений
     db.init_app(app)
     login_manager.init_app(app)
-    cors.init_app(app)
+    if app.config["CORS_ENABLED"]:
+        cors.init_app(
+            app,
+            resources={r"/api/*": {"origins": app.config["CORS_ORIGINS"]}},
+        )
     login_manager.login_view = "login"
     login_manager.login_message = "Пожалуйста, войдите, чтобы получить доступ к этой странице."
     login_manager.login_message_category = "error"
+    app.extensions["rate_limiter"] = InMemoryRateLimiter()
 
     # Гарантируем наличие служебных директорий
     os.makedirs(app.instance_path, exist_ok=True)
@@ -139,6 +147,57 @@ def create_app() -> Flask:
     register_page_routes(app)
     register_auth_routes(app)
     register_api_routes(app)
+
+    def _ensure_csrf_token() -> str:
+        token = session.get("csrf_token")
+        if not token:
+            token = secrets.token_urlsafe(32)
+            session["csrf_token"] = token
+        return token
+
+    def _is_csrf_valid() -> bool:
+        expected = session.get("csrf_token")
+        provided = request.headers.get("X-CSRF-Token") or request.form.get("csrf_token")
+        if not expected or not provided:
+            return False
+        return hmac.compare_digest(expected, provided)
+
+    @app.context_processor
+    def inject_csrf_token():
+        return {"csrf_token": _ensure_csrf_token()}
+
+    @app.before_request
+    def enforce_csrf():
+        if request.method in {"GET", "HEAD", "OPTIONS", "TRACE"}:
+            return None
+
+        if request.endpoint in {"healthz"}:
+            return None
+
+        if _is_csrf_valid():
+            return None
+
+        if request.path.startswith("/api/"):
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "error": "Недействительный CSRF-токен. Обновите страницу и повторите попытку.",
+                    }
+                ),
+                400,
+            )
+
+        flash("Сессия формы истекла. Обновите страницу и попробуйте снова.", "error")
+        return redirect(request.referrer or url_for("index"))
+
+    @app.after_request
+    def apply_security_headers(response):
+        response.headers.setdefault("X-Frame-Options", "DENY")
+        response.headers.setdefault("X-Content-Type-Options", "nosniff")
+        response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+        response.headers.setdefault("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+        return response
 
     @app.get("/healthz")
     def healthz():

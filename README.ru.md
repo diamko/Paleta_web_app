@@ -198,6 +198,9 @@ flask --app app run
 - `DATABASE_URL` (опционально; по умолчанию локальная SQLite в development и SQLite в `/app/instance` в production)
 - `FLASK_ENV` (`production` для продакшна)
 - `SESSION_COOKIE_SECURE` (`true` по умолчанию в production, `false` в development)
+- `CORS_ENABLED` (`false` по умолчанию; включайте только если API вызывается с другого origin)
+- `CORS_ORIGINS` (список разрешённых origin через запятую, если `CORS_ENABLED=true`)
+- `MAX_IMAGE_PIXELS` (максимальное разрешение изображения в пикселях; по умолчанию `20000000`)
 
 Пример (Linux/macOS):
 
@@ -206,6 +209,8 @@ export SECRET_KEY="replace-with-a-secure-random-value"
 export DATABASE_URL="sqlite:///paleta.db"
 export FLASK_ENV="development"
 export SESSION_COOKIE_SECURE="false"
+export CORS_ENABLED="false"
+export MAX_IMAGE_PIXELS="20000000"
 ```
 
 ### Параметры по умолчанию
@@ -253,10 +258,12 @@ export SESSION_COOKIE_SECURE="false"
 
 ### Требования к паролю при регистрации
 
-- длина от 4 до 16 символов;
+- длина от 10 до 128 символов;
 - минимум одна заглавная буква;
+- минимум одна строчная буква;
 - минимум одна цифра;
-- запрещены символы: `* & { } | +`.
+- минимум один спецсимвол;
+- без пробелов.
 
 <a id="api-ru"></a>
 

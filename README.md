@@ -182,6 +182,9 @@ Main config is in `config.py`.
 - `DATABASE_URL` (optional; defaults to local SQLite in development and `/app/instance` SQLite in production)
 - `FLASK_ENV` (`production` for prod setup)
 - `SESSION_COOKIE_SECURE` (`true` by default in production, `false` in development)
+- `CORS_ENABLED` (`false` by default; enable only if API is called from another origin)
+- `CORS_ORIGINS` (comma-separated list of allowed origins when `CORS_ENABLED=true`)
+- `MAX_IMAGE_PIXELS` (max image resolution in pixels; default `20000000`)
 
 Example (Linux/macOS):
 
@@ -190,6 +193,8 @@ export SECRET_KEY="replace-with-a-secure-random-value"
 export DATABASE_URL="sqlite:///paleta.db"
 export FLASK_ENV="development"
 export SESSION_COOKIE_SECURE="false"
+export CORS_ENABLED="false"
+export MAX_IMAGE_PIXELS="20000000"
 ```
 
 ### Default app settings
@@ -237,10 +242,12 @@ You also get:
 
 Registration password requirements:
 
-- length 4 to 16 characters,
+- length 10 to 128 characters,
 - at least one uppercase letter,
+- at least one lowercase letter,
 - at least one digit,
-- forbidden chars: `* & { } | +`.
+- at least one special character,
+- must not contain spaces.
 
 ## API Endpoints
 

@@ -9,6 +9,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let currentColors = [];
 
+    function getCsrfToken() {
+        const tokenElement = document.querySelector('meta[name="csrf-token"]');
+        return tokenElement ? tokenElement.getAttribute('content') || '' : '';
+    }
+
+    function withCsrfHeaders(headers = {}) {
+        const csrfToken = getCsrfToken();
+        if (!csrfToken) return { ...headers };
+        return {
+            ...headers,
+            'X-CSRF-Token': csrfToken,
+        };
+    }
+
     // Генерация палитры при клике на кнопку
     generateBtn.addEventListener('click', () => {
         const count = parseInt(colorCountSelect.value);
@@ -194,9 +208,9 @@ document.addEventListener('DOMContentLoaded', function() {
             try {
                 const response = await fetch('/api/palettes/save', {
                     method: 'POST',
-                    headers: {
+                    headers: withCsrfHeaders({
                         'Content-Type': 'application/json',
-                    },
+                    }),
                     body: JSON.stringify({
                         name: finalName,
                         colors: currentColors
@@ -251,23 +265,33 @@ document.addEventListener('DOMContentLoaded', function() {
             try {
                 const response = await fetch(`/api/export?format=${format}`, {
                     method: 'POST',
-                    headers: {
+                    headers: withCsrfHeaders({
                         'Content-Type': 'application/json',
-                    },
+                    }),
                     body: JSON.stringify({ colors: currentColors })
                 });
 
-                if (response.ok) {
-                    const blob = await response.blob();
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `palette.${format}`;
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                    document.body.removeChild(a);
+                if (!response.ok) {
+                    let errorMessage = 'Ошибка при экспорте';
+                    try {
+                        const errorData = await response.json();
+                        errorMessage = errorData.error || errorMessage;
+                    } catch (_error) {
+                        // игнорируем ошибки разбора
+                    }
+                    showToast(errorMessage, 'error');
+                    return;
                 }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `palette.${format}`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
             } catch (error) {
                 console.error('Ошибка экспорта:', error);
                 showToast('Ошибка при экспорте', 'error');

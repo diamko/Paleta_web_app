@@ -1,4 +1,5 @@
 import { showToast } from './utils.js';
+import { withCsrfHeaders } from '../security/csrf.js';
 
 export function createUploadController({ elements, state, paletteView, markerController }) {
     function preventDefaults(event) {
@@ -35,6 +36,7 @@ export function createUploadController({ elements, state, paletteView, markerCon
 
             const response = await fetch('/api/upload', {
                 method: 'POST',
+                headers: withCsrfHeaders(),
                 body: formData,
             });
 

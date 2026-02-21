@@ -25,6 +25,7 @@
                     {% endwith %}
                     
                     <form method="POST" id="registerForm">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                         <div class="mb-3">
                             <label for="username" class="form-label">Имя пользователя</label>
                             <input 
@@ -45,14 +46,14 @@
                                 id="password"
                                 name="password"
                                 required
-                                minlength="4"
+                                minlength="8"
                                 maxlength="16"
-                                oninvalid="this.setCustomValidity('Пароль должен содержать от 4 до 16 символов')"
+                                oninvalid="this.setCustomValidity('Пароль должен содержать от 8 до 16 символов')"
                                 oninput="this.setCustomValidity('')"
                             >
                             <div class="form-text">
-                                От 4 до 16 символов, минимум одна заглавная буква и одна цифра.
-                                Запрещены символы: * &amp; { } | +
+                                От 8 до 16 символов, минимум одна заглавная буква, одна строчная,
+                                одна цифра и один спецсимвол.
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Зарегистрироваться</button>

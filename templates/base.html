@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,7 +33,10 @@
             <div class="col-md-3 text-end"> 
                 {% if current_user.is_authenticated %}
                     <span class="me-2">Привет, {{ current_user.username }}!</span>
-                    <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">Выйти</a>
+                    <form method="POST" action="{{ url_for('logout') }}" class="d-inline" id="logoutForm">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="btn btn-outline-danger" id="logoutBtn">Выйти</button>
+                    </form>
                 {% else %}
                     <a href="{{ url_for('login') }}" class="btn btn-outline-primary me-2">Войти</a> 
                     <a href="{{ url_for('register') }}" class="btn btn-primary">Зарегистрироваться</a>

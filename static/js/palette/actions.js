@@ -1,4 +1,5 @@
 import { dataURLToBlob, showToast } from './utils.js';
+import { withCsrfHeaders } from '../security/csrf.js';
 
 export function bindPaletteActions({ elements, state, paletteView, markerController }) {
     elements.imagePreview.addEventListener('load', () => {
@@ -38,6 +39,7 @@ export function bindPaletteActions({ elements, state, paletteView, markerControl
 
             const response = await fetch('/api/upload', {
                 method: 'POST',
+                headers: withCsrfHeaders(),
                 body: formData,
             });
 
@@ -113,9 +115,9 @@ export function bindPaletteActions({ elements, state, paletteView, markerControl
             try {
                 const response = await fetch('/api/palettes/save', {
                     method: 'POST',
-                    headers: {
+                    headers: withCsrfHeaders({
                         'Content-Type': 'application/json',
-                    },
+                    }),
                     body: JSON.stringify({
                         name: finalName,
                         colors: state.currentColors,
@@ -171,23 +173,33 @@ export function bindPaletteActions({ elements, state, paletteView, markerControl
             try {
                 const response = await fetch(`/api/export?format=${format}`, {
                     method: 'POST',
-                    headers: {
+                    headers: withCsrfHeaders({
                         'Content-Type': 'application/json',
-                    },
+                    }),
                     body: JSON.stringify({ colors: state.currentColors }),
                 });
 
-                if (response.ok) {
-                    const blob = await response.blob();
-                    const url = window.URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = `palette.${format}`;
-                    document.body.appendChild(link);
-                    link.click();
-                    window.URL.revokeObjectURL(url);
-                    document.body.removeChild(link);
+                if (!response.ok) {
+                    let errorMessage = 'Ошибка при экспорте';
+                    try {
+                        const errorData = await response.json();
+                        errorMessage = errorData.error || errorMessage;
+                    } catch (_error) {
+                        // Игнорируем ошибку разбора, используем дефолтный текст.
+                    }
+                    showToast(errorMessage, 'error');
+                    return;
                 }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `palette.${format}`;
+                document.body.appendChild(link);
+                link.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(link);
             } catch (error) {
                 console.error('Ошибка экспорта:', error);
                 showToast('Ошибка при экспорте', 'error');
