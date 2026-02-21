@@ -599,59 +599,50 @@ msgid "Как извлечь палитру из изображения?"
 msgstr "How do I extract a palette from an image?"
 
 #: templates/faq.html:33
-#, fuzzy
 msgid "Для извлечения палитры из изображения:"
-msgstr "How do I extract a palette from an image?"
+msgstr "To extract a palette from an image:"
 
 #: templates/faq.html:35
 msgid "Перейдите на страницу"
 msgstr "Go to the page"
 
 #: templates/faq.html:35
-#, fuzzy
 msgid "\"Главная\""
 msgstr "Home"
 
 #: templates/faq.html:36
-#, fuzzy
 msgid "Нажмите на область загрузки или перетащите изображение"
-msgstr "Upload an image first!"
+msgstr "Click the upload area or drag and drop an image"
 
 #: templates/faq.html:37
-#, fuzzy
 msgid "Выберите количество цветов для извлечения (от 3 до 15)"
-msgstr "Choose the number of colors and wait for analysis."
+msgstr "Choose how many colors to extract (from 3 to 15)"
 
 #: templates/faq.html:38
-#, fuzzy
 msgid "Дождитесь обработки изображения"
-msgstr "Image upload error"
+msgstr "Wait for image processing to complete"
 
 #: templates/faq.html:39
 msgid "Получите готовую палитру с HEX-кодами"
 msgstr "Get a ready palette with HEX codes"
 
 #: templates/faq.html:41
-#, fuzzy
 msgid "Поддерживаемые форматы:"
-msgstr "Unsupported export format"
+msgstr "Supported formats:"
 
 #: templates/faq.html:51
-#, fuzzy
 msgid "Как сгенерировать случайную палитру?"
-msgstr "Generate Palette"
+msgstr "How do I generate a random palette?"
 
 #: templates/faq.html:56
-#, fuzzy
 msgid "Генерация случайной палитры очень проста:"
-msgstr "Random Palette Generation"
+msgstr "Generating a random palette is easy:"
 
 #: templates/faq.html:58
 msgid "На странице"
 msgstr "On the page"
 
 #: templates/faq.html:58
-#, fuzzy
 msgid "\"Генерация палитры\""
 msgstr "Palette Generation"
 
@@ -660,9 +651,8 @@ msgid "нажмите кнопку генерации"
 msgstr "click the generate button"
 
 #: templates/faq.html:59
-#, fuzzy
 msgid "Система создаст уникальную палитру из гармоничных цветов"
-msgstr "Create a unique color palette with the random color generator."
+msgstr "The system will create a unique palette of harmonious colors"
 
 #: templates/faq.html:60
 msgid "Вы можете повторно генерировать палитру, пока не найдете идеальный вариант"
@@ -681,18 +671,16 @@ msgid "Используйте случайные палитры для вдох�
 msgstr "Use random palettes for inspiration when you need fresh ideas."
 
 #: templates/faq.html:76
-#, fuzzy
 msgid "Как сохранить палитру?"
-msgstr "Save Palette"
+msgstr "How do I save a palette?"
 
 #: templates/faq.html:81
 msgid "Сохранение палитры доступно только для зарегистрированных пользователей:"
 msgstr "Saving a palette is available only for registered users:"
 
 #: templates/faq.html:83
-#, fuzzy
 msgid "Зарегистрируйтесь"
-msgstr "register"
+msgstr "Register"
 
 #: templates/faq.html:83 templates/forgot_password.html:44
 #: templates/generatePalet.html:34 templates/index.html:76
@@ -706,35 +694,30 @@ msgid "войдите"
 msgstr "sign in"
 
 #: templates/faq.html:83
-#, fuzzy
 msgid "в аккаунт"
-msgstr "Don't have an account?"
+msgstr "to your account"
 
 #: templates/faq.html:84
-#, fuzzy
 msgid "Сгенерируйте или извлеките палитру"
-msgstr "Generate Palette"
+msgstr "Generate or extract a palette"
 
 #: templates/faq.html:85
 msgid "Нажмите кнопку"
 msgstr "Click the button"
 
 #: templates/faq.html:86
-#, fuzzy
 msgid "Введите название для вашей палитры"
-msgstr "New palette name"
+msgstr "Enter a name for your palette"
 
 #: templates/faq.html:87
-#, fuzzy
 msgid "Подтвердите сохранение"
-msgstr "Please select an image"
+msgstr "Confirm saving"
 
 #: templates/faq.html:89
 msgid "Все сохраненные палитры доступны в разделе"
 msgstr "All saved palettes are available in the section"
 
 #: templates/faq.html:89
-#, fuzzy
 msgid "\"Мои палитры\""
 msgstr "My Palettes"
 
@@ -747,49 +730,40 @@ msgid "Вы можете сохранять до 50 палитр в своем �
 msgstr "You can save up to 50 palettes in your account."
 
 #: templates/faq.html:103
-#, fuzzy
 msgid "Нужно ли регистрироваться для использования?"
-msgstr "Do I need to register?"
+msgstr "Do I need to register to use it?"
 
 #: templates/faq.html:108
-#, fuzzy
 msgid "Регистрация не обязательна для базовых функций:"
-msgstr "Registration is not required for palette generation and export."
+msgstr "Registration is not required for basic features:"
 
 #: templates/faq.html:115
-#, fuzzy
 msgid "Без регистрации"
-msgstr "Register"
+msgstr "Without registration"
 
 #: templates/faq.html:118
-#, fuzzy
 msgid "Генерация случайных палитр"
-msgstr "Random Palette Generation"
+msgstr "Random palette generation"
 
 #: templates/faq.html:119
-#, fuzzy
 msgid "Извлечение палитр из изображений"
-msgstr "How do I extract a palette from an image?"
+msgstr "Palette extraction from images"
 
 #: templates/faq.html:120
-#, fuzzy
 msgid "Экспорт палитр"
-msgstr "Save Palette"
+msgstr "Palette export"
 
 #: templates/faq.html:121
-#, fuzzy
 msgid "Копирование HEX-кодов"
-msgstr "Copy HEX"
+msgstr "Copying HEX codes"
 
 #: templates/faq.html:131
-#, fuzzy
 msgid "С регистрацией"
-msgstr "Register"
+msgstr "With registration"
 
 #: templates/faq.html:134
-#, fuzzy
 msgid "Сохранение палитр"
-msgstr "Save Palette"
+msgstr "Saving palettes"
 
 #: templates/faq.html:135
 msgid "Доступ к \"Моим палитрам\""
@@ -804,9 +778,8 @@ msgid "Синхронизация между устройствами"
 msgstr "Sync across devices"
 
 #: templates/faq.html:146
-#, fuzzy
 msgid "Зарегистрироваться бесплатно"
-msgstr "Register"
+msgstr "Register for free"
 
 #: templates/faq.html:158
 msgid "Есть ли мобильная версия?"
