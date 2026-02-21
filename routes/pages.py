@@ -9,7 +9,7 @@
 
 from datetime import datetime, timedelta
 
-from flask import render_template
+from flask import render_template, send_from_directory
 from flask_login import login_required, current_user
 
 from models.palette import Palette
@@ -17,6 +17,8 @@ from models.upload import Upload
 
 
 def register_routes(app):
+    yandex_verification_file = "yandex_a19b89f07e18fcfd.html"
+
     @app.route("/")
     @app.route("/index")
     def index():
@@ -50,3 +52,6 @@ def register_routes(app):
     def faq():
         return render_template("faq.html")
 
+    @app.route(f"/{yandex_verification_file}")
+    def yandex_verification():
+        return send_from_directory(app.root_path, yandex_verification_file)
