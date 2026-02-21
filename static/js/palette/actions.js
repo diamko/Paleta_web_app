@@ -120,6 +120,7 @@ export function bindPaletteActions({ elements, state, paletteView, markerControl
                     body: JSON.stringify({
                         name: finalName,
                         colors: state.currentColors,
+                        lang: currentLang,
                     }),
                 });
 

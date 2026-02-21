@@ -8,6 +8,7 @@ import re
 import tempfile
 import uuid
 from datetime import datetime
+from urllib.parse import urlparse
 
 from PIL import Image, UnidentifiedImageError
 from flask import current_app, jsonify, request, send_file, send_from_directory, session
@@ -132,6 +133,31 @@ def _default_palette_aliases() -> set[str]:
     return aliases
 
 
+def _default_palette_name_for_lang(lang_hint: str | None) -> str:
+    if lang_hint and lang_hint in Config.SUPPORTED_LANGUAGES:
+        with force_locale(lang_hint):
+            return _("Моя палитра").strip()
+    return _("Моя палитра").strip()
+
+
+def _lang_hint_from_referrer(referrer: str | None) -> str | None:
+    if not referrer:
+        return None
+
+    try:
+        path = urlparse(referrer).path
+    except ValueError:
+        return None
+
+    if not path:
+        return None
+
+    first_segment = path.lstrip("/").split("/", 1)[0].lower()
+    if first_segment in Config.SUPPORTED_LANGUAGES:
+        return first_segment
+    return None
+
+
 def register_routes(app):
     @app.route("/api/upload", methods=["POST"])
     def upload_image():
@@ -203,6 +229,9 @@ def register_routes(app):
             data = request.get_json(force=True)
             palette_name = data.get("name", "").strip()
             colors = _normalize_palette_colors(data.get("colors", []))
+            request_lang = str(data.get("lang") or "").strip().lower()
+            if request_lang not in Config.SUPPORTED_LANGUAGES:
+                request_lang = _lang_hint_from_referrer(request.referrer)
 
             if not colors:
                 return _api_error(_("Палитра должна содержать корректные HEX-цвета"), 400)
@@ -219,7 +248,7 @@ def register_routes(app):
                     400,
                 )
 
-            default_base_name = _("Моя палитра").strip()
+            default_base_name = _default_palette_name_for_lang(request_lang)
             default_base_variants = _default_palette_base_variants()
             default_names = _default_palette_aliases()
 

@@ -220,7 +220,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     }),
                     body: JSON.stringify({
                         name: finalName,
-                        colors: currentColors
+                        colors: currentColors,
+                        lang: currentLang,
                     })
                 });
 
