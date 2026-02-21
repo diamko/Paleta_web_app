@@ -9,6 +9,32 @@
 
 /* Крупные устройства (настольные компьютеры, от 992 пикселей) */
 @media (min-width: 992px) {
+    body {
+        font-size: 1.2rem;
+    }
+
+    .btn {
+        padding: 0.56rem 1.12rem;
+    }
+
+    #palettesContainer .btn.btn-sm {
+        padding: 0.42rem 1rem !important;
+        font-size: 0.98rem;
+    }
+
+    #palettesContainer .btn-group .btn.btn-sm {
+        padding: 0.42rem 0.92rem !important;
+    }
+
+    #palettesContainer .card-title {
+        font-size: 1.4rem;
+    }
+
+    #palettesContainer .text-muted.small,
+    #palettesContainer small.text-muted {
+        font-size: 0.95rem;
+    }
+
     .palette-container {
         grid-template-columns: repeat(4, 1fr);
     }
@@ -127,9 +153,9 @@
 
     .export-actions .btn,
     #savePaletteBtn.btn {
-        padding: 0.3rem 0.62rem !important;
-        font-size: 0.78rem;
-        line-height: 1.15;
+        padding: 0.4rem 0.9rem !important;
+        font-size: 0.88rem;
+        line-height: 1.2;
     }
 
     .palette-card .btn-group {
@@ -252,9 +278,9 @@
 
     .export-actions .btn,
     #savePaletteBtn.btn {
-        padding: 0.24rem 0.5rem !important;
-        font-size: 0.72rem;
-        line-height: 1.1;
+        padding: 0.4rem 0.8rem !important;
+        font-size: 0.84rem;
+        line-height: 1.2;
     }
 
     .palette-card .btn-group .btn {
