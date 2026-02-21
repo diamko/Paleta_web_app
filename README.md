@@ -15,6 +15,8 @@ You can build palettes from uploaded images (dominant color extraction with KMea
 
 The project is aimed at designers, frontend developers, and anyone who works with color systems and needs a fast workflow from image to ready-to-use color codes.
 
+Production deployment guide (SQLite + Docker + Nginx + HTTPS): `DEPLOYMENT.ru.md`.
+
 ## Table of Contents
 
 1. [Why Paleta](#why-paleta)
@@ -133,10 +135,13 @@ pip install -r requirements.txt
 ### 4) Initialize database (first run)
 
 Linux/macOS:
+
 ```bash
 python3 -c "from app import app; from extensions import db; import models; app.app_context().push(); db.create_all()"
 ```
+
 Windows (PowerShell):
+
 ```bash
 python -c "from app import app; from extensions import db; import models; app.app_context().push(); db.create_all()"
 ```
@@ -148,9 +153,11 @@ By default, SQLite DB is created at `instance/paleta.db`.
 ### Option A: direct run
 
 Linux/macOS:
+
 ```bash
 python3 app.py
 ```
+
 Windows (PowerShell):
 
 ```bash
@@ -171,22 +178,29 @@ Main config is in `config.py`.
 
 ### Environment variables
 
-- `SECRET_KEY` (recommended in production)
+- `SECRET_KEY` (required)
+- `DATABASE_URL` (optional; default is `sqlite:////app/instance/paleta.db`)
+- `FLASK_ENV` (`production` for prod setup)
+- `SESSION_COOKIE_SECURE` (`true` in production)
 
 Example (Linux/macOS):
 
 ```bash
 export SECRET_KEY="replace-with-a-secure-random-value"
+export DATABASE_URL="sqlite:///instance/paleta.db"
+export FLASK_ENV="development"
+export SESSION_COOKIE_SECURE="false"
 ```
 
 ### Default app settings
 
-- `SQLALCHEMY_DATABASE_URI = sqlite:///paleta.db`
+- `SQLALCHEMY_DATABASE_URI` comes from `DATABASE_URL`
+- default DB URL (if not set): `sqlite:////app/instance/paleta.db`
 - `UPLOAD_FOLDER = static/uploads`
 - `MAX_CONTENT_LENGTH = 16 MB`
 - Allowed image extensions: `png`, `jpg`, `jpeg`, `webp`
 
-If you want another DB engine, update `SQLALCHEMY_DATABASE_URI` in `config.py`.
+If you want another DB engine, pass a different value via `DATABASE_URL`.
 
 ## Usage Guide
 
@@ -301,4 +315,5 @@ Please read the full contribution guides:
 This project is licensed under the MIT License.
 
 See:
+
 - [`LICENCE`](LICENCE)

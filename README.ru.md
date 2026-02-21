@@ -15,6 +15,8 @@ Paleta - это веб-приложение для генерации, реда�
 
 Проект ориентирован на дизайнеров, frontend-разработчиков и всех, кто работает с цветом и хочет быстро переходить от изображения к готовым HEX-кодам.
 
+Гайд по продакшн-деплою (SQLite + Docker + Nginx + HTTPS): `DEPLOYMENT.ru.md`.
+
 <a id="toc-ru"></a>
 
 ## Оглавление
@@ -36,6 +38,7 @@ Paleta - это веб-приложение для генерации, реда�
 15. [Лицензия](#license-ru)
 
 <a id="why-ru"></a>
+
 ## Зачем создан Paleta
 
 ### Цель
@@ -144,11 +147,13 @@ pip install -r requirements.txt
 ### 4) Инициализация базы данных (первый запуск)
 
 Linux/macOS:
+
 ```bash
 python3 -c "from app import app; from extensions import db; import models; app.app_context().push(); db.create_all()"
 ```
 
 Windows (PowerShell):
+
 ```bash
 python -c "from app import app; from extensions import db; import models; app.app_context().push(); db.create_all()"
 ```
@@ -162,14 +167,17 @@ python -c "from app import app; from extensions import db; import models; app.ap
 ### Вариант A: прямой запуск
 
 Linux/macOS:
+
 ```bash
 python3 app.py
 ```
 
 Windows (PowerShell):
+
 ```bash
 python app.py
 ```
+
 ### Вариант B: Flask CLI
 
 ```bash
@@ -186,22 +194,29 @@ flask --app app run
 
 ### Переменные окружения
 
-- `SECRET_KEY` (обязательно рекомендуется для продакшна)
+- `SECRET_KEY` (обязательная)
+- `DATABASE_URL` (опционально; по умолчанию `sqlite:////app/instance/paleta.db`)
+- `FLASK_ENV` (`production` для продакшна)
+- `SESSION_COOKIE_SECURE` (`true` в продакшне)
 
 Пример (Linux/macOS):
 
 ```bash
 export SECRET_KEY="replace-with-a-secure-random-value"
+export DATABASE_URL="sqlite:///instance/paleta.db"
+export FLASK_ENV="development"
+export SESSION_COOKIE_SECURE="false"
 ```
 
 ### Параметры по умолчанию
 
-- `SQLALCHEMY_DATABASE_URI = sqlite:///paleta.db`
+- `SQLALCHEMY_DATABASE_URI` берется из `DATABASE_URL`
+- URL БД по умолчанию (если не задан): `sqlite:////app/instance/paleta.db`
 - `UPLOAD_FOLDER = static/uploads`
 - `MAX_CONTENT_LENGTH = 16 MB`
 - Разрешенные расширения изображений: `png`, `jpg`, `jpeg`, `webp`
 
-Если хотите использовать другую СУБД, измените `SQLALCHEMY_DATABASE_URI` в `config.py`.
+Если хотите использовать другую СУБД, передайте другой URL через `DATABASE_URL`.
 
 <a id="usage-ru"></a>
 
@@ -330,4 +345,5 @@ Paleta/
 Проект распространяется по лицензии MIT.
 
 См. файлы:
+
 - [`LICENCE`](LICENCE)

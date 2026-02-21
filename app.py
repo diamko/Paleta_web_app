@@ -19,7 +19,7 @@
  UPLOAD_FOLDER - путь к папке для хранения загруженных изображений (./static/uploads)
  MAX_CONTENT_LENGTH - максимальный размер загружаемого файла (16 МБ)
  ALLOWED_EXTENSIONS - разрешенные расширения файлов изображений (png, jpg, jpeg, webp)
- DATABASE_URL - URI базы данных (по умолчанию SQLite: sqlite:///paleta.db)
+ DATABASE_URL - URI базы данных (по умолчанию SQLite: sqlite:////app/instance/paleta.db)
  SECRET_KEY - секретный ключ для подписи сессий и токенов
 
  2. ТЕКУЩЕЕ СОСТОЯНИЕ ПРИЛОЖЕНИЯ
@@ -101,8 +101,9 @@
  6. Возврат готового приложения
 
  При запуске в режиме __main__:
- - Создание структуры базы данных (db.create_all())
- - Запуск сервера в режиме отладки (debug=True)
+ - Очистка старых загрузок при старте
+ - Запуск встроенного dev-сервера (режим debug зависит от FLASK_ENV)
+ - Для production рекомендуется запуск через gunicorn
 """
 
 import os
@@ -130,13 +131,18 @@ def create_app() -> Flask:
     login_manager.login_message = "Пожалуйста, войдите, чтобы получить доступ к этой странице."
     login_manager.login_message_category = "error"
 
-    # Гарантируем наличие папки загрузок
+    # Гарантируем наличие служебных директорий
+    os.makedirs(app.instance_path, exist_ok=True)
     os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
     # Регистрация роутов по модулям
     register_page_routes(app)
     register_auth_routes(app)
     register_api_routes(app)
+
+    @app.get("/healthz")
+    def healthz():
+        return {"status": "ok"}, 200
 
     return app
 
@@ -148,4 +154,5 @@ if __name__ == "__main__":
     with app.app_context():
         # Очистка старых загрузок при запуске приложения
         cleanup_old_uploads()
-    app.run(debug=True)
+    is_production = os.environ.get("FLASK_ENV", "").lower() == "production"
+    app.run(debug=not is_production)

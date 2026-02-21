@@ -44,7 +44,7 @@
                 {% else %}
                     <p class="text-muted mb-2">Чтобы сохранить палитру, <a href="{{ url_for('login') }}">войдите</a> или <a href="{{ url_for('register') }}">зарегистрируйтесь</a>.</p>
                 {% endif %}
-                <div class="btn-group" role="group">
+                <div class="export-actions d-flex flex-wrap gap-2" role="group">
                     <button type="button" class="btn btn-outline-primary export-option" data-format="json">Экспорт JSON</button>
                     <button type="button" class="btn btn-outline-primary export-option" data-format="gpl">Экспорт GPL</button>
                     <button type="button" class="btn btn-outline-primary export-option" data-format="ase">Экспорт ASE</button>

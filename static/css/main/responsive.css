@@ -78,6 +78,18 @@
     .active-loupe {
         width: 100px;
     }
+
+    .export-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .export-actions .btn {
+        flex: 1 1 calc(50% - 0.5rem);
+        min-width: 130px;
+        margin: 0 !important;
+        width: auto;
+    }
 }
 
 /* Extra small devices (portrait phones, less than 576px) */
@@ -144,6 +156,11 @@
     .btn-group {
         flex-direction: column;
         width: 100%;
+    }
+
+    .export-actions .btn {
+        flex-basis: 100%;
+        min-width: 0;
     }
     
     .upload-zone {
