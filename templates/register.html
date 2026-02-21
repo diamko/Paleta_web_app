@@ -34,7 +34,9 @@
                                 id="username" 
                                 name="username" 
                                 required
-                                oninvalid="this.setCustomValidity('Пожалуйста, заполните поле имени пользователя')"
+                                minlength="3"
+                                maxlength="80"
+                                oninvalid="this.setCustomValidity('Имя пользователя: от 3 до 80 символов, без пробелов')"
                                 oninput="this.setCustomValidity('')"
                             >
                         </div>

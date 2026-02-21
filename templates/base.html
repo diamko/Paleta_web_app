@@ -32,7 +32,12 @@
             </ul> 
             <div class="col-md-3 text-end"> 
                 {% if current_user.is_authenticated %}
-                    <span class="me-2">Привет, {{ current_user.username }}!</span>
+                    <span class="me-2">
+                        Привет,
+                        <a href="{{ url_for('profile') }}" class="link-primary fw-semibold text-decoration-none">
+                            {{ current_user.username }}
+                        </a>!
+                    </span>
                     <form method="POST" action="{{ url_for('logout') }}" class="d-inline" id="logoutForm">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                         <button type="submit" class="btn btn-outline-danger" id="logoutBtn">Выйти</button>
