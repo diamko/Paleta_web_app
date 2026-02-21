@@ -40,8 +40,28 @@
     }
     
     .btn {
-        padding: 0.4rem 1rem !important;
-        font-size: 0.9rem;
+        padding: 0.4rem 0.9rem !important;
+        font-size: 0.88rem;
+    }
+
+    .col-md-3.text-end.d-flex {
+        flex-wrap: wrap;
+        row-gap: 0.35rem;
+        column-gap: 0.5rem !important;
+    }
+
+    .col-md-3.text-end.d-flex > .btn,
+    .col-md-3.text-end.d-flex > form .btn {
+        margin: 0 !important;
+        padding: 0.35rem 0.72rem !important;
+        font-size: 0.82rem;
+        line-height: 1.2;
+        white-space: nowrap;
+    }
+
+    .content .container {
+        padding-left: 16px;
+        padding-right: 16px;
     }
     
     .content {
@@ -121,6 +141,21 @@
         text-align: center !important;
         margin-top: 0.5rem;
     }
+
+    .col-md-3.text-end.d-flex {
+        justify-content: center;
+        gap: 0.35rem !important;
+    }
+
+    .col-md-3.text-end.d-flex .btn-group {
+        width: auto;
+        flex-direction: row;
+        margin-bottom: 0.2rem;
+    }
+
+    .col-md-3.text-end.d-flex .btn-group .btn {
+        width: auto;
+    }
     
     .color-swatch {
         width: 60px;
@@ -135,12 +170,13 @@
     }
 
     .palette-edit-item {
-        width: calc(50% - 0.5rem);
-        min-width: 120px;
+        width: 100%;
+        min-width: 0;
+        padding: 6px;
     }
 
     .palette-edit-preview {
-        height: 74px;
+        height: 66px;
     }
 
     .marker-hint {
@@ -148,9 +184,10 @@
     }
     
     .btn {
-        width: 100%;
-        margin: 0.25rem 0;
-        padding: 0.6rem !important;
+        width: auto;
+        margin: 0;
+        padding: 0.4rem 0.8rem !important;
+        font-size: 0.84rem;
     }
     
     .btn-group {
@@ -159,8 +196,8 @@
     }
 
     .export-actions .btn {
-        flex-basis: 100%;
-        min-width: 0;
+        flex-basis: calc(50% - 0.5rem);
+        min-width: 120px;
     }
     
     .upload-zone {

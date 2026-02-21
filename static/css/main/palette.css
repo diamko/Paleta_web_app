@@ -243,34 +243,56 @@
 
 @media (max-width: 767.98px) {
     .extract-page #resultSection {
-        padding-inline: 0;
+        padding-inline: 12px;
     }
 
     .extract-page .extract-image-col {
-        margin-left: calc(50% - 50vw);
-        margin-right: calc(50% - 50vw);
         padding-left: 0;
         padding-right: 0;
     }
 
     .extract-image-col .image-stage {
-        border-radius: 0;
+        border-radius: 10px;
     }
 
     .extract-image-col #imagePreview {
         max-height: none;
-        border-radius: 0 !important;
+        border-radius: 10px !important;
     }
 
     .extract-page .extract-palette-col {
-        padding-left: 12px;
-        padding-right: 12px;
+        padding-left: 0;
+        padding-right: 0;
     }
 }
 
 @media (max-width: 575.98px) {
     .extract-palette {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px !important;
+    }
+
+    .extract-palette .palette-edit-item {
+        padding: 6px;
+    }
+
+    .extract-palette .palette-edit-preview {
+        height: 62px;
+    }
+
+    .extract-palette .palette-edit-controls {
+        gap: 4px;
+        margin-top: 6px;
+    }
+
+    .extract-palette .palette-edit-picker {
+        width: 28px;
+        height: 28px;
+    }
+
+    .extract-palette .palette-edit-hex {
+        font-size: 12px;
+        padding: 4px 6px;
     }
 }
 
