@@ -78,6 +78,19 @@
     font-size: 0.9rem;
 }
 
+.random-palette-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px !important;
+    align-items: stretch;
+    justify-content: stretch !important;
+}
+
+.random-palette-grid .palette-edit-item {
+    width: 100%;
+    min-width: 0;
+}
+
 .image-stage {
     position: relative;
     display: inline-block;
@@ -242,6 +255,10 @@
 }
 
 @media (max-width: 767.98px) {
+    .random-palette-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
     .extract-page #resultSection {
         padding-inline: 12px;
     }
@@ -267,6 +284,34 @@
 }
 
 @media (max-width: 575.98px) {
+    .random-palette-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px !important;
+    }
+
+    .random-palette-grid .palette-edit-item {
+        padding: 6px;
+    }
+
+    .random-palette-grid .palette-edit-preview {
+        height: 62px;
+    }
+
+    .random-palette-grid .palette-edit-controls {
+        gap: 4px;
+        margin-top: 6px;
+    }
+
+    .random-palette-grid .palette-edit-picker {
+        width: 28px;
+        height: 28px;
+    }
+
+    .random-palette-grid .palette-edit-hex {
+        font-size: 12px;
+        padding: 4px 6px;
+    }
+
     .extract-palette {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 8px !important;

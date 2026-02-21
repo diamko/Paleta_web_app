@@ -205,13 +205,17 @@ export function createMarkerController({ elements, state }) {
         );
 
         const center = elements.activeLoupeCanvas.width / 2;
+        const isSmallMobile = window.matchMedia('(max-width: 575px)').matches;
+        const isMobile = isSmallMobile || window.matchMedia('(max-width: 768px)').matches;
+        const crosshairHalfSize = isSmallMobile ? 5 : isMobile ? 6 : 10;
+        const crosshairLineWidth = isSmallMobile ? 1 : isMobile ? 1.15 : 1.5;
         loupeCtx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
-        loupeCtx.lineWidth = 1.5;
+        loupeCtx.lineWidth = crosshairLineWidth;
         loupeCtx.beginPath();
-        loupeCtx.moveTo(center - 10, center);
-        loupeCtx.lineTo(center + 10, center);
-        loupeCtx.moveTo(center, center - 10);
-        loupeCtx.lineTo(center, center + 10);
+        loupeCtx.moveTo(center - crosshairHalfSize, center);
+        loupeCtx.lineTo(center + crosshairHalfSize, center);
+        loupeCtx.moveTo(center, center - crosshairHalfSize);
+        loupeCtx.lineTo(center, center + crosshairHalfSize);
         loupeCtx.stroke();
     }
 

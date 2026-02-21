@@ -96,7 +96,14 @@
     }
 
     .active-loupe {
-        width: 100px;
+        width: 72px;
+        padding: 3px;
+        border-radius: 10px;
+    }
+
+    .active-loupe-hex {
+        font-size: 9px;
+        letter-spacing: 0.2px;
     }
 
     .export-actions {
@@ -108,6 +115,17 @@
         flex: 1 1 calc(50% - 0.5rem);
         min-width: 130px;
         margin: 0 !important;
+        width: auto;
+    }
+
+    .palette-card .btn-group {
+        width: auto;
+        flex-direction: row;
+        display: inline-flex;
+        vertical-align: middle;
+    }
+
+    .palette-card .btn-group .btn {
         width: auto;
     }
 }
@@ -182,6 +200,17 @@
     .marker-hint {
         font-size: 0.82rem;
     }
+
+    .active-loupe {
+        width: 62px;
+        padding: 3px;
+        border-radius: 9px;
+    }
+
+    .active-loupe-hex {
+        font-size: 8px;
+        letter-spacing: 0.1px;
+    }
     
     .btn {
         width: auto;
@@ -198,6 +227,12 @@
     .export-actions .btn {
         flex-basis: calc(50% - 0.5rem);
         min-width: 120px;
+    }
+
+    .palette-card .btn-group .btn {
+        padding: 0.28rem 0.55rem !important;
+        font-size: 0.75rem;
+        line-height: 1.15;
     }
     
     .upload-zone {
