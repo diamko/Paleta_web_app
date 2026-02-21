@@ -194,16 +194,16 @@ flask --app app run
 
 ### Переменные окружения
 
-- `SECRET_KEY` (обязательная)
-- `DATABASE_URL` (опционально; по умолчанию `sqlite:////app/instance/paleta.db`)
+- `SECRET_KEY` (обязательная в `production`, опциональна для локальной разработки)
+- `DATABASE_URL` (опционально; по умолчанию локальная SQLite в development и SQLite в `/app/instance` в production)
 - `FLASK_ENV` (`production` для продакшна)
-- `SESSION_COOKIE_SECURE` (`true` в продакшне)
+- `SESSION_COOKIE_SECURE` (`true` по умолчанию в production, `false` в development)
 
 Пример (Linux/macOS):
 
 ```bash
 export SECRET_KEY="replace-with-a-secure-random-value"
-export DATABASE_URL="sqlite:///instance/paleta.db"
+export DATABASE_URL="sqlite:///paleta.db"
 export FLASK_ENV="development"
 export SESSION_COOKIE_SECURE="false"
 ```
@@ -211,7 +211,9 @@ export SESSION_COOKIE_SECURE="false"
 ### Параметры по умолчанию
 
 - `SQLALCHEMY_DATABASE_URI` берется из `DATABASE_URL`
-- URL БД по умолчанию (если не задан): `sqlite:////app/instance/paleta.db`
+- URL БД по умолчанию (если не задан):
+  - development: `sqlite:///paleta.db`
+  - production: `sqlite:////app/instance/paleta.db`
 - `UPLOAD_FOLDER = static/uploads`
 - `MAX_CONTENT_LENGTH = 16 MB`
 - Разрешенные расширения изображений: `png`, `jpg`, `jpeg`, `webp`

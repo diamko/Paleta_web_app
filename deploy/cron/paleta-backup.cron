@@ -1,0 +1,1 @@
+0 3 * * * PROJECT_DIR=/opt/paleta /opt/paleta/deploy/scripts/backup_sqlite.sh >> /var/log/paleta-backup.log 2>&1

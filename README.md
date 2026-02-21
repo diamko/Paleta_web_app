@@ -178,16 +178,16 @@ Main config is in `config.py`.
 
 ### Environment variables
 
-- `SECRET_KEY` (required)
-- `DATABASE_URL` (optional; default is `sqlite:////app/instance/paleta.db`)
+- `SECRET_KEY` (required in `production`, optional in local development)
+- `DATABASE_URL` (optional; defaults to local SQLite in development and `/app/instance` SQLite in production)
 - `FLASK_ENV` (`production` for prod setup)
-- `SESSION_COOKIE_SECURE` (`true` in production)
+- `SESSION_COOKIE_SECURE` (`true` by default in production, `false` in development)
 
 Example (Linux/macOS):
 
 ```bash
 export SECRET_KEY="replace-with-a-secure-random-value"
-export DATABASE_URL="sqlite:///instance/paleta.db"
+export DATABASE_URL="sqlite:///paleta.db"
 export FLASK_ENV="development"
 export SESSION_COOKIE_SECURE="false"
 ```
@@ -195,7 +195,9 @@ export SESSION_COOKIE_SECURE="false"
 ### Default app settings
 
 - `SQLALCHEMY_DATABASE_URI` comes from `DATABASE_URL`
-- default DB URL (if not set): `sqlite:////app/instance/paleta.db`
+- default DB URL (if not set):
+  - development: `sqlite:///paleta.db`
+  - production: `sqlite:////app/instance/paleta.db`
 - `UPLOAD_FOLDER = static/uploads`
 - `MAX_CONTENT_LENGTH = 16 MB`
 - Allowed image extensions: `png`, `jpg`, `jpeg`, `webp`

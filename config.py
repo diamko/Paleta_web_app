@@ -9,6 +9,7 @@
 """
 
 import os
+import warnings
 
 
 def _get_env_bool(name: str, default: bool = False) -> bool:
@@ -19,26 +20,40 @@ def _get_env_bool(name: str, default: bool = False) -> bool:
     return value.strip().lower() in {"1", "true", "yes", "on"}
 
 
+def _is_production() -> bool:
+    """Определяет production-режим по FLASK_ENV."""
+    return os.environ.get("FLASK_ENV", "").strip().lower() == "production"
+
+
 class Config:
     """Базовая конфигурация приложения."""
 
+    _PRODUCTION = _is_production()
+
     SECRET_KEY = os.environ.get("SECRET_KEY")
     if not SECRET_KEY:
-        raise RuntimeError(
-            "SECRET_KEY environment variable is required. "
-            "Set a strong random value before starting the app."
+        if _PRODUCTION:
+            raise RuntimeError(
+                "SECRET_KEY environment variable is required in production. "
+                "Set a strong random value before starting the app."
+            )
+        SECRET_KEY = "dev-insecure-secret-key"
+        warnings.warn(
+            "SECRET_KEY is not set. Using insecure development fallback key.",
+            RuntimeWarning,
+            stacklevel=1,
         )
 
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "DATABASE_URL",
-        "sqlite:////app/instance/paleta.db",
+        "sqlite:////app/instance/paleta.db" if _PRODUCTION else "sqlite:///paleta.db",
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SESSION_COOKIE_SECURE = _get_env_bool("SESSION_COOKIE_SECURE", default=False)
+    SESSION_COOKIE_SECURE = _get_env_bool("SESSION_COOKIE_SECURE", default=_PRODUCTION)
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = os.environ.get("SESSION_COOKIE_SAMESITE", "Lax")
 
-    UPLOAD_FOLDER = "static/uploads"
+    UPLOAD_FOLDER = os.environ.get("UPLOAD_FOLDER", "static/uploads")
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
     ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
 
