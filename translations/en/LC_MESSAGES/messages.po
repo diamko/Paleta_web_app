@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-02-21 21:54+0300\n"
+"POT-Creation-Date: 2026-02-21 22:17+0300\n"
 "PO-Revision-Date: 2026-02-21 21:50+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,178 +18,178 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
-#: app.py:187
+#: app.py:190
 msgid "HEX код скопирован!"
 msgstr "HEX code copied!"
 
-#: app.py:188
+#: app.py:191
 msgid "Ошибка копирования:"
 msgstr "Copy error:"
 
-#: app.py:189
+#: app.py:192
 msgid "Bootstrap не загружен!"
 msgstr "Bootstrap is not loaded!"
 
-#: app.py:190
+#: app.py:193
 msgid "Bootstrap загружен успешно"
 msgstr "Bootstrap loaded successfully"
 
-#: app.py:191
+#: app.py:194
 msgid "Сначала загрузите изображение!"
 msgstr "Upload an image first!"
 
-#: app.py:192
+#: app.py:195
 msgid "Палитра пересчитана!"
 msgstr "Palette recalculated!"
 
-#: app.py:193
+#: app.py:196
 msgid "Ошибка при пересчете палитры"
 msgstr "Palette recalculation error"
 
-#: app.py:194
+#: app.py:197
 msgid "Произошла ошибка при пересчете"
 msgstr "An error occurred during recalculation"
 
-#: app.py:195
+#: app.py:198
 msgid "Сначала создайте палитру!"
 msgstr "Create a palette first!"
 
-#: app.py:196
+#: app.py:199
 msgid "Название палитры не может состоять только из пробелов"
 msgstr "Palette name cannot contain only spaces"
 
-#: app.py:197
+#: app.py:200
 msgid "Сессия истекла. Пожалуйста, войдите снова."
 msgstr "Session expired. Please sign in again."
 
-#: app.py:198
+#: app.py:201
 msgid "Ошибка при сохранении"
 msgstr "Save error"
 
-#: app.py:199
+#: app.py:202
 msgid "Палитра сохранена!"
 msgstr "Palette saved!"
 
-#: app.py:200
+#: app.py:203
 msgid "Ошибка при сохранении палитры"
 msgstr "Error while saving the palette"
 
-#: app.py:201
+#: app.py:204
 msgid "Ошибка при экспорте"
 msgstr "Export error"
 
-#: app.py:202
+#: app.py:205
 msgid "Введите корректный HEX-код, например #A1B2C3"
 msgstr "Enter a valid HEX code, e.g. #A1B2C3"
 
-#: app.py:203
+#: app.py:206
 msgid "Готово для новой загрузки!"
 msgstr "Ready for a new upload!"
 
-#: app.py:204
+#: app.py:207
 msgid "Пожалуйста, выберите изображение"
 msgstr "Please select an image"
 
-#: app.py:205
+#: app.py:208
 msgid "Файл слишком большой. Максимальный размер: 16 МБ"
 msgstr "File is too large. Maximum size: 16 MB"
 
-#: app.py:206
+#: app.py:209
 msgid "Ошибка загрузки изображения"
 msgstr "Image upload error"
 
-#: app.py:207
+#: app.py:210
 msgid "Ошибка при анализе изображения"
 msgstr "Image analysis error"
 
-#: app.py:208
+#: app.py:211
 msgid "Произошла ошибка при загрузке файла"
 msgstr "An error occurred during file upload"
 
-#: app.py:209
+#: app.py:212
 msgid "Не удалось загрузить сохранённое изображение"
 msgstr "Failed to load saved image"
 
-#: app.py:210
+#: app.py:213
 msgid "Произошла ошибка при использовании сохранённого изображения"
 msgstr "An error occurred while using the saved image"
 
-#: app.py:211 templates/index.html:118
+#: app.py:214 templates/index.html:118
 msgid "Использовать"
 msgstr "Use"
 
-#: app.py:212 templates/index.html:109
+#: app.py:215 templates/index.html:109
 msgid "Недавнее изображение"
 msgstr "Recent image"
 
-#: app.py:213
+#: app.py:216
 msgid "Палитра удалена!"
 msgstr "Palette deleted!"
 
-#: app.py:214
+#: app.py:217
 msgid "Ошибка при удалении:"
 msgstr "Delete error:"
 
-#: app.py:215
+#: app.py:218
 msgid "Произошла ошибка при удалении"
 msgstr "An error occurred while deleting"
 
-#: app.py:216
+#: app.py:219
 msgid "Вы уверены, что хотите удалить палитру"
 msgstr "Are you sure you want to delete the palette"
 
-#: app.py:217
+#: app.py:220
 msgid "Название палитры не может быть пустым."
 msgstr "Palette name cannot be empty."
 
-#: app.py:218
+#: app.py:221
 msgid "Название палитры обновлено!"
 msgstr "Palette name updated!"
 
-#: app.py:219
+#: app.py:222
 msgid "Ошибка при переименовании палитры"
 msgstr "Palette rename error"
 
-#: app.py:220
+#: app.py:223
 msgid "Произошла ошибка при переименовании палитры"
 msgstr "An error occurred while renaming the palette"
 
-#: app.py:221
+#: app.py:224
 msgid "Цвета скопированы в буфер обмена!"
 msgstr "Colors copied to clipboard!"
 
-#: app.py:222
+#: app.py:225
 msgid "Сначала сгенерируйте палитру!"
 msgstr "Generate a palette first!"
 
-#: app.py:223 routes/api.py:188 templates/base.html:98
+#: app.py:226 routes/api.py:188 templates/base.html:98
 msgid "Моя палитра"
 msgstr "My Palette"
 
-#: app.py:224
+#: app.py:227
 msgid "Скопировать HEX"
 msgstr "Copy HEX"
 
-#: app.py:225
+#: app.py:228
 #, python-format
 msgid "Выбор цвета %(index)s"
 msgstr "Color %(index)s picker"
 
-#: app.py:226
+#: app.py:229
 #, python-format
 msgid "HEX цвета %(index)s"
 msgstr "HEX color %(index)s"
 
-#: app.py:227
+#: app.py:230
 #, python-format
 msgid "Маркер цвета %(index)s"
 msgstr "Color marker %(index)s"
 
-#: app.py:248
+#: app.py:251
 msgid "Недействительный CSRF-токен. Обновите страницу и повторите попытку."
 msgstr "Invalid CSRF token. Refresh the page and try again."
 
-#: app.py:254
+#: app.py:257
 msgid "Сессия формы истекла. Обновите страницу и попробуйте снова."
 msgstr "Form session expired. Refresh the page and try again."
 
@@ -560,7 +560,7 @@ msgstr "Register"
 msgid "© 2026 Paleta. Все права защищены."
 msgstr "© 2026 Paleta. All rights reserved."
 
-#: templates/base.html:91 templates/generatePalet.html:32
+#: templates/base.html:91 templates/faq.html:85 templates/generatePalet.html:32
 #: templates/index.html:74
 msgid "Сохранить палитру"
 msgstr "Save Palette"
@@ -594,65 +594,255 @@ msgstr "Frequently Asked Questions"
 msgid "Найдите ответы на популярные вопросы о работе с генератором палитр"
 msgstr "Find answers to common questions about the palette generator."
 
-#: templates/faq.html:22
+#: templates/faq.html:28
 msgid "Как извлечь палитру из изображения?"
 msgstr "How do I extract a palette from an image?"
 
-#: templates/faq.html:28
-msgid "Откройте главную страницу и загрузите изображение."
-msgstr "Open the home page and upload an image."
+#: templates/faq.html:33
+#, fuzzy
+msgid "Для извлечения палитры из изображения:"
+msgstr "How do I extract a palette from an image?"
 
-#: templates/faq.html:29
-msgid "Выберите количество цветов и дождитесь анализа."
+#: templates/faq.html:35
+msgid "Перейдите на страницу"
+msgstr "Go to the page"
+
+#: templates/faq.html:35
+#, fuzzy
+msgid "\"Главная\""
+msgstr "Home"
+
+#: templates/faq.html:36
+#, fuzzy
+msgid "Нажмите на область загрузки или перетащите изображение"
+msgstr "Upload an image first!"
+
+#: templates/faq.html:37
+#, fuzzy
+msgid "Выберите количество цветов для извлечения (от 3 до 15)"
 msgstr "Choose the number of colors and wait for analysis."
 
-#: templates/faq.html:30
-msgid "Скопируйте, экспортируйте или сохраните палитру."
-msgstr "Copy, export, or save the palette."
+#: templates/faq.html:38
+#, fuzzy
+msgid "Дождитесь обработки изображения"
+msgstr "Image upload error"
 
 #: templates/faq.html:39
-msgid "Нужно ли регистрироваться?"
-msgstr "Do I need to register?"
+msgid "Получите готовую палитру с HEX-кодами"
+msgstr "Get a ready palette with HEX codes"
 
-#: templates/faq.html:44
-msgid "Регистрация не обязательна для генерации и экспорта палитр."
-msgstr "Registration is not required for palette generation and export."
+#: templates/faq.html:41
+#, fuzzy
+msgid "Поддерживаемые форматы:"
+msgstr "Unsupported export format"
 
-#: templates/faq.html:45
-msgid "Аккаунт нужен для сохранения палитр и доступа к разделу \"Мои палитры\"."
-msgstr "An account is required to save palettes and access \"My Palettes\"."
+#: templates/faq.html:51
+#, fuzzy
+msgid "Как сгенерировать случайную палитру?"
+msgstr "Generate Palette"
 
-#: templates/faq.html:53
-msgid "Какие форматы экспорта поддерживаются?"
-msgstr "Which export formats are supported?"
+#: templates/faq.html:56
+#, fuzzy
+msgid "Генерация случайной палитры очень проста:"
+msgstr "Random Palette Generation"
 
 #: templates/faq.html:58
-msgid "Поддерживаются форматы JSON, GPL, ASE, CSV и ACO."
-msgstr "Supported formats are JSON, GPL, ASE, CSV, and ACO."
+msgid "На странице"
+msgstr "On the page"
 
-#: templates/faq.html:66
-msgid "Как восстановить пароль?"
-msgstr "How do I recover my password?"
+#: templates/faq.html:58
+#, fuzzy
+msgid "\"Генерация палитры\""
+msgstr "Palette Generation"
 
-#: templates/faq.html:71
-msgid "На странице входа нажмите \"Забыли пароль?\" и выберите email или телефон."
-msgstr "On the sign-in page, click \"Forgot password?\" and choose email or phone."
+#: templates/faq.html:58
+msgid "нажмите кнопку генерации"
+msgstr "click the generate button"
 
-#: templates/faq.html:72
-msgid ""
-"После получения кода введите его на странице сброса и задайте новый "
-"пароль."
-msgstr ""
-"After receiving the code, enter it on the reset page and set a new "
-"password."
+#: templates/faq.html:59
+#, fuzzy
+msgid "Система создаст уникальную палитру из гармоничных цветов"
+msgstr "Create a unique color palette with the random color generator."
 
-#: templates/faq.html:80
+#: templates/faq.html:60
+msgid "Вы можете повторно генерировать палитру, пока не найдете идеальный вариант"
+msgstr "You can regenerate the palette until you find the perfect option"
+
+#: templates/faq.html:61
+msgid "Сохраните понравившуюся палитру в свой аккаунт"
+msgstr "Save the palette you like to your account"
+
+#: templates/faq.html:65
+msgid "Совет:"
+msgstr "Tip:"
+
+#: templates/faq.html:65
+msgid "Используйте случайные палитры для вдохновения, когда нужны свежие идеи."
+msgstr "Use random palettes for inspiration when you need fresh ideas."
+
+#: templates/faq.html:76
+#, fuzzy
+msgid "Как сохранить палитру?"
+msgstr "Save Palette"
+
+#: templates/faq.html:81
+msgid "Сохранение палитры доступно только для зарегистрированных пользователей:"
+msgstr "Saving a palette is available only for registered users:"
+
+#: templates/faq.html:83
+#, fuzzy
+msgid "Зарегистрируйтесь"
+msgstr "register"
+
+#: templates/faq.html:83 templates/forgot_password.html:44
+#: templates/generatePalet.html:34 templates/index.html:76
+#: templates/reset_password.html:45
+msgid "или"
+msgstr "or"
+
+#: templates/faq.html:83 templates/generatePalet.html:34
+#: templates/index.html:76
+msgid "войдите"
+msgstr "sign in"
+
+#: templates/faq.html:83
+#, fuzzy
+msgid "в аккаунт"
+msgstr "Don't have an account?"
+
+#: templates/faq.html:84
+#, fuzzy
+msgid "Сгенерируйте или извлеките палитру"
+msgstr "Generate Palette"
+
+#: templates/faq.html:85
+msgid "Нажмите кнопку"
+msgstr "Click the button"
+
+#: templates/faq.html:86
+#, fuzzy
+msgid "Введите название для вашей палитры"
+msgstr "New palette name"
+
+#: templates/faq.html:87
+#, fuzzy
+msgid "Подтвердите сохранение"
+msgstr "Please select an image"
+
+#: templates/faq.html:89
+msgid "Все сохраненные палитры доступны в разделе"
+msgstr "All saved palettes are available in the section"
+
+#: templates/faq.html:89
+#, fuzzy
+msgid "\"Мои палитры\""
+msgstr "My Palettes"
+
+#: templates/faq.html:92
+msgid "Важно:"
+msgstr "Important:"
+
+#: templates/faq.html:92
+msgid "Вы можете сохранять до 50 палитр в своем аккаунте."
+msgstr "You can save up to 50 palettes in your account."
+
+#: templates/faq.html:103
+#, fuzzy
+msgid "Нужно ли регистрироваться для использования?"
+msgstr "Do I need to register?"
+
+#: templates/faq.html:108
+#, fuzzy
+msgid "Регистрация не обязательна для базовых функций:"
+msgstr "Registration is not required for palette generation and export."
+
+#: templates/faq.html:115
+#, fuzzy
+msgid "Без регистрации"
+msgstr "Register"
+
+#: templates/faq.html:118
+#, fuzzy
+msgid "Генерация случайных палитр"
+msgstr "Random Palette Generation"
+
+#: templates/faq.html:119
+#, fuzzy
+msgid "Извлечение палитр из изображений"
+msgstr "How do I extract a palette from an image?"
+
+#: templates/faq.html:120
+#, fuzzy
+msgid "Экспорт палитр"
+msgstr "Save Palette"
+
+#: templates/faq.html:121
+#, fuzzy
+msgid "Копирование HEX-кодов"
+msgstr "Copy HEX"
+
+#: templates/faq.html:131
+#, fuzzy
+msgid "С регистрацией"
+msgstr "Register"
+
+#: templates/faq.html:134
+#, fuzzy
+msgid "Сохранение палитр"
+msgstr "Save Palette"
+
+#: templates/faq.html:135
+msgid "Доступ к \"Моим палитрам\""
+msgstr "Access to \"My Palettes\""
+
+#: templates/faq.html:136
+msgid "Управление коллекциями"
+msgstr "Collection management"
+
+#: templates/faq.html:137
+msgid "Синхронизация между устройствами"
+msgstr "Sync across devices"
+
+#: templates/faq.html:146
+#, fuzzy
+msgid "Зарегистрироваться бесплатно"
+msgstr "Register"
+
+#: templates/faq.html:158
 msgid "Есть ли мобильная версия?"
 msgstr "Is there a mobile version?"
 
-#: templates/faq.html:85
-msgid "Да, интерфейс адаптирован для смартфонов, планшетов и компьютеров."
-msgstr "Yes, the interface is optimized for smartphones, tablets, and desktops."
+#: templates/faq.html:163
+msgid "Да! Paleta полностью адаптивна и работает на всех устройствах:"
+msgstr "Yes! Paleta is fully responsive and works on all devices:"
+
+#: templates/faq.html:168
+msgid "Компьютеры"
+msgstr "Desktops"
+
+#: templates/faq.html:169
+msgid "Полнофункциональная версия"
+msgstr "Full-featured version"
+
+#: templates/faq.html:175
+msgid "Планшеты"
+msgstr "Tablets"
+
+#: templates/faq.html:176
+msgid "Удобный интерфейс"
+msgstr "Comfortable interface"
+
+#: templates/faq.html:182
+msgid "Смартфоны"
+msgstr "Smartphones"
+
+#: templates/faq.html:183
+msgid "Оптимизированный дизайн"
+msgstr "Optimized design"
+
+#: templates/faq.html:187
+msgid "Вы можете использовать Paleta прямо из браузера без установки приложения."
+msgstr "You can use Paleta directly in your browser without installing an app."
 
 #: templates/forgot_password.html:4
 msgid "Восстановление пароля"
@@ -675,11 +865,6 @@ msgstr "Phone"
 #: templates/forgot_password.html:37 templates/reset_password.html:37
 msgid "Email или номер телефона"
 msgstr "Email or Phone Number"
-
-#: templates/forgot_password.html:44 templates/generatePalet.html:34
-#: templates/index.html:76 templates/reset_password.html:45
-msgid "или"
-msgstr "or"
 
 #: templates/forgot_password.html:45 templates/reset_password.html:46
 msgid "Введите email или номер телефона"
@@ -730,10 +915,6 @@ msgstr "Actions"
 #: templates/generatePalet.html:34 templates/index.html:76
 msgid "Чтобы сохранить палитру,"
 msgstr "To save a palette,"
-
-#: templates/generatePalet.html:34 templates/index.html:76
-msgid "войдите"
-msgstr "sign in"
 
 #: templates/generatePalet.html:34 templates/index.html:76
 msgid "зарегистрируйтесь"
@@ -1060,3 +1241,43 @@ msgstr "Request a new code"
 
 #~ msgid "Пожалуйста, войдите, чтобы получить доступ к этой странице."
 #~ msgstr "Please log in to access this page."
+
+#~ msgid "Откройте главную страницу и загрузите изображение."
+#~ msgstr "Open the home page and upload an image."
+
+#~ msgid "Скопируйте, экспортируйте или сохраните палитру."
+#~ msgstr "Copy, export, or save the palette."
+
+#~ msgid ""
+#~ "Аккаунт нужен для сохранения палитр и"
+#~ " доступа к разделу \"Мои палитры\"."
+#~ msgstr "An account is required to save palettes and access \"My Palettes\"."
+
+#~ msgid "Какие форматы экспорта поддерживаются?"
+#~ msgstr "Which export formats are supported?"
+
+#~ msgid "Поддерживаются форматы JSON, GPL, ASE, CSV и ACO."
+#~ msgstr "Supported formats are JSON, GPL, ASE, CSV, and ACO."
+
+#~ msgid "Как восстановить пароль?"
+#~ msgstr "How do I recover my password?"
+
+#~ msgid ""
+#~ "На странице входа нажмите \"Забыли "
+#~ "пароль?\" и выберите email или телефон."
+#~ msgstr ""
+#~ "On the sign-in page, click "
+#~ "\"Forgot password?\" and choose email or"
+#~ " phone."
+
+#~ msgid ""
+#~ "После получения кода введите его на "
+#~ "странице сброса и задайте новый пароль."
+#~ msgstr ""
+#~ "After receiving the code, enter it "
+#~ "on the reset page and set a "
+#~ "new password."
+
+#~ msgid "Да, интерфейс адаптирован для смартфонов, планшетов и компьютеров."
+#~ msgstr "Yes, the interface is optimized for smartphones, tablets, and desktops."
+
