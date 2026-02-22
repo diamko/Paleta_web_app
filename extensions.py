@@ -1,3 +1,8 @@
+"""
+Модуль: `extensions.py`.
+Назначение: Инициализация и экспорт экземпляров Flask-расширений.
+"""
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_cors import CORS

@@ -1,3 +1,8 @@
+/*
+ * Модуль: `static/js/palette/dom.js`.
+ * Назначение: Модуль клиентской логики страницы извлечения и редактирования палитры.
+ */
+
 export function collectPaletteElements(root = document) {
     return {
         uploadZone: root.getElementById('uploadZone'),
@@ -25,6 +30,9 @@ export function collectPaletteElements(root = document) {
     };
 }
 
+/**
+ * Выполняет операцию `hasPalettePageElements` для соответствующего сценария интерфейса.
+ */
 export function hasPalettePageElements(elements) {
     return Boolean(
         elements.uploadZone &&

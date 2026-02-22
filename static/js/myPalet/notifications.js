@@ -1,3 +1,8 @@
+/*
+ * Модуль: `static/js/myPalet/notifications.js`.
+ * Назначение: Модуль клиентской логики раздела «Мои палитры».
+ */
+
 export function showToast(message, type = 'success') {
     if (typeof window.showToast === 'function') {
         window.showToast(message, type);

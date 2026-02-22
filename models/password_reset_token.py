@@ -9,6 +9,7 @@ from extensions import db
 
 
 class PasswordResetToken(db.Model):
+    """Класс `PasswordResetToken` описывает сущность текущего модуля."""
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, index=True)
     channel = db.Column(db.String(10), nullable=False, index=True)  # email | phone

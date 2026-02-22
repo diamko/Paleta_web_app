@@ -1,3 +1,8 @@
+/*
+ * Модуль: `static/js/palette/index.js`.
+ * Назначение: Модуль клиентской логики страницы извлечения и редактирования палитры.
+ */
+
 import { bindPaletteActions } from './actions.js';
 import { collectPaletteElements, hasPalettePageElements } from './dom.js';
 import { createMarkerController } from './markers.js';
@@ -5,6 +10,9 @@ import { createPaletteState } from './state.js';
 import { createUploadController } from './uploads.js';
 import { createPaletteView } from './view.js';
 
+/**
+ * Выполняет операцию `initPalettePage` для соответствующего сценария интерфейса.
+ */
 export function initPalettePage() {
     const elements = collectPaletteElements();
     if (!hasPalettePageElements(elements)) {

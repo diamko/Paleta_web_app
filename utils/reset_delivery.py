@@ -1,3 +1,8 @@
+"""
+Модуль: `utils/reset_delivery.py`.
+Назначение: Доставка кода восстановления через email и SMS-провайдер.
+"""
+
 import json
 import smtplib
 import ssl
@@ -9,6 +14,7 @@ from flask import current_app
 
 
 def send_password_reset_code(channel: str, destination: str, code: str) -> bool:
+    """Выполняет операцию `send_password_reset_code` в рамках сценария модуля."""
     if channel == "email":
         return _send_email_code(destination, code)
     if channel == "phone":
@@ -17,6 +23,7 @@ def send_password_reset_code(channel: str, destination: str, code: str) -> bool:
 
 
 def _send_email_code(email: str, code: str) -> bool:
+    """Служебная функция `_send_email_code` для внутренней логики модуля."""
     cfg = current_app.config
     host = cfg.get("SMTP_HOST", "").strip()
     sender = cfg.get("SMTP_FROM", "").strip()
@@ -61,6 +68,7 @@ def _send_email_code(email: str, code: str) -> bool:
 
 
 def _send_sms_code(phone: str, code: str) -> bool:
+    """Служебная функция `_send_sms_code` для внутренней логики модуля."""
     cfg = current_app.config
     api_url = cfg.get("SMS_API_URL", "").strip()
     if not api_url:

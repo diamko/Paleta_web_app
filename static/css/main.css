@@ -1,3 +1,8 @@
+/*
+ * Файл: `static/css/main.css`.
+ * Назначение: Главный агрегирующий CSS-файл с импортом модульных стилей.
+ */
+
 @import url('./main/base.css');
 @import url('./main/typography.css');
 @import url('./main/faq.css');

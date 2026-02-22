@@ -1,3 +1,8 @@
+/*
+ * Модуль: `static/js/randomPalette.js`.
+ * Назначение: Логика генерации случайной палитры и работы с её действиями.
+ */
+
 const t = window.t || ((key, fallback) => fallback || key);
 const currentLang = window.currentLang || 'en';
 

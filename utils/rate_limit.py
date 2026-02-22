@@ -1,3 +1,8 @@
+"""
+Модуль: `utils/rate_limit.py`.
+Назначение: Локальный in-memory rate limiter и утилиты идентификации клиентов.
+"""
+
 import time
 from collections import defaultdict, deque
 from threading import Lock
@@ -9,10 +14,12 @@ class InMemoryRateLimiter:
     """Простой in-memory rate limiter (sliding window)."""
 
     def __init__(self):
+        """Служебная функция `__init__` для внутренней логики модуля."""
         self._events = defaultdict(deque)
         self._lock = Lock()
 
     def is_allowed(self, key: str, limit: int, window_seconds: int) -> bool:
+        """Выполняет операцию `is_allowed` в рамках сценария модуля."""
         if limit <= 0 or window_seconds <= 0:
             return False
 

@@ -1,3 +1,8 @@
+/*
+ * Файл: `static/css/main/forms.css`.
+ * Назначение: Стили форм, полей ввода и связанных элементов.
+ */
+
 /* ===== ЭЛЕМЕНТЫ ФОРМЫ ===== */
 .form-control, .form-select {
     font-family: var(--font-main);

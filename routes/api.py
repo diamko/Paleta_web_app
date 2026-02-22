@@ -27,14 +27,17 @@ Image.MAX_IMAGE_PIXELS = Config.MAX_IMAGE_PIXELS
 
 
 def _allowed_file(filename: str) -> bool:
+    """Служебная функция `_allowed_file` для внутренней логики модуля."""
     return Config.allowed_file(filename)
 
 
 def _api_error(message: str, status: int = 400):
+    """Служебная функция `_api_error` для внутренней логики модуля."""
     return jsonify({"success": False, "error": message}), status
 
 
 def _rate_limited(bucket: str, limit: int, window_seconds: int, identity: str | None = None) -> bool:
+    """Служебная функция `_rate_limited` для внутренней логики модуля."""
     limiter = current_app.extensions.get("rate_limiter")
     if limiter is None:
         return False
@@ -45,12 +48,14 @@ def _rate_limited(bucket: str, limit: int, window_seconds: int, identity: str | 
 
 
 def _clamp_color_count(raw_value: int | None) -> int:
+    """Служебная функция `_clamp_color_count` для внутренней логики модуля."""
     if raw_value is None:
         return 5
     return max(Config.MIN_COLOR_COUNT, min(Config.MAX_COLOR_COUNT, raw_value))
 
 
 def _validate_uploaded_image(file_storage):
+    """Служебная функция `_validate_uploaded_image` для внутренней логики модуля."""
     file_storage.stream.seek(0)
     try:
         with Image.open(file_storage.stream) as image:
@@ -80,6 +85,7 @@ def _validate_uploaded_image(file_storage):
 
 
 def _normalize_palette_colors(colors):
+    """Служебная функция `_normalize_palette_colors` для внутренней логики модуля."""
     if not isinstance(colors, list):
         return None
 
@@ -100,6 +106,7 @@ def _normalize_palette_colors(colors):
 
 
 def _translated_variants(message_id: str) -> set[str]:
+    """Служебная функция `_translated_variants` для внутренней логики модуля."""
     variants: set[str] = set()
     translated = _(message_id)
     if isinstance(translated, str):
@@ -121,12 +128,14 @@ def _translated_variants(message_id: str) -> set[str]:
 
 
 def _default_palette_base_variants() -> set[str]:
+    """Служебная функция `_default_palette_base_variants` для внутренней логики модуля."""
     variants = _translated_variants("Моя палитра")
     variants.update({"Моя палитра", "My Palette"})
     return variants
 
 
 def _default_palette_aliases() -> set[str]:
+    """Служебная функция `_default_palette_aliases` для внутренней логики модуля."""
     aliases = set(_default_palette_base_variants())
     aliases.update(_translated_variants("Без названия"))
     aliases.update({"Untitled Palette", "Random Palette"})
@@ -134,6 +143,7 @@ def _default_palette_aliases() -> set[str]:
 
 
 def _default_palette_name_for_lang(lang_hint: str | None) -> str:
+    """Служебная функция `_default_palette_name_for_lang` для внутренней логики модуля."""
     if lang_hint and lang_hint in Config.SUPPORTED_LANGUAGES:
         with force_locale(lang_hint):
             return _("Моя палитра").strip()
@@ -141,6 +151,7 @@ def _default_palette_name_for_lang(lang_hint: str | None) -> str:
 
 
 def _lang_hint_from_referrer(referrer: str | None) -> str | None:
+    """Служебная функция `_lang_hint_from_referrer` для внутренней логики модуля."""
     if not referrer:
         return None
 
@@ -159,6 +170,7 @@ def _lang_hint_from_referrer(referrer: str | None) -> str | None:
 
 
 def register_routes(app):
+    """Выполняет операцию `register_routes` в рамках сценария модуля."""
     @app.route("/api/upload", methods=["POST"])
     def upload_image():
         """Обработчик загрузки изображения и извлечения палитры."""
@@ -222,6 +234,7 @@ def register_routes(app):
     @app.route("/api/palettes/save", methods=["POST"])
     @login_required
     def save_palette():
+        """Выполняет операцию `save_palette` в рамках сценария модуля."""
         try:
             if _rate_limited(f"palette_save:user:{current_user.id}", limit=60, window_seconds=10 * 60):
                 return _api_error(_("Слишком много запросов. Попробуйте позже."), 429)
@@ -352,6 +365,7 @@ def register_routes(app):
     @app.route("/api/palettes/delete/<int:palette_id>", methods=["DELETE"])
     @login_required
     def delete_palette(palette_id: int):
+        """Выполняет операцию `delete_palette` в рамках сценария модуля."""
         try:
             if _rate_limited(f"palette_delete:user:{current_user.id}", limit=60, window_seconds=10 * 60):
                 return _api_error(_("Слишком много запросов. Попробуйте позже."), 429)
@@ -380,6 +394,7 @@ def register_routes(app):
 
     @app.route("/api/export", methods=["POST"])
     def export_palette():
+        """Выполняет операцию `export_palette` в рамках сценария модуля."""
         try:
             if _rate_limited("export", limit=120, window_seconds=10 * 60):
                 return _api_error(_("Слишком много экспортов. Попробуйте позже."), 429)
@@ -416,6 +431,7 @@ def register_routes(app):
 
             @response.call_on_close
             def cleanup():
+                """Выполняет операцию `cleanup` в рамках сценария модуля."""
                 if os.path.exists(temp_path):
                     os.unlink(temp_path)
 
@@ -427,8 +443,10 @@ def register_routes(app):
 
     @app.route("/static/uploads/<filename>")
     def uploaded_file(filename):
+        """Выполняет операцию `uploaded_file` в рамках сценария модуля."""
         return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
     @app.route("/favicon.ico")
     def favicon():
+        """Выполняет операцию `favicon` в рамках сценария модуля."""
         return "", 204

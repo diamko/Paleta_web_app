@@ -1,5 +1,13 @@
+/*
+ * Модуль: `static/js/palette/utils.js`.
+ * Назначение: Модуль клиентской логики страницы извлечения и редактирования палитры.
+ */
+
 const t = window.t || ((key, fallback) => fallback || key);
 
+/**
+ * Выполняет операцию `dataURLToBlob` для соответствующего сценария интерфейса.
+ */
 export function dataURLToBlob(dataURL) {
     const parts = dataURL.split(';base64,');
     const contentType = parts[0].split(':')[1];
@@ -14,14 +22,23 @@ export function dataURLToBlob(dataURL) {
     return new Blob([uInt8Array], { type: contentType });
 }
 
+/**
+ * Выполняет операцию `clamp` для соответствующего сценария интерфейса.
+ */
 export function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
 }
 
+/**
+ * Выполняет операцию `rgbToHex` для соответствующего сценария интерфейса.
+ */
 export function rgbToHex(r, g, b) {
     return `#${[r, g, b].map(channel => channel.toString(16).padStart(2, '0')).join('').toUpperCase()}`;
 }
 
+/**
+ * Выполняет операцию `normalizeHexColor` для соответствующего сценария интерфейса.
+ */
 export function normalizeHexColor(value) {
     if (typeof value !== 'string') return null;
     const sanitized = value.trim().toUpperCase();
@@ -39,6 +56,9 @@ export function normalizeHexColor(value) {
     return null;
 }
 
+/**
+ * Выполняет операцию `hexToRgb` для соответствующего сценария интерфейса.
+ */
 export function hexToRgb(hex) {
     const normalized = normalizeHexColor(hex);
     if (!normalized) return null;
@@ -50,6 +70,9 @@ export function hexToRgb(hex) {
     };
 }
 
+/**
+ * Выполняет операцию `showToast` для соответствующего сценария интерфейса.
+ */
 export function showToast(message, type = 'success') {
     if (typeof window.showToast === 'function') {
         window.showToast(message, type);

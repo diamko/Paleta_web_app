@@ -122,6 +122,7 @@ class Config:
 
     @staticmethod
     def allowed_file(filename: str) -> bool:
+        """Выполняет операцию `allowed_file` в рамках сценария модуля."""
         return (
             "." in filename
             and filename.rsplit(".", 1)[1].lower() in Config.ALLOWED_EXTENSIONS

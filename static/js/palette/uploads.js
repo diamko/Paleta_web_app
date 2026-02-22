@@ -1,3 +1,8 @@
+/*
+ * Модуль: `static/js/palette/uploads.js`.
+ * Назначение: Модуль клиентской логики страницы извлечения и редактирования палитры.
+ */
+
 import { showToast } from './utils.js';
 import { withCsrfHeaders } from '../security/csrf.js';
 
@@ -5,6 +10,9 @@ const t = window.t || ((key, fallback) => fallback || key);
 const currentLang = (window.currentLang || 'en').toLowerCase();
 const dateLocale = currentLang === 'ru' ? 'ru-RU' : 'en-US';
 
+/**
+ * Выполняет операцию `createUploadController` для соответствующего сценария интерфейса.
+ */
 export function createUploadController({ elements, state, paletteView, markerController }) {
     function preventDefaults(event) {
         event.preventDefault();

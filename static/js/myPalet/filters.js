@@ -1,3 +1,8 @@
+/*
+ * Модуль: `static/js/myPalet/filters.js`.
+ * Назначение: Модуль клиентской логики раздела «Мои палитры».
+ */
+
 export function createFiltersController(elements) {
     function updateCounts() {
         const cards = document.querySelectorAll('.palette-card');

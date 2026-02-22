@@ -1,3 +1,8 @@
+/*
+ * Модуль: `static/js/i18n.js`.
+ * Назначение: Инициализация словаря переводов и функции локализации на клиенте.
+ */
+
 (function initI18n(global) {
     const dictionary = global.__I18N__ || {};
     const fallbackLang = (global.__LANG__ || 'en').toLowerCase();

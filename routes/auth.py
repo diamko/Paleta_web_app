@@ -22,10 +22,12 @@ from utils.reset_delivery import send_password_reset_code
 
 @login_manager.user_loader
 def load_user(user_id):
+    """Выполняет операцию `load_user` в рамках сценария модуля."""
     return db.session.get(User, int(user_id))
 
 
 def _current_lang() -> str:
+    """Служебная функция `_current_lang` для внутренней логики модуля."""
     lang = (request.view_args or {}).get("lang") if request.view_args else None
     if lang:
         return lang
@@ -33,11 +35,13 @@ def _current_lang() -> str:
 
 
 def _localized_redirect(endpoint: str, code: int = 302, **values):
+    """Служебная функция `_localized_redirect` для внутренней логики модуля."""
     values.setdefault("lang", _current_lang())
     return redirect(url_for(endpoint, **values), code=code)
 
 
 def _validate_password_strength(password: str, username: str | None = None) -> str | None:
+    """Служебная функция `_validate_password_strength` для внутренней логики модуля."""
     if not (10 <= len(password) <= 16):
         return _("Пароль должен содержать от 10 до 16 символов.")
     if any(ch.isspace() for ch in password):
@@ -56,6 +60,7 @@ def _validate_password_strength(password: str, username: str | None = None) -> s
 
 
 def _normalize_contact(channel: str, raw_value: str) -> str:
+    """Служебная функция `_normalize_contact` для внутренней логики модуля."""
     if channel == "email":
         return normalize_email(raw_value)
     if channel == "phone":
@@ -64,6 +69,7 @@ def _normalize_contact(channel: str, raw_value: str) -> str:
 
 
 def _find_user_contact(channel: str, destination: str) -> UserContact | None:
+    """Служебная функция `_find_user_contact` для внутренней логики модуля."""
     if channel == "email":
         return UserContact.query.filter_by(email=destination).first()
     if channel == "phone":
@@ -72,6 +78,7 @@ def _find_user_contact(channel: str, destination: str) -> UserContact | None:
 
 
 def _validate_username(username: str) -> str | None:
+    """Служебная функция `_validate_username` для внутренней логики модуля."""
     if not username:
         return _("Имя пользователя обязательно.")
     if len(username) < 3:
@@ -84,6 +91,7 @@ def _validate_username(username: str) -> str | None:
 
 
 def _issue_reset_code(user_id: int, channel: str, destination: str) -> tuple[bool, str]:
+    """Служебная функция `_issue_reset_code` для внутренней логики модуля."""
     now = datetime.utcnow()
     expires_at = now + timedelta(
         minutes=max(5, int(current_app.config.get("PASSWORD_RESET_CODE_TTL_MINUTES", 15)))
@@ -120,6 +128,7 @@ def _issue_reset_code(user_id: int, channel: str, destination: str) -> tuple[boo
 
 
 def _get_active_reset_token(user_id: int, channel: str, destination: str) -> PasswordResetToken | None:
+    """Служебная функция `_get_active_reset_token` для внутренней логики модуля."""
     now = datetime.utcnow()
     return (
         PasswordResetToken.query.filter_by(
@@ -135,7 +144,9 @@ def _get_active_reset_token(user_id: int, channel: str, destination: str) -> Pas
 
 
 def register_routes(app):
+    """Выполняет операцию `register_routes` в рамках сценария модуля."""
     def _is_rate_limited(bucket: str, limit: int, window_seconds: int, identity: str | None = None) -> bool:
+        """Служебная функция `_is_rate_limited` для внутренней логики модуля."""
         limiter = current_app.extensions.get("rate_limiter")
         if limiter is None:
             return False
@@ -146,10 +157,12 @@ def register_routes(app):
 
     @app.get("/register")
     def register_legacy():
+        """Выполняет операцию `register_legacy` в рамках сценария модуля."""
         return redirect(url_for("register", lang="ru"), code=301)
 
     @app.route("/<lang>/register", methods=["GET", "POST"])
     def register(lang):
+        """Выполняет операцию `register` в рамках сценария модуля."""
         if request.method == "POST":
             if _is_rate_limited("register", limit=10, window_seconds=15 * 60):
                 flash(_("Слишком много попыток регистрации. Попробуйте через несколько минут."), "error")
@@ -213,10 +226,12 @@ def register_routes(app):
 
     @app.get("/login")
     def login_legacy():
+        """Выполняет операцию `login_legacy` в рамках сценария модуля."""
         return redirect(url_for("login", lang="ru"), code=301)
 
     @app.route("/<lang>/login", methods=["GET", "POST"])
     def login(lang):
+        """Выполняет операцию `login` в рамках сценария модуля."""
         if request.method == "POST":
             username = request.form.get("username")
             password = request.form.get("password")
@@ -252,20 +267,24 @@ def register_routes(app):
 
     @app.get("/profile")
     def profile_legacy():
+        """Выполняет операцию `profile_legacy` в рамках сценария модуля."""
         return redirect(url_for("profile", lang="ru"), code=301)
 
     @app.get("/<lang>/profile")
     @login_required
     def profile(lang):
+        """Выполняет операцию `profile` в рамках сценария модуля."""
         return render_template("profile.html", profile_contact=current_user.contact)
 
     @app.post("/profile/update")
     def profile_update_legacy():
+        """Выполняет операцию `profile_update_legacy` в рамках сценария модуля."""
         return redirect(url_for("profile_update", lang="ru"), code=308)
 
     @app.post("/<lang>/profile/update")
     @login_required
     def profile_update(lang):
+        """Выполняет операцию `profile_update` в рамках сценария модуля."""
         if _is_rate_limited("profile_update", limit=15, window_seconds=15 * 60, identity=str(current_user.id)):
             flash(_("Слишком много попыток изменения профиля. Попробуйте позже."), "error")
             return _localized_redirect("profile")
@@ -337,11 +356,13 @@ def register_routes(app):
 
     @app.post("/profile/password/send-code")
     def profile_send_password_code_legacy():
+        """Выполняет операцию `profile_send_password_code_legacy` в рамках сценария модуля."""
         return redirect(url_for("profile_send_password_code", lang="ru"), code=308)
 
     @app.post("/<lang>/profile/password/send-code")
     @login_required
     def profile_send_password_code(lang):
+        """Выполняет операцию `profile_send_password_code` в рамках сценария модуля."""
         if _is_rate_limited(
             "profile_password_send",
             limit=8,
@@ -390,11 +411,13 @@ def register_routes(app):
 
     @app.post("/profile/password/change")
     def profile_change_password_legacy():
+        """Выполняет операцию `profile_change_password_legacy` в рамках сценария модуля."""
         return redirect(url_for("profile_change_password", lang="ru"), code=308)
 
     @app.post("/<lang>/profile/password/change")
     @login_required
     def profile_change_password(lang):
+        """Выполняет операцию `profile_change_password` в рамках сценария модуля."""
         if _is_rate_limited(
             "profile_password_change",
             limit=15,
@@ -479,10 +502,12 @@ def register_routes(app):
 
     @app.get("/forgot-password")
     def forgot_password_legacy():
+        """Выполняет операцию `forgot_password_legacy` в рамках сценария модуля."""
         return redirect(url_for("forgot_password", lang="ru"), code=301)
 
     @app.route("/<lang>/forgot-password", methods=["GET", "POST"])
     def forgot_password(lang):
+        """Выполняет операцию `forgot_password` в рамках сценария модуля."""
         if request.method == "POST":
             if _is_rate_limited("forgot_password_ip", limit=8, window_seconds=15 * 60):
                 flash(_("Слишком много запросов. Попробуйте позже."), "error")
@@ -526,10 +551,12 @@ def register_routes(app):
 
     @app.get("/reset-password")
     def reset_password_legacy():
+        """Выполняет операцию `reset_password_legacy` в рамках сценария модуля."""
         return redirect(url_for("reset_password", lang="ru"), code=301)
 
     @app.route("/<lang>/reset-password", methods=["GET", "POST"])
     def reset_password(lang):
+        """Выполняет операцию `reset_password` в рамках сценария модуля."""
         if request.method == "POST":
             if _is_rate_limited("reset_password_ip", limit=20, window_seconds=15 * 60):
                 flash(_("Слишком много попыток сброса пароля. Попробуйте позже."), "error")
@@ -627,11 +654,13 @@ def register_routes(app):
 
     @app.post("/logout")
     def logout_legacy():
+        """Выполняет операцию `logout_legacy` в рамках сценария модуля."""
         return redirect(url_for("logout", lang="ru"), code=308)
 
     @app.route("/<lang>/logout", methods=["POST"])
     @login_required
     def logout(lang):
+        """Выполняет операцию `logout` в рамках сценария модуля."""
         session.pop("last_upload", None)
         logout_user()
         flash(_("Вы вышли из системы"), "info")

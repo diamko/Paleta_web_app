@@ -1,8 +1,16 @@
+/*
+ * Модуль: `static/js/myPalet/palette-actions.js`.
+ * Назначение: Модуль клиентской логики раздела «Мои палитры».
+ */
+
 import { withCsrfHeaders } from '../security/csrf.js';
 
 const t = window.t || ((key, fallback) => fallback || key);
 const currentLang = window.currentLang || 'en';
 
+/**
+ * Выполняет операцию `createPaletteActions` для соответствующего сценария интерфейса.
+ */
 export function createPaletteActions({ state, showToast }) {
     function buildDownloadFilename(name, format) {
         const safeName = (name || '')

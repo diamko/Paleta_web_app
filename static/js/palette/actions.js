@@ -1,9 +1,17 @@
+/*
+ * Модуль: `static/js/palette/actions.js`.
+ * Назначение: Модуль клиентской логики страницы извлечения и редактирования палитры.
+ */
+
 import { dataURLToBlob, showToast } from './utils.js';
 import { withCsrfHeaders } from '../security/csrf.js';
 
 const t = window.t || ((key, fallback) => fallback || key);
 const currentLang = window.currentLang || 'en';
 
+/**
+ * Выполняет операцию `bindPaletteActions` для соответствующего сценария интерфейса.
+ */
 export function bindPaletteActions({ elements, state, paletteView, markerController }) {
     elements.imagePreview.addEventListener('load', () => {
         markerController.rebuildSampleCanvas();

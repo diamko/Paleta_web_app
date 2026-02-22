@@ -1,15 +1,22 @@
+"""
+Модуль: `utils/i18n.py`.
+Назначение: Вспомогательная логика выбора и нормализации языка интерфейса.
+"""
+
 from __future__ import annotations
 
 from flask import Request
 
 
 def is_supported_language(lang: str | None, supported_languages: tuple[str, ...]) -> bool:
+    """Выполняет операцию `is_supported_language` в рамках сценария модуля."""
     if not lang:
         return False
     return lang.strip().lower() in supported_languages
 
 
 def _normalize_language(lang: str | None, supported_languages: tuple[str, ...], default_language: str) -> str:
+    """Служебная функция `_normalize_language` для внутренней логики модуля."""
     if not lang:
         return default_language
     normalized = lang.strip().lower()
@@ -24,6 +31,7 @@ def resolve_auto_language(
     default_language: str,
     ru_country_codes: set[str],
 ) -> str:
+    """Выполняет операцию `resolve_auto_language` в рамках сценария модуля."""
     country_code = (request.headers.get("X-Country-Code") or "").strip().upper()
     if country_code and country_code in ru_country_codes and "ru" in supported_languages:
         return "ru"
@@ -43,6 +51,7 @@ def resolve_request_language(
     default_language: str,
     ru_country_codes: set[str],
 ) -> str:
+    """Выполняет операцию `resolve_request_language` в рамках сценария модуля."""
     default = _normalize_language(default_language, supported_languages, supported_languages[0])
 
     if is_supported_language(url_lang, supported_languages):

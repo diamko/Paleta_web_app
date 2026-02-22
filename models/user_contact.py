@@ -9,6 +9,7 @@ from extensions import db
 
 
 class UserContact(db.Model):
+    """Класс `UserContact` описывает сущность текущего модуля."""
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, unique=True)
     email = db.Column(db.String(120), unique=True, nullable=True, index=True)

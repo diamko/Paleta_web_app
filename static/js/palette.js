@@ -1,3 +1,8 @@
+/*
+ * Модуль: `static/js/palette.js`.
+ * Назначение: Точка входа для страницы извлечения палитры из изображения.
+ */
+
 import { initPalettePage } from './palette/index.js';
 
 if (document.readyState === 'loading') {

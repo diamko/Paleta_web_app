@@ -47,6 +47,7 @@ def create_app() -> Flask:
     login_manager.init_app(app)
 
     def select_locale() -> str:
+        """Выполняет операцию `select_locale` в рамках сценария модуля."""
         return getattr(g, "lang", app.config["DEFAULT_LANGUAGE"])
 
     babel.init_app(app, locale_selector=select_locale)
@@ -76,6 +77,7 @@ def create_app() -> Flask:
         db.create_all()
 
     def _resolve_request_lang(url_lang: str | None = None) -> str:
+        """Служебная функция `_resolve_request_lang` для внутренней логики модуля."""
         supported_languages: tuple[str, ...] = app.config["SUPPORTED_LANGUAGES"]
         return resolve_request_language(
             request=request,
@@ -87,6 +89,7 @@ def create_app() -> Flask:
         )
 
     def _ensure_csrf_token() -> str:
+        """Служебная функция `_ensure_csrf_token` для внутренней логики модуля."""
         token = session.get("csrf_token")
         if not token:
             token = secrets.token_urlsafe(32)
@@ -94,6 +97,7 @@ def create_app() -> Flask:
         return token
 
     def _is_csrf_valid() -> bool:
+        """Служебная функция `_is_csrf_valid` для внутренней логики модуля."""
         expected = session.get("csrf_token")
         provided = request.headers.get("X-CSRF-Token") or request.form.get("csrf_token")
         if not expected or not provided:
@@ -101,11 +105,13 @@ def create_app() -> Flask:
         return hmac.compare_digest(expected, provided)
 
     def _language_for_url() -> str:
+        """Служебная функция `_language_for_url` для внутренней логики модуля."""
         if not has_request_context():
             return app.config["DEFAULT_LANGUAGE"]
         return getattr(g, "lang", app.config["DEFAULT_LANGUAGE"])
 
     def _alternate_lang_url(target_lang: str) -> str:
+        """Служебная функция `_alternate_lang_url` для внутренней логики модуля."""
         supported_languages: tuple[str, ...] = app.config["SUPPORTED_LANGUAGES"]
         if not is_supported_language(target_lang, supported_languages):
             target_lang = app.config["DEFAULT_LANGUAGE"]
@@ -138,6 +144,7 @@ def create_app() -> Flask:
 
     @login_manager.unauthorized_handler
     def handle_unauthorized():
+        """Выполняет операцию `handle_unauthorized` в рамках сценария модуля."""
         flash(_(login_manager.login_message), login_manager.login_message_category)
         next_url = request.full_path if request.query_string else request.path
         if next_url.endswith("?"):
@@ -146,6 +153,7 @@ def create_app() -> Flask:
 
     @app.url_defaults
     def add_language_code(endpoint, values):
+        """Выполняет операцию `add_language_code` в рамках сценария модуля."""
         if "lang" in values:
             return
 
@@ -171,6 +179,7 @@ def create_app() -> Flask:
 
     @app.before_request
     def resolve_request_language_middleware():
+        """Выполняет операцию `resolve_request_language_middleware` в рамках сценария модуля."""
         supported_languages: tuple[str, ...] = app.config["SUPPORTED_LANGUAGES"]
         url_lang = (request.view_args or {}).get("lang") if request.view_args else None
 
@@ -184,6 +193,7 @@ def create_app() -> Flask:
 
     @app.context_processor
     def inject_template_globals():
+        """Выполняет операцию `inject_template_globals` в рамках сценария модуля."""
         return {
             "csrf_token": _ensure_csrf_token(),
             "current_lang": _language_for_url(),
@@ -237,6 +247,7 @@ def create_app() -> Flask:
 
     @app.before_request
     def enforce_csrf():
+        """Выполняет операцию `enforce_csrf` в рамках сценария модуля."""
         if request.method in {"GET", "HEAD", "OPTIONS", "TRACE"}:
             return None
 
@@ -262,6 +273,7 @@ def create_app() -> Flask:
 
     @app.after_request
     def persist_lang_cookie(response):
+        """Выполняет операцию `persist_lang_cookie` в рамках сценария модуля."""
         supported_languages: tuple[str, ...] = app.config["SUPPORTED_LANGUAGES"]
         request_lang = (request.view_args or {}).get("lang") if request.view_args else None
 
@@ -282,6 +294,7 @@ def create_app() -> Flask:
 
     @app.after_request
     def apply_security_headers(response):
+        """Выполняет операцию `apply_security_headers` в рамках сценария модуля."""
         response.headers.setdefault("X-Frame-Options", "DENY")
         response.headers.setdefault("X-Content-Type-Options", "nosniff")
         response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
@@ -290,6 +303,7 @@ def create_app() -> Flask:
 
     @app.get("/healthz")
     def healthz():
+        """Выполняет операцию `healthz` в рамках сценария модуля."""
         return {"status": "ok"}, 200
 
     return app

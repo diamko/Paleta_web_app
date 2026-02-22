@@ -12,6 +12,7 @@ from extensions import db
 
 
 class Upload(db.Model):
+    """Класс `Upload` описывает сущность текущего модуля."""
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)

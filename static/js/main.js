@@ -1,3 +1,8 @@
+/*
+ * Модуль: `static/js/main.js`.
+ * Назначение: Глобальные UI-сценарии, уведомления и общие обработчики интерфейса.
+ */
+
 const t = window.t || ((key, fallback) => fallback || key);
 
 window.addEventListener('scroll', function () {

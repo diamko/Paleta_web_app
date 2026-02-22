@@ -1,3 +1,8 @@
+/*
+ * Модуль: `static/js/myPalet/index.js`.
+ * Назначение: Модуль клиентской логики раздела «Мои палитры».
+ */
+
 import { copyPalette } from './clipboard.js';
 import { createFiltersController } from './filters.js';
 import { showToast } from './notifications.js';
@@ -21,6 +26,9 @@ function collectMyPaletElements(root = document) {
     };
 }
 
+/**
+ * Выполняет операцию `initMyPaletPage` для соответствующего сценария интерфейса.
+ */
 export function initMyPaletPage() {
     const elements = collectMyPaletElements();
 

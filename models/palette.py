@@ -12,6 +12,7 @@ from datetime import datetime
 from extensions import db
 
 class Palette(db.Model):
+    """Класс `Palette` описывает сущность текущего модуля."""
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False, default='Без названия')
     colors = db.Column(db.JSON, nullable=False)
@@ -19,6 +20,7 @@ class Palette(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
     def to_gpl_format(self):
+        """Выполняет операцию `to_gpl_format` в рамках сценария модуля."""
         gpl = f"GIMP Palette\nName: {self.name}\n#\n"
         for color in self.colors:
             hex_color = color.lstrip('#')

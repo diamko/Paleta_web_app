@@ -1,3 +1,8 @@
+/*
+ * Модуль: `static/js/palette/markers.js`.
+ * Назначение: Модуль клиентской логики страницы извлечения и редактирования палитры.
+ */
+
 import { clamp, hexToRgb, rgbToHex } from './utils.js';
 
 const t = window.t || ((key, fallback, params = {}) => {
@@ -8,6 +13,9 @@ const t = window.t || ((key, fallback, params = {}) => {
     return text;
 });
 
+/**
+ * Выполняет операцию `createMarkerController` для соответствующего сценария интерфейса.
+ */
 export function createMarkerController({ elements, state }) {
     const sampleCanvas = document.createElement('canvas');
     const sampleCtx = sampleCanvas.getContext('2d', { willReadFrequently: true });

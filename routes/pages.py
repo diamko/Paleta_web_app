@@ -14,6 +14,7 @@ from utils.i18n import resolve_request_language
 
 
 def _resolve_lang() -> str:
+    """Служебная функция `_resolve_lang` для внутренней логики модуля."""
     app = current_app
     return resolve_request_language(
         request=request,
@@ -26,19 +27,23 @@ def _resolve_lang() -> str:
 
 
 def register_routes(app):
+    """Выполняет операцию `register_routes` в рамках сценария модуля."""
     yandex_verification_file = "yandex_a19b89f07e18fcfd.html"
 
     @app.get("/")
     def language_root():
+        """Выполняет операцию `language_root` в рамках сценария модуля."""
         return redirect(url_for("index", lang=_resolve_lang()), code=302)
 
     @app.get("/index")
     def index_legacy():
+        """Выполняет операцию `index_legacy` в рамках сценария модуля."""
         return redirect(url_for("index", lang="ru"), code=301)
 
     @app.route("/<lang>/index")
     @app.route("/<lang>/")
     def index(lang):
+        """Выполняет операцию `index` в рамках сценария модуля."""
         recent_uploads = []
         if current_user.is_authenticated:
             cutoff = datetime.utcnow() - timedelta(days=7)
@@ -53,19 +58,23 @@ def register_routes(app):
 
     @app.get("/generatePalet")
     def generatePalet_legacy():
+        """Выполняет операцию `generatePalet_legacy` в рамках сценария модуля."""
         return redirect(url_for("generatePalet", lang="ru"), code=301)
 
     @app.route("/<lang>/generatePalet")
     def generatePalet(lang):
+        """Выполняет операцию `generatePalet` в рамках сценария модуля."""
         return render_template("generatePalet.html")
 
     @app.get("/myPalet")
     def myPalet_legacy():
+        """Выполняет операцию `myPalet_legacy` в рамках сценария модуля."""
         return redirect(url_for("myPalet", lang="ru"), code=301)
 
     @app.route("/<lang>/myPalet")
     @login_required
     def myPalet(lang):
+        """Выполняет операцию `myPalet` в рамках сценария модуля."""
         palettes = (
             Palette.query.filter_by(user_id=current_user.id)
             .order_by(Palette.created_at.desc())
@@ -75,18 +84,22 @@ def register_routes(app):
 
     @app.get("/faq")
     def faq_legacy():
+        """Выполняет операцию `faq_legacy` в рамках сценария модуля."""
         return redirect(url_for("faq", lang="ru"), code=301)
 
     @app.route("/<lang>/faq")
     def faq(lang):
+        """Выполняет операцию `faq` в рамках сценария модуля."""
         return render_template("faq.html")
 
     @app.route(f"/{yandex_verification_file}")
     def yandex_verification():
+        """Выполняет операцию `yandex_verification` в рамках сценария модуля."""
         return send_from_directory(app.root_path, yandex_verification_file)
 
     @app.get("/sitemap.xml")
     def sitemap_xml():
+        """Выполняет операцию `sitemap_xml` в рамках сценария модуля."""
         public_endpoints = (
             "index",
             "generatePalet",
@@ -141,6 +154,7 @@ def register_routes(app):
 
     @app.get("/robots.txt")
     def robots_txt():
+        """Выполняет операцию `robots_txt` в рамках сценария модуля."""
         sitemap_url = request.url_root.rstrip("/") + url_for("sitemap_xml")
         disallow_lang_specific = []
         for lang in app.config["SUPPORTED_LANGUAGES"]:

@@ -1,3 +1,8 @@
+"""
+Модуль: `utils/contact_normalizer.py`.
+Назначение: Нормализация email/телефонных контактов пользователей.
+"""
+
 import re
 
 
@@ -5,6 +10,7 @@ EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
 
 def normalize_email(value: str | None) -> str:
+    """Выполняет операцию `normalize_email` в рамках сценария модуля."""
     if not value:
         return ""
     email = value.strip().lower()
@@ -14,6 +20,7 @@ def normalize_email(value: str | None) -> str:
 
 
 def normalize_phone(value: str | None) -> str:
+    """Выполняет операцию `normalize_phone` в рамках сценария модуля."""
     if not value:
         return ""
     raw = value.strip()

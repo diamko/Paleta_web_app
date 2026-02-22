@@ -1,7 +1,15 @@
+/*
+ * Модуль: `static/js/palette/view.js`.
+ * Назначение: Модуль клиентской логики страницы извлечения и редактирования палитры.
+ */
+
 import { copyToClipboard, normalizeHexColor, showToast } from './utils.js';
 
 const t = window.t || ((key, fallback) => fallback || key);
 
+/**
+ * Выполняет операцию `createPaletteView` для соответствующего сценария интерфейса.
+ */
 export function createPaletteView({ elements, state, markerController }) {
     function setColorAtIndex(index, rawValue, options = {}) {
         const normalized = normalizeHexColor(rawValue);
