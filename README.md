@@ -10,6 +10,16 @@
 [![Flask](https://img.shields.io/badge/Flask-2.3-black.svg)](https://flask.palletsprojects.com/)
 [![Status](https://img.shields.io/badge/status-active-success.svg)](#)
 
+<p align="center">
+  <a href="https://diamko.ru">
+    <img src="https://img.shields.io/badge/Website-diamko.ru-ff6a00?style=for-the-badge&logo=googlechrome&logoColor=white" alt="diamko.ru website">
+  </a>
+</p>
+
+<p align="center">
+  <strong>Visit my website:</strong> <a href="https://diamko.ru">diamko.ru</a>
+</p>
+
 Paleta is a web app for generating, editing, saving, and exporting color palettes.
 You can build palettes from uploaded images (dominant color extraction with KMeans) or generate random palettes, then manage them in your personal account.
 
@@ -111,6 +121,10 @@ cd Paleta
 
 ### 2) Create and activate virtual environment
 
+Important:
+- use `.venv` (with a leading dot), not `venv`;
+- on Windows use `python` commands, not `python3`.
+
 Linux/macOS:
 
 ```bash
@@ -142,7 +156,7 @@ python3 -c "from app import app; from extensions import db; import models; app.a
 
 Windows (PowerShell):
 
-```bash
+```powershell
 python -c "from app import app; from extensions import db; import models; app.app_context().push(); db.create_all()"
 ```
 
@@ -160,7 +174,7 @@ python3 app.py
 
 Windows (PowerShell):
 
-```bash
+```powershell
 python app.py
 ```
 

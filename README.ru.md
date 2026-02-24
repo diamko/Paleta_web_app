@@ -10,6 +10,16 @@
 [![Flask](https://img.shields.io/badge/Flask-2.3-black.svg)](https://flask.palletsprojects.com/)
 [![Status](https://img.shields.io/badge/status-active-success.svg)](#)
 
+<p align="center">
+  <a href="https://diamko.ru">
+    <img src="https://img.shields.io/badge/Website-diamko.ru-ff6a00?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Сайт diamko.ru">
+  </a>
+</p>
+
+<p align="center">
+  <strong>Мой сайт:</strong> <a href="https://diamko.ru">diamko.ru</a>
+</p>
+
 Paleta - это веб-приложение для генерации, редактирования, сохранения и экспорта цветовых палитр.
 Вы можете создавать палитры из загруженных изображений (извлечение доминирующих цветов через KMeans) или генерировать случайные палитры, а затем управлять ими в личном аккаунте.
 
@@ -123,6 +133,10 @@ cd Paleta
 
 ### 2) Создание и активация виртуального окружения
 
+Важно:
+- используйте `.venv` (с точкой в начале), а не `venv`;
+- на Windows используйте команды `python`, а не `python3`.
+
 Linux/macOS:
 
 ```bash
@@ -154,7 +168,7 @@ python3 -c "from app import app; from extensions import db; import models; app.a
 
 Windows (PowerShell):
 
-```bash
+```powershell
 python -c "from app import app; from extensions import db; import models; app.app_context().push(); db.create_all()"
 ```
 
@@ -174,7 +188,7 @@ python3 app.py
 
 Windows (PowerShell):
 
-```bash
+```powershell
 python app.py
 ```
 
