@@ -16,7 +16,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Rock+3D&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='Palett_logo.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='Palett_logo.png') }}">
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
@@ -24,7 +25,7 @@
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-1 px-4 mb-4 border-bottom">
             <div class="col-md-3 mb-2 mb-md-0">
                 <a href="{{ url_for('index') }}" class="header__logo d-inline-flex link-body-emphasis text-decoration-none">
-                    <img class="header_img" src="{{ url_for('static', filename='image/logo.png') }}" alt="{{ _('Логотип') }}">
+                    <img class="header_img" src="{{ url_for('static', filename='Palett_logo.png') }}" alt="{{ _('Логотип') }}">
                     <span class="header__brand rock-3d-regular fs-1 ms-2 py-1">Paleta</span>
                 </a>
             </div>
@@ -69,7 +70,7 @@
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-4 px-4 border-top">
             <div class="col-md-4 d-flex align-items-center">
                 <a href="{{ url_for('index') }}" class="mb-3 me-2 mb-md-0 text-decoration-none lh-1">
-                    <img src="{{ url_for('static', filename='image/logo.png') }}" alt="Paleta" width="30" height="30">
+                    <img src="{{ url_for('static', filename='Palett_logo.png') }}" alt="Paleta" width="30" height="30">
                 </a>
                 <span class="footer__copyright">{{ _('© 2026 Paleta. Все права защищены.') }}</span>
             </div>

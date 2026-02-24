@@ -449,4 +449,8 @@ def register_routes(app):
     @app.route("/favicon.ico")
     def favicon():
         """Выполняет операцию `favicon` в рамках сценария модуля."""
-        return "", 204
+        return send_from_directory(
+            os.path.join(app.root_path, "static"),
+            "Palett_logo.png",
+            mimetype="image/png",
+        )
