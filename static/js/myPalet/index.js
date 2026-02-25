@@ -68,13 +68,20 @@ export function initMyPaletPage() {
     filtersController.bind();
 
     document.addEventListener('click', async (event) => {
-        const target = event.target;
-
-        if (target.classList.contains('export-option')) {
+        const target = event.target instanceof Element ? event.target : null;
+        const exportOption = target ? target.closest('.export-option') : null;
+        if (exportOption) {
             event.preventDefault();
-            const format = target.dataset.format;
-            const colors = JSON.parse(target.dataset.colors);
-            const name = target.dataset.name;
+            const format = exportOption.dataset.format;
+            const name = exportOption.dataset.name;
+            let colors = [];
+
+            try {
+                colors = JSON.parse(exportOption.dataset.colors || '[]');
+            } catch (_error) {
+                showToast(t('export_error', 'Ошибка при экспорте'), 'error');
+                return;
+            }
 
             try {
                 await actions.exportPalette(format, colors, name);
@@ -85,13 +92,15 @@ export function initMyPaletPage() {
             return;
         }
 
-        if (target.classList.contains('btn-delete-palette')) {
-            actions.deletePalette(target.dataset.paletteId, target.dataset.paletteName);
+        const deleteButton = target ? target.closest('.btn-delete-palette') : null;
+        if (deleteButton) {
+            actions.deletePalette(deleteButton.dataset.paletteId, deleteButton.dataset.paletteName);
             return;
         }
 
-        if (target.classList.contains('btn-rename-palette')) {
-            actions.renamePalette(target.dataset.paletteId, target.dataset.paletteName);
+        const renameButton = target ? target.closest('.btn-rename-palette') : null;
+        if (renameButton) {
+            actions.renamePalette(renameButton.dataset.paletteId, renameButton.dataset.paletteName);
         }
     });
 

@@ -22,6 +22,11 @@ export function createPaletteActions({ state, showToast }) {
     }
 
     function exportPalette(format, colors, name) {
+        if (!format) {
+            showToast(t('export_error', 'Ошибка при экспорте'), 'error');
+            return Promise.resolve();
+        }
+
         return fetch(`/api/export?format=${format}`, {
             method: 'POST',
             headers: withCsrfHeaders({
@@ -41,8 +46,10 @@ export function createPaletteActions({ state, showToast }) {
             link.download = buildDownloadFilename(name, format);
             document.body.appendChild(link);
             link.click();
-            window.URL.revokeObjectURL(url);
             document.body.removeChild(link);
+            setTimeout(() => {
+                window.URL.revokeObjectURL(url);
+            }, 1500);
         });
     }
 

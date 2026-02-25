@@ -176,7 +176,11 @@ export function bindPaletteActions({ elements, state, paletteView, markerControl
                 return;
             }
 
-            const format = event.target.dataset.format;
+            const format = option.dataset.format;
+            if (!format) {
+                showToast(t('export_error', 'Ошибка при экспорте'), 'error');
+                return;
+            }
 
             try {
                 const response = await fetch(`/api/export?format=${format}`, {
@@ -206,8 +210,10 @@ export function bindPaletteActions({ elements, state, paletteView, markerControl
                 link.download = `palette.${format}`;
                 document.body.appendChild(link);
                 link.click();
-                window.URL.revokeObjectURL(url);
                 document.body.removeChild(link);
+                setTimeout(() => {
+                    window.URL.revokeObjectURL(url);
+                }, 1500);
             } catch (error) {
                 console.error('Palette export error:', error);
                 showToast(t('export_error', 'Ошибка при экспорте'), 'error');

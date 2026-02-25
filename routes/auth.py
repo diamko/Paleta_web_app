@@ -77,6 +77,66 @@ def _find_user_contact(channel: str, destination: str) -> UserContact | None:
     return None
 
 
+def _find_user_by_login(login_value: str) -> User | None:
+    """Служебная функция `_find_user_by_login` для внутренней логики модуля."""
+    raw = (login_value or "").strip()
+    if not raw:
+        return None
+
+    user = User.query.filter_by(username=raw).first()
+    if user:
+        return user
+
+    email = normalize_email(raw)
+    if email:
+        user_contact = UserContact.query.filter_by(email=email).first()
+        if user_contact and user_contact.user:
+            return user_contact.user
+
+    phone = normalize_phone(raw)
+    if phone:
+        user_contact = UserContact.query.filter_by(phone=phone).first()
+        if user_contact and user_contact.user:
+            return user_contact.user
+
+    return None
+
+
+def _normalize_login_identity(login_value: str) -> str:
+    """Служебная функция `_normalize_login_identity` для внутренней логики модуля."""
+    raw = (login_value or "").strip()
+    if not raw:
+        return "anonymous"
+
+    email = normalize_email(raw)
+    if email:
+        return f"email:{email}"
+
+    phone = normalize_phone(raw)
+    if phone:
+        return f"phone:{phone}"
+
+    return f"username:{raw.lower()}"
+
+
+def _resolve_contact_channel_and_destination(channel: str, raw_contact: str) -> tuple[str, str]:
+    """Служебная функция `_resolve_contact_channel_and_destination` для внутренней логики модуля."""
+    requested_channel = (channel or "").strip().lower()
+    if requested_channel not in {"email", "phone"}:
+        return "", ""
+
+    destination = _normalize_contact(requested_channel, raw_contact)
+    if destination:
+        return requested_channel, destination
+
+    fallback_channel = "phone" if requested_channel == "email" else "email"
+    fallback_destination = _normalize_contact(fallback_channel, raw_contact)
+    if fallback_destination:
+        return fallback_channel, fallback_destination
+
+    return requested_channel, ""
+
+
 def _validate_username(username: str) -> str | None:
     """Служебная функция `_validate_username` для внутренней логики модуля."""
     if not username:
@@ -233,24 +293,24 @@ def register_routes(app):
     def login(lang):
         """Выполняет операцию `login` в рамках сценария модуля."""
         if request.method == "POST":
-            username = request.form.get("username")
-            password = request.form.get("password")
+            login_value = (request.form.get("login") or request.form.get("username") or "").strip()
+            password = request.form.get("password") or ""
 
             if _is_rate_limited("login_ip", limit=20, window_seconds=10 * 60):
                 flash(_("Слишком много попыток входа. Попробуйте позже."), "error")
                 return _localized_redirect("login")
 
-            username_key = (username or "").strip().lower() or "anonymous"
+            login_identity = _normalize_login_identity(login_value)
             if _is_rate_limited(
                 "login_user",
                 limit=10,
                 window_seconds=10 * 60,
-                identity=username_key,
+                identity=login_identity,
             ):
                 flash(_("Слишком много попыток входа для этого пользователя. Попробуйте позже."), "error")
                 return _localized_redirect("login")
 
-            user = User.query.filter_by(username=username).first()
+            user = _find_user_by_login(login_value)
             if user and check_password_hash(user.password_hash, password):
                 login_user(user)
                 flash(_("Вход выполнен успешно"), "success")
@@ -513,16 +573,16 @@ def register_routes(app):
                 flash(_("Слишком много запросов. Попробуйте позже."), "error")
                 return _localized_redirect("forgot_password")
 
-            channel = (request.form.get("channel") or "email").strip().lower()
+            requested_channel = (request.form.get("channel") or "email").strip().lower()
             raw_contact = (request.form.get("contact") or "").strip()
 
-            if channel not in {"email", "phone"}:
+            if requested_channel not in {"email", "phone"}:
                 flash(_("Выберите способ восстановления: email или телефон."), "error")
                 return _localized_redirect("forgot_password")
 
-            destination = _normalize_contact(channel, raw_contact)
+            channel, destination = _resolve_contact_channel_and_destination(requested_channel, raw_contact)
             if not destination:
-                if channel == "email":
+                if requested_channel == "email":
                     flash(_("Введите корректный email."), "error")
                 else:
                     flash(_("Введите корректный номер телефона (от 10 до 15 цифр)."), "error")
@@ -562,19 +622,19 @@ def register_routes(app):
                 flash(_("Слишком много попыток сброса пароля. Попробуйте позже."), "error")
                 return _localized_redirect("reset_password")
 
-            channel = (request.form.get("channel") or "email").strip().lower()
+            requested_channel = (request.form.get("channel") or "email").strip().lower()
             raw_contact = (request.form.get("contact") or "").strip()
             code = (request.form.get("code") or "").strip()
             new_password = request.form.get("new_password") or ""
             confirm_password = request.form.get("confirm_password") or ""
 
-            if channel not in {"email", "phone"}:
+            if requested_channel not in {"email", "phone"}:
                 flash(_("Выберите корректный способ восстановления."), "error")
                 return _localized_redirect("reset_password")
 
-            destination = _normalize_contact(channel, raw_contact)
+            channel, destination = _resolve_contact_channel_and_destination(requested_channel, raw_contact)
             if not destination:
-                if channel == "email":
+                if requested_channel == "email":
                     flash(_("Введите корректный email."), "error")
                 else:
                     flash(_("Введите корректный номер телефона (от 10 до 15 цифр)."), "error")

@@ -543,7 +543,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            const format = e.target.dataset.format;
+            const format = option.dataset.format;
+            if (!format) {
+                showToast(t('export_error', 'Ошибка при экспорте'), 'error');
+                return;
+            }
 
             try {
                 const response = await fetch(`/api/export?format=${format}`, {
@@ -573,8 +577,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 a.download = `palette.${format}`;
                 document.body.appendChild(a);
                 a.click();
-                window.URL.revokeObjectURL(url);
                 document.body.removeChild(a);
+                setTimeout(() => {
+                    window.URL.revokeObjectURL(url);
+                }, 1500);
             } catch (error) {
                 console.error('Random palette export error:', error);
                 showToast(t('export_error', 'Ошибка при экспорте'), 'error');
