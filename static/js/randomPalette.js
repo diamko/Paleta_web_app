@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function getSchemeDisplayName(scheme) {
         const names = {
+            free: t('scheme_free', 'Произвольная'),
             monochromatic: t('scheme_monochromatic', 'Монохромная'),
             complementary: t('scheme_complementary', 'Комплементарная'),
             analogous: t('scheme_analogous', 'Аналоговая'),
@@ -221,7 +222,29 @@ document.addEventListener('DOMContentLoaded', function() {
         return colors;
     }
 
+    function generateFreePalette(count) {
+        const colors = [];
+        const usedColors = new Set();
+
+        for (let i = 0; i < count; i += 1) {
+            const color = ensureUniqueColor(
+                rgbToHex(randomInt(0, 255), randomInt(0, 255), randomInt(0, 255)),
+                usedColors,
+                () => rgbToHex(randomInt(0, 255), randomInt(0, 255), randomInt(0, 255))
+            );
+
+            usedColors.add(color);
+            colors.push(color);
+        }
+
+        return colors;
+    }
+
     function generatePaletteByScheme(count, scheme) {
+        if (scheme === 'free') {
+            return generateFreePalette(count);
+        }
+
         const baseHue = randomInt(0, 359);
         if (scheme === 'monochromatic') {
             return generateMonochromaticPalette(count, baseHue);
@@ -273,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     generateBtn.addEventListener('click', () => {
         const count = parseInt(colorCountSelect.value, 10);
-        const selectedScheme = colorSchemeSelect ? colorSchemeSelect.value : 'monochromatic';
+        const selectedScheme = colorSchemeSelect ? colorSchemeSelect.value : 'free';
 
         if (!isSchemeAllowedForCount(selectedScheme, count)) {
             const schemeName = getSchemeDisplayName(selectedScheme);

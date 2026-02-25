@@ -241,6 +241,7 @@ def create_app() -> Flask:
                 "color_picker_label": _("Выбор цвета %(index)s", index="{index}"),
                 "color_hex_label": _("HEX цвета %(index)s", index="{index}"),
                 "color_marker_label": _("Маркер цвета %(index)s", index="{index}"),
+                "scheme_free": _("Произвольная"),
                 "scheme_monochromatic": _("Монохромная"),
                 "scheme_complementary": _("Комплементарная"),
                 "scheme_analogous": _("Аналоговая"),

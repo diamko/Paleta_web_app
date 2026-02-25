@@ -3,14 +3,92 @@
 Модуль: utils/export_handler.py – формирование данных для экспорта палитр.
 
 Назначение модуля:
-- Подготовка содержимого палитры в форматах JSON, GPL, ASE, CSV и ACO.
+- Подготовка содержимого палитры в форматах JSON, GPL, ASE, CSV, ACO и PNG.
 - Возврат бинарных данных, имени файла и режима записи для последующей отправки пользователю.
 """
 
+import io
 import json
+import math
 import struct
 from datetime import datetime
 from typing import List, Tuple, Optional
+
+from PIL import Image, ImageDraw, ImageFont
+
+
+def _hex_to_rgb(color: str) -> tuple[int, int, int]:
+    """Преобразует HEX-цвет вида #RRGGBB в RGB-кортеж."""
+    normalized = color.lstrip("#")
+    return (
+        int(normalized[0:2], 16),
+        int(normalized[2:4], 16),
+        int(normalized[4:6], 16),
+    )
+
+
+def _text_color_for_background(r: int, g: int, b: int) -> tuple[int, int, int]:
+    """Возвращает белый или темный цвет текста в зависимости от яркости фона."""
+    luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
+    return (20, 20, 20) if luminance > 150 else (245, 245, 245)
+
+
+def _render_palette_png(colors: List[str]) -> bytes:
+    """Рендерит PNG с цветными плашками и HEX-подписями."""
+    total_colors = len(colors)
+    columns = min(total_colors, 5)
+    rows = math.ceil(total_colors / columns)
+
+    swatch_width = 190
+    swatch_height = 120
+    label_height = 34
+    card_height = swatch_height + label_height
+    card_gap = 16
+    padding = 24
+
+    width = padding * 2 + columns * swatch_width + (columns - 1) * card_gap
+    height = padding * 2 + rows * card_height + (rows - 1) * card_gap
+
+    image = Image.new("RGB", (width, height), (248, 249, 251))
+    draw = ImageDraw.Draw(image)
+    font = ImageFont.load_default()
+
+    for index, color in enumerate(colors):
+        row = index // columns
+        col = index % columns
+
+        x1 = padding + col * (swatch_width + card_gap)
+        y1 = padding + row * (card_height + card_gap)
+        x2 = x1 + swatch_width - 1
+        swatch_y2 = y1 + swatch_height - 1
+        y2 = y1 + card_height - 1
+
+        r, g, b = _hex_to_rgb(color)
+        text_color = _text_color_for_background(r, g, b)
+
+        draw.rectangle((x1, y1, x2, swatch_y2), fill=(r, g, b))
+        draw.rectangle((x1, swatch_y2 + 1, x2, y2), fill=(238, 240, 244))
+        draw.rectangle((x1, y1, x2, y2), outline=(210, 214, 220), width=1)
+
+        label = color.upper()
+        text_bbox = draw.textbbox((0, 0), label, font=font)
+        text_width = text_bbox[2] - text_bbox[0]
+        text_height = text_bbox[3] - text_bbox[1]
+        text_x = x1 + (swatch_width - text_width) / 2
+        text_y = y1 + (swatch_height - text_height) / 2
+        draw.text((text_x, text_y), label, fill=text_color, font=font)
+
+        caption = color.upper()
+        caption_bbox = draw.textbbox((0, 0), caption, font=font)
+        caption_width = caption_bbox[2] - caption_bbox[0]
+        caption_height = caption_bbox[3] - caption_bbox[1]
+        caption_x = x1 + (swatch_width - caption_width) / 2
+        caption_y = swatch_y2 + 1 + (label_height - caption_height) / 2
+        draw.text((caption_x, caption_y), caption, fill=(33, 37, 41), font=font)
+
+    buffer = io.BytesIO()
+    image.save(buffer, format="PNG", optimize=True)
+    return buffer.getvalue()
 
 
 def export_palette_data(colors: List[str], format_type: str = "json") -> Tuple[Optional[bytes], Optional[str], str]:
@@ -93,8 +171,9 @@ def export_palette_data(colors: List[str], format_type: str = "json") -> Tuple[O
         mode = "wb"
 
     elif format_type == "png":
-        # Пока не реализовано
-        return None, None, "w"
+        content = _render_palette_png(colors)
+        filename = "palette.png"
+        mode = "wb"
 
     else:
         return None, None, "w"

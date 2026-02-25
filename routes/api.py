@@ -409,13 +409,6 @@ def register_routes(app):
 
             content, filename, mode = export_palette_data(colors, format_type)
             if content is None or filename is None:
-                if format_type == "png":
-                    return jsonify(
-                        {
-                            "success": True,
-                            "message": _("Экспорт PNG пока не реализован"),
-                        }
-                    )
                 return _api_error(_("Неподдерживаемый формат экспорта"), 400)
 
             suffix = f".{format_type}"

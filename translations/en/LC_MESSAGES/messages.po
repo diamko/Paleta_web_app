@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-02-25 13:37+0300\n"
+"POT-Creation-Date: 2026-02-25 14:13+0300\n"
 "PO-Revision-Date: 2026-02-21 21:50+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -114,11 +114,11 @@ msgstr "Failed to load saved image"
 msgid "Произошла ошибка при использовании сохранённого изображения"
 msgstr "An error occurred while using the saved image"
 
-#: app.py:227 templates/index.html:120
+#: app.py:227 templates/index.html:121
 msgid "Использовать"
 msgstr "Use"
 
-#: app.py:228 templates/index.html:111
+#: app.py:228 templates/index.html:112
 msgid "Недавнее изображение"
 msgstr "Recent image"
 
@@ -186,46 +186,52 @@ msgid "Маркер цвета %(index)s"
 msgstr "Color marker %(index)s"
 
 #: app.py:244 templates/generatePalet.html:28
+msgid "Произвольная"
+msgstr "Free"
+
+#: app.py:245 templates/generatePalet.html:29
 msgid "Монохромная"
 msgstr "Monochromatic"
 
-#: app.py:245 templates/generatePalet.html:29
+#: app.py:246 templates/generatePalet.html:30
 msgid "Комплементарная"
 msgstr "Complementary"
 
-#: app.py:246 templates/generatePalet.html:30
+#: app.py:247 templates/generatePalet.html:31
 msgid "Аналоговая"
 msgstr "Analogous"
 
-#: app.py:247 templates/generatePalet.html:31
+#: app.py:248 templates/generatePalet.html:32
 msgid "Аналогово-комплементарная"
 msgstr "Analogous-Complementary"
 
-#: app.py:248 templates/generatePalet.html:32
+#: app.py:249 templates/generatePalet.html:33
 msgid "Раздельно-комплементарная"
 msgstr "Split-Complementary"
 
-#: app.py:249 templates/generatePalet.html:33
+#: app.py:250 templates/generatePalet.html:34
 msgid "Триада"
 msgstr "Triad"
 
-#: app.py:250 templates/generatePalet.html:34
+#: app.py:251 templates/generatePalet.html:35
 msgid "Тетрада"
 msgstr "Tetrad"
 
-#: app.py:251
+#: app.py:252
 msgid "Схема \"{scheme}\" доступна только при {count} цветах."
 msgstr "The \"{scheme}\" scheme is available only with {count} colors."
 
-#: app.py:252
+#: app.py:253
 msgid "Схема \"{scheme}\" недоступна при {count} цветах. Выбрана монохромная."
-msgstr "The \"{scheme}\" scheme is unavailable for {count} colors. Monochromatic was selected."
+msgstr ""
+"The \"{scheme}\" scheme is unavailable for {count} colors. Monochromatic "
+"was selected."
 
-#: app.py:274
+#: app.py:275
 msgid "Недействительный CSRF-токен. Обновите страницу и повторите попытку."
 msgstr "Invalid CSRF token. Refresh the page and try again."
 
-#: app.py:280
+#: app.py:281
 msgid "Сессия формы истекла. Обновите страницу и попробуйте снова."
 msgstr "Form session expired. Refresh the page and try again."
 
@@ -262,7 +268,7 @@ msgid "Не удалось извлечь цвета из изображения
 msgstr "Failed to extract colors from image"
 
 #: routes/api.py:232 routes/api.py:312 routes/api.py:363 routes/api.py:393
-#: routes/api.py:442
+#: routes/api.py:435
 msgid "Внутренняя ошибка сервера"
 msgstr "Internal server error"
 
@@ -302,11 +308,7 @@ msgstr "Too many exports. Please try again later."
 msgid "Не переданы корректные цвета палитры"
 msgstr "No valid palette colors were provided"
 
-#: routes/api.py:416
-msgid "Экспорт PNG пока не реализован"
-msgstr "PNG export is not implemented yet"
-
-#: routes/api.py:419
+#: routes/api.py:412
 msgid "Неподдерживаемый формат экспорта"
 msgstr "Unsupported export format"
 
@@ -592,7 +594,7 @@ msgstr "Register"
 msgid "© 2026 Paleta. Все права защищены."
 msgstr "© 2026 Paleta. All rights reserved."
 
-#: templates/base.html:94 templates/faq.html:87 templates/generatePalet.html:51
+#: templates/base.html:94 templates/faq.html:87 templates/generatePalet.html:52
 #: templates/index.html:76
 msgid "Сохранить палитру"
 msgstr "Save Palette"
@@ -715,12 +717,12 @@ msgid "Зарегистрируйтесь"
 msgstr "Register"
 
 #: templates/faq.html:85 templates/forgot_password.html:46
-#: templates/generatePalet.html:53 templates/index.html:78
+#: templates/generatePalet.html:54 templates/index.html:78
 #: templates/reset_password.html:47
 msgid "или"
 msgstr "or"
 
-#: templates/faq.html:85 templates/generatePalet.html:53
+#: templates/faq.html:85 templates/generatePalet.html:54
 #: templates/index.html:78
 msgid "войдите"
 msgstr "sign in"
@@ -907,49 +909,53 @@ msgstr "Number of Colors:"
 msgid "Цветовая схема:"
 msgstr "Color harmony:"
 
-#: templates/generatePalet.html:37
+#: templates/generatePalet.html:38
 msgid "Сгенерировать палитру"
 msgstr "Generate Palette"
 
-#: templates/generatePalet.html:40
+#: templates/generatePalet.html:41
 msgid "Триада доступна только при 3 цветах, тетрада — только при 4."
 msgstr "Triad is available only for 3 colors, tetrad only for 4."
 
-#: templates/generatePalet.html:45 templates/index.html:56
+#: templates/generatePalet.html:46 templates/index.html:56
 msgid ""
 "Меняйте цвет через палитру или HEX-поле. Нажмите на цвет, чтобы "
 "скопировать HEX."
 msgstr "Adjust colors using the picker or HEX field. Click a color to copy HEX."
 
-#: templates/generatePalet.html:49 templates/index.html:73
+#: templates/generatePalet.html:50 templates/index.html:73
 msgid "Действия"
 msgstr "Actions"
 
-#: templates/generatePalet.html:53 templates/index.html:78
+#: templates/generatePalet.html:54 templates/index.html:78
 msgid "Чтобы сохранить палитру,"
 msgstr "To save a palette,"
 
-#: templates/generatePalet.html:53 templates/index.html:78
+#: templates/generatePalet.html:54 templates/index.html:78
 msgid "зарегистрируйтесь"
 msgstr "register"
 
-#: templates/generatePalet.html:56 templates/index.html:81
+#: templates/generatePalet.html:57 templates/index.html:81
 msgid "Экспорт JSON"
 msgstr "Export JSON"
 
-#: templates/generatePalet.html:57 templates/index.html:82
+#: templates/generatePalet.html:58 templates/index.html:82
 msgid "Экспорт GPL"
 msgstr "Export GPL"
 
-#: templates/generatePalet.html:58 templates/index.html:83
+#: templates/generatePalet.html:59 templates/index.html:83
 msgid "Экспорт ASE"
 msgstr "Export ASE"
 
-#: templates/generatePalet.html:59 templates/index.html:84
+#: templates/generatePalet.html:60 templates/index.html:84
 msgid "Экспорт CSV"
 msgstr "Export CSV"
 
-#: templates/generatePalet.html:60 templates/index.html:85
+#: templates/generatePalet.html:61 templates/index.html:85
+msgid "Экспорт PNG"
+msgstr "Export PNG"
+
+#: templates/generatePalet.html:62 templates/index.html:86
 msgid "Экспорт ACO"
 msgstr "Export ACO"
 
@@ -1009,17 +1015,17 @@ msgstr "Recalculate"
 msgid "Загрузить новое"
 msgstr "Upload New"
 
-#: templates/index.html:97
+#: templates/index.html:98
 msgid "Недавние изображения (за 7 дней)"
 msgstr "Recent Images (Last 7 Days)"
 
-#: templates/index.html:98
+#: templates/index.html:99
 msgid ""
 "Выберите одно из изображений, чтобы снова сгенерировать палитру на его "
 "основе."
 msgstr "Choose one image to regenerate a palette from it."
 
-#: templates/index.html:101
+#: templates/index.html:102
 msgid "Пока у вас нет недавних загрузок."
 msgstr "You do not have recent uploads yet."
 
@@ -1296,3 +1302,6 @@ msgstr "Request a new code"
 
 #~ msgid "Без названия"
 #~ msgstr "Untitled"
+
+#~ msgid "Экспорт PNG пока не реализован"
+#~ msgstr "PNG export is not implemented yet"
