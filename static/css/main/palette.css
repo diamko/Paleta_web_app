@@ -83,6 +83,18 @@
     font-size: 0.9rem;
 }
 
+.palette-generator-controls {
+    row-gap: 0.75rem;
+}
+
+.palette-generator-field {
+    min-width: 220px;
+}
+
+.palette-generator-select {
+    min-width: 220px;
+}
+
 .random-palette-grid {
     display: grid !important;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -260,6 +272,20 @@
 }
 
 @media (max-width: 767.98px) {
+    .palette-generator-controls {
+        align-items: stretch !important;
+    }
+
+    .palette-generator-field,
+    .palette-generator-select {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .palette-generator-controls #generateBtn {
+        width: 100%;
+    }
+
     .random-palette-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }

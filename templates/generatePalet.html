@@ -13,15 +13,32 @@
             <h1 class="gradient-text text-center mb-4">{{ _('Генерация случайной палитры') }}</h1>
             <p class="text-center mb-5">{{ _('Создайте уникальную цветовую палитру с помощью генератора случайных цветов') }}</p>
 
-            <div class="text-center mb-4">
-                <label for="colorCount" class="form-label">{{ _('Количество цветов:') }}</label>
-                <select id="colorCount" class="form-select d-inline-block w-auto">
-                    {% for value in range(3, 16) %}
-                    <option value="{{ value }}" {% if value == 5 %}selected{% endif %}>{{ value }}</option>
-                    {% endfor %}
-                </select>
-                <button id="generateBtn" type="button" class="btn btn-primary ms-2">{{ _('Сгенерировать палитру') }}</button>
+            <div class="palette-generator-controls d-flex flex-wrap justify-content-center align-items-end gap-3 mb-2">
+                <div class="palette-generator-field text-start">
+                    <label for="colorCount" class="form-label">{{ _('Количество цветов:') }}</label>
+                    <select id="colorCount" class="form-select palette-generator-select">
+                        {% for value in range(3, 16) %}
+                        <option value="{{ value }}" {% if value == 5 %}selected{% endif %}>{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="palette-generator-field text-start">
+                    <label for="harmonyType" class="form-label">{{ _('Цветовая схема:') }}</label>
+                    <select id="harmonyType" class="form-select palette-generator-select">
+                        <option value="monochromatic">{{ _('Монохромная') }}</option>
+                        <option value="complementary">{{ _('Комплементарная') }}</option>
+                        <option value="analogous">{{ _('Аналоговая') }}</option>
+                        <option value="analog_complementary">{{ _('Аналогово-комплементарная') }}</option>
+                        <option value="split_complementary">{{ _('Раздельно-комплементарная') }}</option>
+                        <option value="triad">{{ _('Триада') }}</option>
+                        <option value="tetrad">{{ _('Тетрада') }}</option>
+                    </select>
+                </div>
+                <button id="generateBtn" type="button" class="btn btn-primary">{{ _('Сгенерировать палитру') }}</button>
             </div>
+            <p class="text-muted small text-center mb-4">
+                {{ _('Триада доступна только при 3 цветах, тетрада — только при 4.') }}
+            </p>
 
             <div id="colorPalette" class="random-palette-grid d-flex flex-wrap gap-2 mb-3 justify-content-center"></div>
             <p class="palette-edit-hint text-muted text-center mb-0">

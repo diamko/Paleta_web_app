@@ -10,11 +10,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const generateBtn = document.getElementById('generateBtn');
     const colorPalette = document.getElementById('colorPalette');
     const colorCountSelect = document.getElementById('colorCount');
+    const colorSchemeSelect = document.getElementById('harmonyType');
     const savePaletteBtn = document.getElementById('savePaletteBtn');
     const confirmSaveBtn = document.getElementById('confirmSaveBtn');
     const exportOptions = document.querySelectorAll('.export-option');
 
     let currentColors = [];
+    const SCHEME_REQUIRED_COUNTS = {
+        triad: 3,
+        tetrad: 4,
+    };
+
+    function getSchemeDisplayName(scheme) {
+        const names = {
+            monochromatic: t('scheme_monochromatic', 'Монохромная'),
+            complementary: t('scheme_complementary', 'Комплементарная'),
+            analogous: t('scheme_analogous', 'Аналоговая'),
+            analog_complementary: t('scheme_analog_complementary', 'Аналогово-комплементарная'),
+            split_complementary: t('scheme_split_complementary', 'Раздельно-комплементарная'),
+            triad: t('scheme_triad', 'Триада'),
+            tetrad: t('scheme_tetrad', 'Тетрада'),
+        };
+        return names[scheme] || scheme;
+    }
 
     function getCsrfToken() {
         const tokenElement = document.querySelector('meta[name="csrf-token"]');
@@ -30,20 +48,251 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    generateBtn.addEventListener('click', () => {
-        const count = parseInt(colorCountSelect.value, 10);
-        currentColors = generateRandomColors(count);
-        displayPalette(currentColors);
-    });
+    function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, value));
+    }
 
-    function generateRandomColors(count) {
+    function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function normalizeHue(hue) {
+        const normalized = hue % 360;
+        return normalized < 0 ? normalized + 360 : normalized;
+    }
+
+    function hslToRgb(h, s, l) {
+        const hue = normalizeHue(h);
+        const saturation = clamp(s, 0, 100) / 100;
+        const lightness = clamp(l, 0, 100) / 100;
+
+        const chroma = (1 - Math.abs(2 * lightness - 1)) * saturation;
+        const huePrime = hue / 60;
+        const secondComponent = chroma * (1 - Math.abs((huePrime % 2) - 1));
+
+        let redPrime = 0;
+        let greenPrime = 0;
+        let bluePrime = 0;
+
+        if (huePrime >= 0 && huePrime < 1) {
+            redPrime = chroma;
+            greenPrime = secondComponent;
+        } else if (huePrime < 2) {
+            redPrime = secondComponent;
+            greenPrime = chroma;
+        } else if (huePrime < 3) {
+            greenPrime = chroma;
+            bluePrime = secondComponent;
+        } else if (huePrime < 4) {
+            greenPrime = secondComponent;
+            bluePrime = chroma;
+        } else if (huePrime < 5) {
+            redPrime = secondComponent;
+            bluePrime = chroma;
+        } else {
+            redPrime = chroma;
+            bluePrime = secondComponent;
+        }
+
+        const match = lightness - chroma / 2;
+        return {
+            r: Math.round((redPrime + match) * 255),
+            g: Math.round((greenPrime + match) * 255),
+            b: Math.round((bluePrime + match) * 255),
+        };
+    }
+
+    function rgbToHex(r, g, b) {
+        return `#${[r, g, b].map(channel => channel.toString(16).padStart(2, '0')).join('').toUpperCase()}`;
+    }
+
+    function hslToHex(h, s, l) {
+        const rgb = hslToRgb(h, s, l);
+        return rgbToHex(rgb.r, rgb.g, rgb.b);
+    }
+
+    function ensureUniqueColor(candidate, usedColors, fallbackFactory) {
+        if (!usedColors.has(candidate)) {
+            return candidate;
+        }
+
+        let alternative = candidate;
+        for (let attempt = 0; attempt < 10; attempt += 1) {
+            alternative = fallbackFactory(attempt);
+            if (!usedColors.has(alternative)) {
+                return alternative;
+            }
+        }
+        return alternative;
+    }
+
+    function getSchemeAnchors(baseHue, scheme) {
+        switch (scheme) {
+            case 'complementary':
+                return [baseHue, baseHue + 180];
+            case 'analogous':
+                return [baseHue - 30, baseHue, baseHue + 30];
+            case 'analog_complementary':
+                return [baseHue - 30, baseHue, baseHue + 30, baseHue + 180];
+            case 'split_complementary':
+                return [baseHue, baseHue + 150, baseHue + 210];
+            case 'triad':
+                return [baseHue, baseHue + 120, baseHue + 240];
+            case 'tetrad':
+                return [baseHue, baseHue + 90, baseHue + 180, baseHue + 270];
+            default:
+                return [baseHue];
+        }
+    }
+
+    function generateMonochromaticPalette(count, baseHue) {
         const colors = [];
-        for (let i = 0; i < count; i++) {
-            const color = `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0').toUpperCase()}`;
+        const usedColors = new Set();
+        const saturationBase = randomInt(45, 75);
+        const lightnessFrom = randomInt(24, 36);
+        const lightnessTo = randomInt(68, 82);
+
+        for (let i = 0; i < count; i += 1) {
+            const position = count > 1 ? i / (count - 1) : 0.5;
+            const saturation = clamp(
+                saturationBase + Math.round(Math.sin(position * Math.PI) * 12) + randomInt(-6, 6),
+                25,
+                90
+            );
+            const lightness = clamp(
+                Math.round(lightnessFrom + position * (lightnessTo - lightnessFrom)) + randomInt(-4, 4),
+                14,
+                90
+            );
+            const hue = normalizeHue(baseHue + randomInt(-2, 2));
+            const color = ensureUniqueColor(
+                hslToHex(hue, saturation, lightness),
+                usedColors,
+                (attempt) => hslToHex(
+                    hue + (attempt + 1) * 4,
+                    clamp(saturation + randomInt(-8, 8), 20, 92),
+                    clamp(lightness + (attempt % 2 === 0 ? 6 : -6), 12, 92)
+                )
+            );
+
+            usedColors.add(color);
             colors.push(color);
         }
+
         return colors;
     }
+
+    function generateAnchoredPalette(count, anchors, scheme) {
+        const colors = [];
+        const usedColors = new Set();
+        const jitterByScheme = {
+            analogous: 6,
+            analog_complementary: 6,
+            triad: 2,
+            tetrad: 2,
+        };
+        const jitterRange = jitterByScheme[scheme] ?? 4;
+
+        for (let i = 0; i < count; i += 1) {
+            const anchorIndex = i % anchors.length;
+            const variationLayer = Math.floor(i / anchors.length);
+            const hue = normalizeHue(anchors[anchorIndex] + randomInt(-jitterRange, jitterRange));
+            const saturation = clamp(randomInt(58, 85) - variationLayer * 4 + randomInt(-3, 3), 30, 92);
+            const direction = (anchorIndex + variationLayer) % 2 === 0 ? 1 : -1;
+            const lightness = clamp(
+                randomInt(42, 62) + direction * variationLayer * 8 + randomInt(-4, 4),
+                18,
+                86
+            );
+            const color = ensureUniqueColor(
+                hslToHex(hue, saturation, lightness),
+                usedColors,
+                (attempt) => hslToHex(
+                    hue + (attempt + 1) * 3,
+                    clamp(saturation + randomInt(-6, 6), 25, 95),
+                    clamp(lightness + (attempt % 2 === 0 ? 7 : -7), 14, 90)
+                )
+            );
+
+            usedColors.add(color);
+            colors.push(color);
+        }
+
+        return colors;
+    }
+
+    function generatePaletteByScheme(count, scheme) {
+        const baseHue = randomInt(0, 359);
+        if (scheme === 'monochromatic') {
+            return generateMonochromaticPalette(count, baseHue);
+        }
+
+        const anchors = getSchemeAnchors(baseHue, scheme).map(normalizeHue);
+        return generateAnchoredPalette(count, anchors, scheme);
+    }
+
+    function isSchemeAllowedForCount(scheme, count) {
+        const requiredCount = SCHEME_REQUIRED_COUNTS[scheme];
+        return !requiredCount || requiredCount === count;
+    }
+
+    function updateSchemeAvailability(showFeedback = false) {
+        if (!colorSchemeSelect || !colorCountSelect) {
+            return;
+        }
+
+        const count = parseInt(colorCountSelect.value, 10);
+        const selectedScheme = colorSchemeSelect.value;
+
+        Array.from(colorSchemeSelect.options).forEach((option) => {
+            const requiredCount = SCHEME_REQUIRED_COUNTS[option.value];
+            option.disabled = !!requiredCount && requiredCount !== count;
+        });
+
+        if (!isSchemeAllowedForCount(selectedScheme, count)) {
+            const selectedSchemeName = getSchemeDisplayName(selectedScheme);
+            colorSchemeSelect.value = 'monochromatic';
+
+            if (showFeedback) {
+                showToast(
+                    t(
+                        'scheme_switched_to_monochromatic',
+                        'Схема "{scheme}" недоступна при {count} цветах. Выбрана монохромная.',
+                        { scheme: selectedSchemeName, count }
+                    ),
+                    'error'
+                );
+            }
+        }
+    }
+
+    if (colorCountSelect) {
+        colorCountSelect.addEventListener('change', () => updateSchemeAvailability(true));
+    }
+    updateSchemeAvailability(false);
+
+    generateBtn.addEventListener('click', () => {
+        const count = parseInt(colorCountSelect.value, 10);
+        const selectedScheme = colorSchemeSelect ? colorSchemeSelect.value : 'monochromatic';
+
+        if (!isSchemeAllowedForCount(selectedScheme, count)) {
+            const schemeName = getSchemeDisplayName(selectedScheme);
+            const requiredCount = SCHEME_REQUIRED_COUNTS[selectedScheme] || count;
+            showToast(
+                t(
+                    'scheme_requires_exact_count',
+                    'Схема "{scheme}" доступна только при {count} цветах.',
+                    { scheme: schemeName, count: requiredCount }
+                ),
+                'error'
+            );
+            updateSchemeAvailability(false);
+            return;
+        }
+
+        currentColors = generatePaletteByScheme(count, selectedScheme);
+        displayPalette(currentColors);
+    });
 
     function normalizeHexColor(value) {
         if (typeof value !== 'string') return null;
