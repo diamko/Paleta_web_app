@@ -26,6 +26,13 @@ def _resolve_lang() -> str:
     )
 
 
+def _absolute_public_url(endpoint: str, lang: str) -> str:
+    """Формирует канонический абсолютный URL публичной страницы для sitemap."""
+    if endpoint == "index":
+        return request.url_root.rstrip("/") + f"/{lang}/"
+    return url_for(endpoint, lang=lang, _external=True)
+
+
 def register_routes(app):
     """Выполняет операцию `register_routes` в рамках сценария модуля."""
     yandex_verification_file = "yandex_a19b89f07e18fcfd.html"
@@ -104,20 +111,17 @@ def register_routes(app):
             "index",
             "generatePalet",
             "faq",
-            "register",
-            "login",
-            "forgot_password",
-            "reset_password",
         )
         supported_languages = app.config["SUPPORTED_LANGUAGES"]
-        lastmod = datetime.utcnow().date().isoformat()
+        default_language = app.config["DEFAULT_LANGUAGE"]
+        if default_language not in supported_languages:
+            default_language = supported_languages[0]
 
         url_entries = []
+        lastmod = datetime.utcnow().date().isoformat()
         for endpoint in public_endpoints:
-            localized_urls = {
-                lang: url_for(endpoint, lang=lang, _external=True)
-                for lang in supported_languages
-            }
+            localized_urls = {lang: _absolute_public_url(endpoint, lang) for lang in supported_languages}
+            x_default_url = localized_urls[default_language]
 
             for lang, location in localized_urls.items():
                 alternate_links = [
@@ -125,7 +129,7 @@ def register_routes(app):
                     for alt_lang, alt_url in localized_urls.items()
                 ]
                 alternate_links.append(
-                    f'    <xhtml:link rel="alternate" hreflang="x-default" href="{localized_urls[app.config["DEFAULT_LANGUAGE"]]}" />'
+                    f'    <xhtml:link rel="alternate" hreflang="x-default" href="{x_default_url}" />'
                 )
 
                 url_entries.append(
@@ -156,23 +160,51 @@ def register_routes(app):
     def robots_txt():
         """Выполняет операцию `robots_txt` в рамках сценария модуля."""
         sitemap_url = request.url_root.rstrip("/") + url_for("sitemap_xml")
-        disallow_lang_specific = []
+        disallow_paths = [
+            "/api/",
+            "/myPalet",
+            "/profile",
+            "/profile/",
+            "/profile/update",
+            "/profile/password/send-code",
+            "/profile/password/change",
+            "/logout",
+            "/register",
+            "/login",
+            "/forgot-password",
+            "/reset-password",
+        ]
+
         for lang in app.config["SUPPORTED_LANGUAGES"]:
-            disallow_lang_specific.extend(
+            disallow_paths.extend(
                 (
-                    f"Disallow: /{lang}/myPalet",
-                    f"Disallow: /{lang}/profile",
-                    f"Disallow: /{lang}/profile/",
-                    f"Disallow: /{lang}/logout",
+                    f"/{lang}/myPalet",
+                    f"/{lang}/profile",
+                    f"/{lang}/profile/",
+                    f"/{lang}/profile/update",
+                    f"/{lang}/profile/password/send-code",
+                    f"/{lang}/profile/password/change",
+                    f"/{lang}/logout",
+                    f"/{lang}/register",
+                    f"/{lang}/login",
+                    f"/{lang}/forgot-password",
+                    f"/{lang}/reset-password",
                 )
             )
+
+        unique_disallow_lines = []
+        seen_paths = set()
+        for path in disallow_paths:
+            if path in seen_paths:
+                continue
+            seen_paths.add(path)
+            unique_disallow_lines.append(f"Disallow: {path}")
 
         body = "\n".join(
             (
                 "User-agent: *",
                 "Allow: /",
-                "Disallow: /api/",
-                *disallow_lang_specific,
+                *unique_disallow_lines,
                 f"Sitemap: {sitemap_url}",
                 "",
             )
