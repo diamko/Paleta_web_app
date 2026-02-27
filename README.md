@@ -203,7 +203,6 @@ Main config is in `config.py`.
 - `PASSWORD_RESET_MAX_ATTEMPTS` (max code attempts before forcing re-request; default `5`)
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM` (email delivery for password reset)
 - `SMTP_USE_TLS`, `SMTP_USE_SSL` (secure transport options for SMTP)
-- `SMS_API_URL`, `SMS_API_TOKEN`, `SMS_API_TIMEOUT`, `SMS_SENDER_NAME` (optional SMS delivery provider)
 
 Example (Linux/macOS):
 
@@ -249,7 +248,7 @@ You also get:
 - rename/delete palettes,
 - search/filter/sort in "My Palettes",
 - quick reuse of recent uploaded images,
-- password recovery via email or phone (if contact is attached to account).
+- password recovery via email (if contact is attached to account).
 
 ### Basic flow
 
@@ -270,7 +269,7 @@ Registration password requirements:
 - at least one digit,
 - at least one special character,
 - must not contain spaces,
-- registration requires at least one recovery contact (email or phone).
+- registration requires a recovery email.
 
 ## API Endpoints
 

@@ -50,27 +50,11 @@
                                 id="email"
                                 name="email"
                                 placeholder="you@example.com"
+                                required
+                                autocomplete="email"
+                                oninvalid="this.setCustomValidity('{{ _('Введите корректный email.') }}')"
                                 oninput="this.setCustomValidity('')"
                             >
-                        </div>
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">{{ _('Телефон (для восстановления)') }}</label>
-                            <input
-                                type="tel"
-                                class="form-control"
-                                id="phone"
-                                name="phone"
-                                placeholder="+79991234567"
-                                inputmode="numeric"
-                                maxlength="16"
-                                pattern="\+?[0-9]{10,15}"
-                                autocomplete="tel"
-                                oninvalid="this.setCustomValidity('{{ _('Введите корректный номер телефона (от 10 до 15 цифр).') }}')"
-                                oninput="this.setCustomValidity('')"
-                            >
-                            <div class="form-text">
-                                {{ _('Укажите минимум один контакт: email или телефон.') }}
-                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">{{ _('Пароль') }}</label>
@@ -100,16 +84,4 @@
         </div>
     </div>
 </div>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const phoneInput = document.getElementById('phone');
-    if (!phoneInput) return;
-
-    phoneInput.addEventListener('input', function() {
-        const hasPlusPrefix = phoneInput.value.trim().startsWith('+');
-        const digits = phoneInput.value.replace(/\D/g, '').slice(0, 15);
-        phoneInput.value = hasPlusPrefix ? `+${digits}` : digits;
-    });
-});
-</script>
 {% endblock %}

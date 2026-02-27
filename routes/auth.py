@@ -15,7 +15,7 @@ from extensions import db, login_manager
 from models.password_reset_token import PasswordResetToken
 from models.user import User
 from models.user_contact import UserContact
-from utils.contact_normalizer import normalize_email, normalize_phone
+from utils.contact_normalizer import normalize_email
 from utils.rate_limit import get_client_identifier
 from utils.reset_delivery import send_password_reset_code
 
@@ -59,22 +59,9 @@ def _validate_password_strength(password: str, username: str | None = None) -> s
     return None
 
 
-def _normalize_contact(channel: str, raw_value: str) -> str:
-    """Служебная функция `_normalize_contact` для внутренней логики модуля."""
-    if channel == "email":
-        return normalize_email(raw_value)
-    if channel == "phone":
-        return normalize_phone(raw_value)
-    return ""
-
-
-def _find_user_contact(channel: str, destination: str) -> UserContact | None:
+def _find_user_contact(destination: str) -> UserContact | None:
     """Служебная функция `_find_user_contact` для внутренней логики модуля."""
-    if channel == "email":
-        return UserContact.query.filter_by(email=destination).first()
-    if channel == "phone":
-        return UserContact.query.filter_by(phone=destination).first()
-    return None
+    return UserContact.query.filter_by(email=destination).first()
 
 
 def _find_user_by_login(login_value: str) -> User | None:
@@ -93,12 +80,6 @@ def _find_user_by_login(login_value: str) -> User | None:
         if user_contact and user_contact.user:
             return user_contact.user
 
-    phone = normalize_phone(raw)
-    if phone:
-        user_contact = UserContact.query.filter_by(phone=phone).first()
-        if user_contact and user_contact.user:
-            return user_contact.user
-
     return None
 
 
@@ -112,29 +93,7 @@ def _normalize_login_identity(login_value: str) -> str:
     if email:
         return f"email:{email}"
 
-    phone = normalize_phone(raw)
-    if phone:
-        return f"phone:{phone}"
-
     return f"username:{raw.lower()}"
-
-
-def _resolve_contact_channel_and_destination(channel: str, raw_contact: str) -> tuple[str, str]:
-    """Служебная функция `_resolve_contact_channel_and_destination` для внутренней логики модуля."""
-    requested_channel = (channel or "").strip().lower()
-    if requested_channel not in {"email", "phone"}:
-        return "", ""
-
-    destination = _normalize_contact(requested_channel, raw_contact)
-    if destination:
-        return requested_channel, destination
-
-    fallback_channel = "phone" if requested_channel == "email" else "email"
-    fallback_destination = _normalize_contact(fallback_channel, raw_contact)
-    if fallback_destination:
-        return fallback_channel, fallback_destination
-
-    return requested_channel, ""
 
 
 def _validate_username(username: str) -> str | None:
@@ -150,7 +109,7 @@ def _validate_username(username: str) -> str | None:
     return None
 
 
-def _issue_reset_code(user_id: int, channel: str, destination: str) -> tuple[bool, str]:
+def _issue_reset_code(user_id: int, destination: str) -> tuple[bool, str]:
     """Служебная функция `_issue_reset_code` для внутренней логики модуля."""
     now = datetime.utcnow()
     expires_at = now + timedelta(
@@ -166,7 +125,7 @@ def _issue_reset_code(user_id: int, channel: str, destination: str) -> tuple[boo
 
     token = PasswordResetToken(
         user_id=user_id,
-        channel=channel,
+        channel="email",
         destination=destination,
         code_hash=generate_password_hash(code, method="scrypt"),
         expires_at=expires_at,
@@ -174,11 +133,10 @@ def _issue_reset_code(user_id: int, channel: str, destination: str) -> tuple[boo
     db.session.add(token)
     db.session.commit()
 
-    sent = send_password_reset_code(channel, destination, code)
+    sent = send_password_reset_code(destination, code)
     if not sent:
         current_app.logger.warning(
-            "Не удалось доставить код восстановления (%s) для %s",
-            channel,
+            "Не удалось доставить код восстановления для %s",
             destination,
         )
         token.used_at = now
@@ -187,13 +145,13 @@ def _issue_reset_code(user_id: int, channel: str, destination: str) -> tuple[boo
     return sent, code
 
 
-def _get_active_reset_token(user_id: int, channel: str, destination: str) -> PasswordResetToken | None:
+def _get_active_reset_token(user_id: int, destination: str) -> PasswordResetToken | None:
     """Служебная функция `_get_active_reset_token` для внутренней логики модуля."""
     now = datetime.utcnow()
     return (
         PasswordResetToken.query.filter_by(
             user_id=user_id,
-            channel=channel,
+            channel="email",
             destination=destination,
             used_at=None,
         )
@@ -231,9 +189,7 @@ def register_routes(app):
             username = (request.form.get("username") or "").strip()
             password = request.form.get("password") or ""
             raw_email = request.form.get("email") or ""
-            raw_phone = request.form.get("phone") or ""
             email = normalize_email(raw_email)
-            phone = normalize_phone(raw_phone)
 
             if not username or not password:
                 flash(_("Пожалуйста, заполните все поля"), "error")
@@ -244,16 +200,12 @@ def register_routes(app):
                 flash(username_error, "error")
                 return _localized_redirect("register")
 
-            if not raw_email.strip() and not raw_phone.strip():
-                flash(_("Укажите email или номер телефона для восстановления пароля."), "error")
+            if not raw_email.strip():
+                flash(_("Укажите email для восстановления пароля."), "error")
                 return _localized_redirect("register")
 
             if raw_email.strip() and not email:
                 flash(_("Введите корректный email."), "error")
-                return _localized_redirect("register")
-
-            if raw_phone.strip() and not phone:
-                flash(_("Введите корректный номер телефона (от 10 до 15 цифр)."), "error")
                 return _localized_redirect("register")
 
             password_error = _validate_password_strength(password, username=username)
@@ -269,13 +221,9 @@ def register_routes(app):
                 flash(_("Этот email уже используется другим аккаунтом."), "error")
                 return _localized_redirect("register")
 
-            if phone and UserContact.query.filter_by(phone=phone).first():
-                flash(_("Этот номер телефона уже используется другим аккаунтом."), "error")
-                return _localized_redirect("register")
-
             hashed_password = generate_password_hash(password, method="scrypt")
             new_user = User(username=username, password_hash=hashed_password)
-            new_user.contact = UserContact(email=email or None, phone=phone or None)
+            new_user.contact = UserContact(email=email or None)
             db.session.add(new_user)
             db.session.commit()
 
@@ -351,7 +299,6 @@ def register_routes(app):
 
         username = (request.form.get("username") or "").strip()
         raw_email = request.form.get("email") or ""
-        raw_phone = request.form.get("phone") or ""
         current_password = request.form.get("current_password") or ""
 
         if not check_password_hash(current_user.password_hash, current_password):
@@ -364,18 +311,13 @@ def register_routes(app):
             return _localized_redirect("profile")
 
         email = normalize_email(raw_email)
-        phone = normalize_phone(raw_phone)
 
-        if not raw_email.strip() and not raw_phone.strip():
-            flash(_("Укажите хотя бы один контакт: email или телефон."), "error")
+        if not raw_email.strip():
+            flash(_("Укажите email для восстановления пароля."), "error")
             return _localized_redirect("profile")
 
         if raw_email.strip() and not email:
             flash(_("Введите корректный email."), "error")
-            return _localized_redirect("profile")
-
-        if raw_phone.strip() and not phone:
-            flash(_("Введите корректный номер телефона (от 10 до 15 цифр)."), "error")
             return _localized_redirect("profile")
 
         existing_username = User.query.filter(
@@ -395,20 +337,10 @@ def register_routes(app):
                 flash(_("Этот email уже используется другим аккаунтом."), "error")
                 return _localized_redirect("profile")
 
-        if phone:
-            existing_phone = UserContact.query.filter(
-                UserContact.phone == phone,
-                UserContact.user_id != current_user.id,
-            ).first()
-            if existing_phone:
-                flash(_("Этот номер телефона уже используется другим аккаунтом."), "error")
-                return _localized_redirect("profile")
-
         current_user.username = username
         if current_user.contact is None:
             current_user.contact = UserContact(user_id=current_user.id)
         current_user.contact.email = email or None
-        current_user.contact.phone = phone or None
         db.session.commit()
 
         flash(_("Профиль обновлён."), "success")
@@ -432,26 +364,18 @@ def register_routes(app):
             flash(_("Слишком много запросов на отправку кода. Попробуйте позже."), "error")
             return _localized_redirect("profile")
 
-        channel = (request.form.get("channel") or "email").strip().lower()
-        if channel not in {"email", "phone"}:
-            flash(_("Выберите корректный способ подтверждения: email или телефон."), "error")
-            return _localized_redirect("profile")
-
         contact = current_user.contact
         if not contact:
-            flash(_("Сначала добавьте email или телефон в личном кабинете."), "error")
+            flash(_("Сначала добавьте email в личном кабинете."), "error")
             return _localized_redirect("profile")
 
-        destination = (contact.email if channel == "email" else contact.phone) or ""
+        destination = (contact.email or "").strip()
         if not destination:
-            if channel == "email":
-                flash(_("Для этого аккаунта не задан email."), "error")
-            else:
-                flash(_("Для этого аккаунта не задан номер телефона."), "error")
+            flash(_("Для этого аккаунта не задан email."), "error")
             return _localized_redirect("profile")
 
         if _is_rate_limited(
-            f"profile_password_send_{channel}",
+            "profile_password_send_email",
             limit=5,
             window_seconds=15 * 60,
             identity=destination,
@@ -459,11 +383,11 @@ def register_routes(app):
             flash(_("Слишком много запросов для этого контакта. Попробуйте позже."), "error")
             return _localized_redirect("profile")
 
-        sent, code = _issue_reset_code(current_user.id, channel, destination)
+        sent, code = _issue_reset_code(current_user.id, destination)
         if sent:
             flash(_("Код подтверждения отправлен."), "success")
         else:
-            flash(_("Не удалось отправить код. Проверьте настройки SMTP/SMS."), "error")
+            flash(_("Не удалось отправить код. Проверьте настройки SMTP."), "error")
             if current_app.debug:
                 flash(_("Dev-код: %(code)s", code=code), "info")
 
@@ -487,14 +411,9 @@ def register_routes(app):
             flash(_("Слишком много попыток смены пароля. Попробуйте позже."), "error")
             return _localized_redirect("profile")
 
-        channel = (request.form.get("channel") or "email").strip().lower()
         code = (request.form.get("code") or "").strip()
         new_password = request.form.get("new_password") or ""
         confirm_password = request.form.get("confirm_password") or ""
-
-        if channel not in {"email", "phone"}:
-            flash(_("Выберите корректный способ подтверждения."), "error")
-            return _localized_redirect("profile")
 
         if not (code.isdigit() and len(code) == 6):
             flash(_("Код должен состоять из 6 цифр."), "error")
@@ -505,15 +424,13 @@ def register_routes(app):
             return _localized_redirect("profile")
 
         contact = current_user.contact
-        destination = ""
-        if contact:
-            destination = (contact.email if channel == "email" else contact.phone) or ""
+        destination = (contact.email or "").strip() if contact else ""
         if not destination:
-            flash(_("Сначала укажите выбранный контакт в личном кабинете."), "error")
+            flash(_("Сначала укажите email в личном кабинете."), "error")
             return _localized_redirect("profile")
 
         if _is_rate_limited(
-            f"profile_password_change_{channel}",
+            "profile_password_change_email",
             limit=12,
             window_seconds=15 * 60,
             identity=destination,
@@ -521,7 +438,7 @@ def register_routes(app):
             flash(_("Слишком много попыток для этого контакта. Попробуйте позже."), "error")
             return _localized_redirect("profile")
 
-        token = _get_active_reset_token(current_user.id, channel, destination)
+        token = _get_active_reset_token(current_user.id, destination)
         if not token:
             flash(_("Код не найден или истек. Запросите новый."), "error")
             return _localized_redirect("profile")
@@ -573,23 +490,14 @@ def register_routes(app):
                 flash(_("Слишком много запросов. Попробуйте позже."), "error")
                 return _localized_redirect("forgot_password")
 
-            requested_channel = (request.form.get("channel") or "email").strip().lower()
             raw_contact = (request.form.get("contact") or "").strip()
-
-            if requested_channel not in {"email", "phone"}:
-                flash(_("Выберите способ восстановления: email или телефон."), "error")
-                return _localized_redirect("forgot_password")
-
-            channel, destination = _resolve_contact_channel_and_destination(requested_channel, raw_contact)
+            destination = normalize_email(raw_contact)
             if not destination:
-                if requested_channel == "email":
-                    flash(_("Введите корректный email."), "error")
-                else:
-                    flash(_("Введите корректный номер телефона (от 10 до 15 цифр)."), "error")
+                flash(_("Введите корректный email."), "error")
                 return _localized_redirect("forgot_password")
 
             if _is_rate_limited(
-                f"forgot_password_{channel}",
+                "forgot_password_email",
                 limit=5,
                 window_seconds=15 * 60,
                 identity=destination,
@@ -597,15 +505,15 @@ def register_routes(app):
                 flash(_("Слишком много запросов для этого контакта. Попробуйте позже."), "error")
                 return _localized_redirect("forgot_password")
 
-            user_contact = _find_user_contact(channel, destination)
+            user_contact = _find_user_contact(destination)
             if user_contact and user_contact.user:
-                sent, code = _issue_reset_code(user_contact.user_id, channel, destination)
+                sent, code = _issue_reset_code(user_contact.user_id, destination)
                 if not sent and current_app.debug:
                     flash(_("Dev-код восстановления: %(code)s", code=code), "info")
 
             # Не раскрываем, существует ли аккаунт для указанного контакта.
             flash(_("Если контакт найден, код восстановления отправлен."), "success")
-            return _localized_redirect("reset_password", channel=channel, contact=destination)
+            return _localized_redirect("reset_password", contact=destination)
 
         return render_template("forgot_password.html")
 
@@ -622,47 +530,39 @@ def register_routes(app):
                 flash(_("Слишком много попыток сброса пароля. Попробуйте позже."), "error")
                 return _localized_redirect("reset_password")
 
-            requested_channel = (request.form.get("channel") or "email").strip().lower()
             raw_contact = (request.form.get("contact") or "").strip()
             code = (request.form.get("code") or "").strip()
             new_password = request.form.get("new_password") or ""
             confirm_password = request.form.get("confirm_password") or ""
 
-            if requested_channel not in {"email", "phone"}:
-                flash(_("Выберите корректный способ восстановления."), "error")
-                return _localized_redirect("reset_password")
-
-            channel, destination = _resolve_contact_channel_and_destination(requested_channel, raw_contact)
+            destination = normalize_email(raw_contact)
             if not destination:
-                if requested_channel == "email":
-                    flash(_("Введите корректный email."), "error")
-                else:
-                    flash(_("Введите корректный номер телефона (от 10 до 15 цифр)."), "error")
+                flash(_("Введите корректный email."), "error")
                 return _localized_redirect("reset_password")
 
             if not (code.isdigit() and len(code) == 6):
                 flash(_("Код восстановления должен состоять из 6 цифр."), "error")
-                return _localized_redirect("reset_password", channel=channel, contact=destination)
+                return _localized_redirect("reset_password", contact=destination)
 
             if new_password != confirm_password:
                 flash(_("Пароли не совпадают."), "error")
-                return _localized_redirect("reset_password", channel=channel, contact=destination)
+                return _localized_redirect("reset_password", contact=destination)
 
-            user_contact = _find_user_contact(channel, destination)
+            user_contact = _find_user_contact(destination)
             if not user_contact or not user_contact.user:
                 flash(_("Неверный код или контакт. Проверьте данные."), "error")
-                return _localized_redirect("reset_password", channel=channel, contact=destination)
+                return _localized_redirect("reset_password", contact=destination)
 
             if _is_rate_limited(
-                f"reset_password_{channel}",
+                "reset_password_email",
                 limit=12,
                 window_seconds=15 * 60,
                 identity=destination,
             ):
                 flash(_("Слишком много попыток для этого контакта. Попробуйте позже."), "error")
-                return _localized_redirect("reset_password", channel=channel, contact=destination)
+                return _localized_redirect("reset_password", contact=destination)
 
-            token = _get_active_reset_token(user_contact.user_id, channel, destination)
+            token = _get_active_reset_token(user_contact.user_id, destination)
 
             if not token:
                 flash(_("Код не найден или истек. Запросите новый код."), "error")
@@ -677,16 +577,16 @@ def register_routes(app):
                 token.attempts += 1
                 db.session.commit()
                 flash(_("Неверный код восстановления."), "error")
-                return _localized_redirect("reset_password", channel=channel, contact=destination)
+                return _localized_redirect("reset_password", contact=destination)
 
             password_error = _validate_password_strength(new_password, username=user_contact.user.username)
             if password_error:
                 flash(password_error, "error")
-                return _localized_redirect("reset_password", channel=channel, contact=destination)
+                return _localized_redirect("reset_password", contact=destination)
 
             if check_password_hash(user_contact.user.password_hash, new_password):
                 flash(_("Новый пароль должен отличаться от текущего."), "error")
-                return _localized_redirect("reset_password", channel=channel, contact=destination)
+                return _localized_redirect("reset_password", contact=destination)
 
             now = datetime.utcnow()
             user_contact.user.password_hash = generate_password_hash(new_password, method="scrypt")
@@ -702,13 +602,9 @@ def register_routes(app):
             flash(_("Пароль обновлен. Теперь вы можете войти с новым паролем."), "success")
             return _localized_redirect("login")
 
-        prefill_channel = (request.args.get("channel") or "email").strip().lower()
-        if prefill_channel not in {"email", "phone"}:
-            prefill_channel = "email"
         prefill_contact = (request.args.get("contact") or "").strip()
         return render_template(
             "reset_password.html",
-            prefill_channel=prefill_channel,
             prefill_contact=prefill_contact,
         )
 

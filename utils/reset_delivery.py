@@ -1,25 +1,18 @@
 """
 Модуль: `utils/reset_delivery.py`.
-Назначение: Доставка кода восстановления через email и SMS-провайдер.
+Назначение: Доставка кода восстановления через email.
 """
 
-import json
 import smtplib
 import ssl
-import urllib.error
-import urllib.request
 from email.message import EmailMessage
 
 from flask import current_app
 
 
-def send_password_reset_code(channel: str, destination: str, code: str) -> bool:
+def send_password_reset_code(destination: str, code: str) -> bool:
     """Выполняет операцию `send_password_reset_code` в рамках сценария модуля."""
-    if channel == "email":
-        return _send_email_code(destination, code)
-    if channel == "phone":
-        return _send_sms_code(destination, code)
-    return False
+    return _send_email_code(destination, code)
 
 
 def _send_email_code(email: str, code: str) -> bool:
@@ -64,38 +57,4 @@ def _send_email_code(email: str, code: str) -> bool:
         return True
     except Exception:
         current_app.logger.exception("Не удалось отправить код восстановления на email: %s", email)
-        return False
-
-
-def _send_sms_code(phone: str, code: str) -> bool:
-    """Служебная функция `_send_sms_code` для внутренней логики модуля."""
-    cfg = current_app.config
-    api_url = cfg.get("SMS_API_URL", "").strip()
-    if not api_url:
-        return False
-
-    token = cfg.get("SMS_API_TOKEN", "").strip()
-    sender = cfg.get("SMS_SENDER_NAME", "Paleta").strip() or "Paleta"
-    timeout = int(cfg.get("SMS_API_TIMEOUT", 8))
-    payload = {
-        "to": phone,
-        "message": f"{sender}: код восстановления пароля {code}",
-        "sender": sender,
-    }
-
-    headers = {"Content-Type": "application/json"}
-    if token:
-        headers["Authorization"] = f"Bearer {token}"
-
-    request = urllib.request.Request(
-        api_url,
-        data=json.dumps(payload).encode("utf-8"),
-        headers=headers,
-        method="POST",
-    )
-    try:
-        with urllib.request.urlopen(request, timeout=timeout) as response:
-            return 200 <= getattr(response, "status", 0) < 300
-    except urllib.error.URLError:
-        current_app.logger.exception("Не удалось отправить SMS-код восстановления на номер: %s", phone)
         return False

@@ -105,11 +105,6 @@ class Config:
     SMTP_USE_TLS = _get_env_bool("SMTP_USE_TLS", default=True)
     SMTP_USE_SSL = _get_env_bool("SMTP_USE_SSL", default=False)
 
-    SMS_API_URL = os.environ.get("SMS_API_URL", "").strip()
-    SMS_API_TOKEN = os.environ.get("SMS_API_TOKEN", "").strip()
-    SMS_API_TIMEOUT = _get_env_int("SMS_API_TIMEOUT", 8)
-    SMS_SENDER_NAME = os.environ.get("SMS_SENDER_NAME", "Paleta").strip()
-
     SUPPORTED_LANGUAGES = ("ru", "en")
     DEFAULT_LANGUAGE = os.environ.get("DEFAULT_LANGUAGE", "en").strip().lower() or "en"
     LANG_COOKIE_NAME = os.environ.get("LANG_COOKIE_NAME", "site_lang").strip() or "site_lang"

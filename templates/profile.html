@@ -35,12 +35,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" value="{{ profile_contact.email if profile_contact and profile_contact.email else '' }}" placeholder="you@example.com">
-                        </div>
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">{{ _('Телефон') }}</label>
-                            <input type="tel" class="form-control" id="phone" name="phone" value="{{ profile_contact.phone if profile_contact and profile_contact.phone else '' }}" placeholder="+79991234567">
-                            <div class="form-text">{{ _('Укажите минимум один контакт: email или телефон.') }}</div>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ profile_contact.email if profile_contact and profile_contact.email else '' }}" placeholder="you@example.com" required>
                         </div>
                         <div class="mb-3">
                             <label for="current_password" class="form-label">{{ _('Текущий пароль (для подтверждения изменений)') }}</label>
@@ -51,29 +46,15 @@
 
                     <hr class="my-4">
 
-                    <h5 class="mb-3">{{ _('Смена пароля через код (email/телефон)') }}</h5>
+                    <h5 class="mb-3">{{ _('Смена пароля через код (email)') }}</h5>
 
                     <form method="POST" action="{{ url_for('profile_send_password_code') }}" class="mb-3">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-                        <label for="send_channel" class="form-label">{{ _('Куда отправить код') }}</label>
-                        <div class="d-flex flex-wrap gap-2 align-items-center">
-                            <select class="form-select w-auto" id="send_channel" name="channel" required>
-                                <option value="email">Email</option>
-                                <option value="phone">{{ _('Телефон') }}</option>
-                            </select>
-                            <button type="submit" class="btn btn-outline-primary">{{ _('Отправить код') }}</button>
-                        </div>
+                        <button type="submit" class="btn btn-outline-primary">{{ _('Отправить код на email') }}</button>
                     </form>
 
                     <form method="POST" action="{{ url_for('profile_change_password') }}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-                        <div class="mb-3">
-                            <label for="change_channel" class="form-label">{{ _('Способ подтверждения') }}</label>
-                            <select class="form-select" id="change_channel" name="channel" required>
-                                <option value="email">Email</option>
-                                <option value="phone">{{ _('Телефон') }}</option>
-                            </select>
-                        </div>
                         <div class="mb-3">
                             <label for="code" class="form-label">{{ _('Код подтверждения') }}</label>
                             <input type="text" class="form-control" id="code" name="code" pattern="\d{6}" maxlength="6" required placeholder="123456">

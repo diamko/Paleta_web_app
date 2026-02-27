@@ -1,6 +1,6 @@
 """
 Модуль: `utils/contact_normalizer.py`.
-Назначение: Нормализация email/телефонных контактов пользователей.
+Назначение: Нормализация email-контактов пользователей.
 """
 
 import re
@@ -17,18 +17,3 @@ def normalize_email(value: str | None) -> str:
     if not EMAIL_RE.match(email):
         return ""
     return email
-
-
-def normalize_phone(value: str | None) -> str:
-    """Выполняет операцию `normalize_phone` в рамках сценария модуля."""
-    if not value:
-        return ""
-    raw = value.strip()
-    if not raw:
-        return ""
-
-    digits = re.sub(r"\D", "", raw)
-    if not (10 <= len(digits) <= 15):
-        return ""
-
-    return f"+{digits}"
