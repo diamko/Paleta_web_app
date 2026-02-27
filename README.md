@@ -25,7 +25,7 @@ You can build palettes from uploaded images (dominant color extraction with KMea
 
 The project is aimed at designers, frontend developers, and anyone who works with color systems and needs a fast workflow from image to ready-to-use color codes.
 
-Production deployment guide (SQLite + Docker + Nginx + HTTPS): `DEPLOYMENT.ru.md`.
+Production deployment guide (PostgreSQL + Docker + Nginx + HTTPS): `DEPLOYMENT.ru.md`.
 
 ## Table of Contents
 
@@ -93,7 +93,7 @@ To provide a practical, browser-based tool for turning visual references into re
 - `Pillow`
 - `NumPy`
 - `scikit-learn` (KMeans)
-- `SQLite` (default database)
+- `PostgreSQL` (default database)
 - `Bootstrap 5` + Vanilla JavaScript
 
 ## How It Works
@@ -111,6 +111,7 @@ To provide a practical, browser-based tool for turning visual references into re
 - `git`
 - `Python 3.10+` (recommended `3.12`)
 - `pip`
+- `PostgreSQL` (or Docker for running PostgreSQL container)
 
 ### 1) Clone repository
 
@@ -148,6 +149,17 @@ pip install -r requirements.txt
 
 ### 4) Initialize database (first run)
 
+Quick local PostgreSQL start (Docker):
+
+```bash
+docker run --name paleta-postgres \
+  -e POSTGRES_DB=paleta \
+  -e POSTGRES_USER=paleta \
+  -e POSTGRES_PASSWORD=paleta \
+  -p 5432:5432 \
+  -d postgres:latest
+```
+
 Linux/macOS:
 
 ```bash
@@ -160,7 +172,10 @@ Windows (PowerShell):
 python -c "from app import app; from extensions import db; import models; app.app_context().push(); db.create_all()"
 ```
 
-By default, SQLite DB is created at `instance/paleta.db`.
+By default, app expects PostgreSQL:
+
+- development: `postgresql+psycopg://paleta:paleta@localhost:5432/paleta`
+- production: `postgresql+psycopg://paleta:paleta@db:5432/paleta`
 
 ## Run the Project
 
@@ -193,7 +208,7 @@ Main config is in `config.py`.
 ### Environment variables
 
 - `SECRET_KEY` (required in `production`, optional in local development)
-- `DATABASE_URL` (optional; defaults to local SQLite in development and `/app/instance` SQLite in production)
+- `DATABASE_URL` (optional; defaults to local PostgreSQL in development and PostgreSQL container `db` in production)
 - `FLASK_ENV` (`production` for prod setup)
 - `SESSION_COOKIE_SECURE` (`true` by default in production, `false` in development)
 - `CORS_ENABLED` (`false` by default; enable only if API is called from another origin)
@@ -208,7 +223,7 @@ Example (Linux/macOS):
 
 ```bash
 export SECRET_KEY="replace-with-a-secure-random-value"
-export DATABASE_URL="sqlite:///paleta.db"
+export DATABASE_URL="postgresql+psycopg://paleta:paleta@localhost:5432/paleta"
 export FLASK_ENV="development"
 export SESSION_COOKIE_SECURE="false"
 export CORS_ENABLED="false"
@@ -221,13 +236,13 @@ export PASSWORD_RESET_MAX_ATTEMPTS="5"
 
 - `SQLALCHEMY_DATABASE_URI` comes from `DATABASE_URL`
 - default DB URL (if not set):
-  - development: `sqlite:///paleta.db`
-  - production: `sqlite:////app/instance/paleta.db`
+  - development: `postgresql+psycopg://paleta:paleta@localhost:5432/paleta`
+  - production: `postgresql+psycopg://paleta:paleta@db:5432/paleta`
 - `UPLOAD_FOLDER = static/uploads`
 - `MAX_CONTENT_LENGTH = 16 MB`
 - Allowed image extensions: `png`, `jpg`, `jpeg`, `webp`
 
-If you want another DB engine, pass a different value via `DATABASE_URL`.
+If needed, pass a different DB URL via `DATABASE_URL`.
 
 ## Usage Guide
 

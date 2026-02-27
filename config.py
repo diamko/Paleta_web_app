@@ -44,6 +44,18 @@ def _is_production() -> bool:
     return os.environ.get("FLASK_ENV", "").strip().lower() == "production"
 
 
+def _normalize_database_url(url: str) -> str:
+    """Приводит URL БД к формату SQLAlchemy для PostgreSQL."""
+    normalized = url.strip()
+    if normalized.startswith("postgresql+psycopg://"):
+        return normalized
+    if normalized.startswith("postgresql://"):
+        return "postgresql+psycopg://" + normalized[len("postgresql://") :]
+    if normalized.startswith("postgres://"):
+        return "postgresql+psycopg://" + normalized[len("postgres://") :]
+    return normalized
+
+
 class Config:
     """Базовая конфигурация приложения."""
 
@@ -63,11 +75,18 @@ class Config:
             stacklevel=1,
         )
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        "DATABASE_URL",
-        "sqlite:////app/instance/paleta.db" if _PRODUCTION else "sqlite:///paleta.db",
+    SQLALCHEMY_DATABASE_URI = _normalize_database_url(
+        os.environ.get(
+            "DATABASE_URL",
+            "postgresql+psycopg://paleta:paleta@db:5432/paleta"
+            if _PRODUCTION
+            else "postgresql+psycopg://paleta:paleta@localhost:5432/paleta",
+        )
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "pool_pre_ping": True,
+    }
     SESSION_COOKIE_SECURE = _get_env_bool("SESSION_COOKIE_SECURE", default=_PRODUCTION)
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = os.environ.get("SESSION_COOKIE_SAMESITE", "Lax")

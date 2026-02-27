@@ -25,7 +25,7 @@ Paleta - это веб-приложение для генерации, реда�
 
 Проект ориентирован на дизайнеров, frontend-разработчиков и всех, кто работает с цветом и хочет быстро переходить от изображения к готовым HEX-кодам.
 
-Гайд по продакшн-деплою (SQLite + Docker + Nginx + HTTPS): `DEPLOYMENT.ru.md`.
+Гайд по продакшн-деплою (PostgreSQL + Docker + Nginx + HTTPS): `DEPLOYMENT.ru.md`.
 
 <a id="toc-ru"></a>
 
@@ -101,7 +101,7 @@ Paleta - это веб-приложение для генерации, реда�
 - `Pillow`
 - `NumPy`
 - `scikit-learn` (KMeans)
-- `SQLite` (база данных по умолчанию)
+- `PostgreSQL` (база данных по умолчанию)
 - `Bootstrap 5` + Vanilla JavaScript
 
 <a id="workflow-ru"></a>
@@ -123,6 +123,7 @@ Paleta - это веб-приложение для генерации, реда�
 - `git`
 - `Python 3.10+` (рекомендуется `3.12`)
 - `pip`
+- `PostgreSQL` (или Docker для запуска PostgreSQL-контейнера)
 
 ### 1) Клонирование репозитория
 
@@ -160,6 +161,17 @@ pip install -r requirements.txt
 
 ### 4) Инициализация базы данных (первый запуск)
 
+Быстрый запуск локального PostgreSQL через Docker:
+
+```bash
+docker run --name paleta-postgres \
+  -e POSTGRES_DB=paleta \
+  -e POSTGRES_USER=paleta \
+  -e POSTGRES_PASSWORD=paleta \
+  -p 5432:5432 \
+  -d postgres:latest
+```
+
 Linux/macOS:
 
 ```bash
@@ -172,7 +184,10 @@ Windows (PowerShell):
 python -c "from app import app; from extensions import db; import models; app.app_context().push(); db.create_all()"
 ```
 
-По умолчанию SQLite-база создается в `instance/paleta.db`.
+По умолчанию приложение ожидает PostgreSQL:
+
+- development: `postgresql+psycopg://paleta:paleta@localhost:5432/paleta`
+- production: `postgresql+psycopg://paleta:paleta@db:5432/paleta`
 
 <a id="run-ru"></a>
 
@@ -209,7 +224,7 @@ flask --app app run
 ### Переменные окружения
 
 - `SECRET_KEY` (обязательная в `production`, опциональна для локальной разработки)
-- `DATABASE_URL` (опционально; по умолчанию локальная SQLite в development и SQLite в `/app/instance` в production)
+- `DATABASE_URL` (опционально; по умолчанию локальная PostgreSQL в development и PostgreSQL-контейнер `db` в production)
 - `FLASK_ENV` (`production` для продакшна)
 - `SESSION_COOKIE_SECURE` (`true` по умолчанию в production, `false` в development)
 - `CORS_ENABLED` (`false` по умолчанию; включайте только если API вызывается с другого origin)
@@ -224,7 +239,7 @@ flask --app app run
 
 ```bash
 export SECRET_KEY="replace-with-a-secure-random-value"
-export DATABASE_URL="sqlite:///paleta.db"
+export DATABASE_URL="postgresql+psycopg://paleta:paleta@localhost:5432/paleta"
 export FLASK_ENV="development"
 export SESSION_COOKIE_SECURE="false"
 export CORS_ENABLED="false"
@@ -237,13 +252,13 @@ export PASSWORD_RESET_MAX_ATTEMPTS="5"
 
 - `SQLALCHEMY_DATABASE_URI` берется из `DATABASE_URL`
 - URL БД по умолчанию (если не задан):
-  - development: `sqlite:///paleta.db`
-  - production: `sqlite:////app/instance/paleta.db`
+  - development: `postgresql+psycopg://paleta:paleta@localhost:5432/paleta`
+  - production: `postgresql+psycopg://paleta:paleta@db:5432/paleta`
 - `UPLOAD_FOLDER = static/uploads`
 - `MAX_CONTENT_LENGTH = 16 MB`
 - Разрешенные расширения изображений: `png`, `jpg`, `jpeg`, `webp`
 
-Если хотите использовать другую СУБД, передайте другой URL через `DATABASE_URL`.
+Если хотите использовать другую СУБД, передайте нужный URL через `DATABASE_URL`.
 
 <a id="usage-ru"></a>
 

@@ -24,6 +24,8 @@ htmlcov/
 
 data/instance/*
 !data/instance/.gitkeep
+data/postgres/*
+!data/postgres/.gitkeep
 data/uploads/*
 !data/uploads/.gitkeep
 backups/
