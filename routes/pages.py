@@ -204,6 +204,8 @@ def register_routes(app):
             (
                 "User-agent: *",
                 "Allow: /",
+                "Allow: /favicon.ico",
+                "Allow: /static/favicon.ico",
                 *unique_disallow_lines,
                 f"Sitemap: {sitemap_url}",
                 "",
