@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-02-27 11:33+0300\n"
+"POT-Creation-Date: 2026-02-27 11:44+0300\n"
 "PO-Revision-Date: 2026-02-21 21:50+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -224,8 +224,8 @@ msgstr "The \"{scheme}\" scheme is available only with {count} colors."
 #: app.py:253
 msgid "Схема \"{scheme}\" недоступна при {count} цветах. Выбрана монохромная."
 msgstr ""
-"The \"{scheme}\" scheme is unavailable for {count} colors. Monochromatic was "
-"selected."
+"The \"{scheme}\" scheme is unavailable for {count} colors. Monochromatic "
+"was selected."
 
 #: app.py:275
 msgid "Недействительный CSRF-токен. Обновите страницу и повторите попытку."
@@ -659,8 +659,7 @@ msgid "Система создаст уникальную палитру из г
 msgstr "The system will create a unique palette of harmonious colors"
 
 #: templates/faq.html:62
-msgid ""
-"Вы можете повторно генерировать палитру, пока не найдете идеальный вариант"
+msgid "Вы можете повторно генерировать палитру, пока не найдете идеальный вариант"
 msgstr "You can regenerate the palette until you find the perfect option"
 
 #: templates/faq.html:63
@@ -680,8 +679,7 @@ msgid "Как сохранить палитру?"
 msgstr "How do I save a palette?"
 
 #: templates/faq.html:83
-msgid ""
-"Сохранение палитры доступно только для зарегистрированных пользователей:"
+msgid "Сохранение палитры доступно только для зарегистрированных пользователей:"
 msgstr "Saving a palette is available only for registered users:"
 
 #: templates/faq.html:85
@@ -819,8 +817,7 @@ msgid "Оптимизированный дизайн"
 msgstr "Optimized design"
 
 #: templates/faq.html:189
-msgid ""
-"Вы можете использовать Paleta прямо из браузера без установки приложения."
+msgid "Вы можете использовать Paleta прямо из браузера без установки приложения."
 msgstr "You can use Paleta directly in your browser without installing an app."
 
 #: templates/forgot_password.html:6
@@ -852,8 +849,7 @@ msgid "Генерация случайной палитры"
 msgstr "Random Palette Generation"
 
 #: templates/generatePalet.html:14
-msgid ""
-"Создайте уникальную цветовую палитру с помощью генератора случайных цветов"
+msgid "Создайте уникальную цветовую палитру с помощью генератора случайных цветов"
 msgstr "Create a unique color palette with the random color generator."
 
 #: templates/generatePalet.html:18 templates/index.html:62
@@ -874,10 +870,9 @@ msgstr "Triad is available only for 3 colors, tetrad only for 4."
 
 #: templates/generatePalet.html:46 templates/index.html:56
 msgid ""
-"Меняйте цвет через палитру или HEX-поле. Нажмите на цвет, чтобы скопировать "
-"HEX."
-msgstr ""
-"Adjust colors using the picker or HEX field. Click a color to copy HEX."
+"Меняйте цвет через палитру или HEX-поле. Нажмите на цвет, чтобы "
+"скопировать HEX."
+msgstr "Adjust colors using the picker or HEX field. Click a color to copy HEX."
 
 #: templates/generatePalet.html:50 templates/index.html:73
 msgid "Действия"
@@ -920,8 +915,7 @@ msgid "Создание цветовой палитры"
 msgstr "Create a Color Palette"
 
 #: templates/index.html:14
-msgid ""
-"Загрузите изображение, и мы извлечем из него уникальную цветовую палитру"
+msgid "Загрузите изображение, и мы извлечем из него уникальную цветовую палитру"
 msgstr "Upload an image and we will extract a unique color palette from it."
 
 #: templates/index.html:18
@@ -954,8 +948,8 @@ msgstr "Uploaded image"
 
 #: templates/index.html:49
 msgid ""
-"Перетаскивайте маркеры-пипетки по изображению: каждый маркер управляет своим "
-"цветом палитры."
+"Перетаскивайте маркеры-пипетки по изображению: каждый маркер управляет "
+"своим цветом палитры."
 msgstr ""
 "Drag eyedropper markers over the image: each marker controls its palette "
 "color."
@@ -1172,8 +1166,8 @@ msgid ""
 "От 10 до 16 символов, минимум одна заглавная буква, одна строчная, одна "
 "цифра и один спецсимвол."
 msgstr ""
-"10 to 16 characters, at least one uppercase, one lowercase, one digit, and "
-"one special character."
+"10 to 16 characters, at least one uppercase, one lowercase, one digit, "
+"and one special character."
 
 #: templates/register.html:80
 msgid "Уже есть аккаунт?"
@@ -1202,3 +1196,4 @@ msgstr "Update Password"
 #: templates/reset_password.html:95
 msgid "Запросить новый код"
 msgstr "Request a new code"
+
