@@ -107,11 +107,13 @@ def register_routes(app):
     @app.get("/download/paleta.apk")
     def download_apk():
         """Отдаёт APK-файл мобильного приложения."""
-        return send_from_directory(
+        response = send_from_directory(
             app.static_folder, "apk/paleta.apk",
             as_attachment=True,
             download_name="Paleta.apk",
         )
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        return response
 
     @app.route(f"/{yandex_verification_file}")
     def yandex_verification():
