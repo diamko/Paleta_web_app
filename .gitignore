@@ -60,5 +60,8 @@ Thumbs.db
 # ── Yandex verification ────────────────────────────
 yandex_*.html
 
+# ── APK at static root (moved to static/apk/) ─────
+static/*.apk
+
 # ── Logs ───────────────────────────────────────────────
 *.log
