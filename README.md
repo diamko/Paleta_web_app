@@ -335,10 +335,10 @@ Paleta/
 ├── templates/              # Jinja2 HTML templates
 ├── translations/           # i18n message catalogs (ru, en)
 ├── static/
+│   ├── apk/                # Android APK (paleta.apk)
 │   ├── css/                # Stylesheets
 │   ├── js/                 # Frontend JavaScript
-│   ├── uploads/            # User-uploaded images
-│   └── paleta.apk          # Latest Android APK
+│   └── uploads/            # User-uploaded images
 ├── requirements.txt
 ├── LICENCE
 ├── README.md
