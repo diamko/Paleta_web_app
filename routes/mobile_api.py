@@ -394,6 +394,76 @@ def register_routes(app):
         _revoke_tokens(access_token=access_token, refresh_token=refresh_token)
         return _envelope_ok({})
 
+    @app.post("/api/mobile/v1/auth/password/forgot")
+    def mobile_forgot_password():
+        try:
+            if _rate_limited("mobile_forgot_password", limit=8, window_seconds=15 * 60):
+                return _envelope_error("Слишком много попыток. Попробуйте позже.", code="rate_limited", status=429)
+
+            payload = request.get_json(silent=True) or {}
+            raw_email = (payload.get("email") or "").strip()
+            email = normalize_email(raw_email)
+            if not email:
+                return _envelope_error("Введите корректный email.", code="validation_error", status=400)
+
+            contact = UserContact.query.filter_by(email=email).first()
+            if contact and contact.user:
+                _issue_reset_code(int(contact.user.id), email)
+
+            return _envelope_ok({})
+        except Exception:
+            db.session.rollback()
+            current_app.logger.exception("mobile_forgot_password failed")
+            return _envelope_error("Внутренняя ошибка сервера", code="server_error", status=500)
+
+    @app.post("/api/mobile/v1/auth/password/reset")
+    def mobile_reset_password():
+        try:
+            payload = request.get_json(silent=True) or {}
+            raw_email = (payload.get("email") or "").strip()
+            email = normalize_email(raw_email)
+            code = (payload.get("code") or "").strip()
+            new_password = payload.get("new_password") or ""
+            confirm_password = payload.get("confirm_password") or ""
+
+            if not email:
+                return _envelope_error("Введите корректный email.", code="validation_error", status=400)
+            if not (code.isdigit() and len(code) == 6):
+                return _envelope_error("Код должен состоять из 6 цифр.", code="validation_error", status=400)
+            if not new_password or new_password != confirm_password:
+                return _envelope_error("Пароли не совпадают.", code="validation_error", status=400)
+
+            contact = UserContact.query.filter_by(email=email).first()
+            if not contact or not contact.user:
+                return _envelope_error("Неверный код подтверждения.", code="invalid_code", status=400)
+
+            user = contact.user
+            password_error = _validate_password_strength(new_password, username=user.username)
+            if password_error:
+                return _envelope_error(password_error, code="validation_error", status=400)
+
+            token = _get_active_reset_token(int(user.id), email)
+            if not token:
+                return _envelope_error("Код не найден или истёк. Запросите новый.", code="code_expired", status=400)
+
+            max_attempts = max(3, int(current_app.config.get("PASSWORD_RESET_MAX_ATTEMPTS", 5)))
+            if token.attempts >= max_attempts:
+                return _envelope_error("Превышено число попыток. Запросите новый код.", code="too_many_attempts", status=400)
+
+            if not check_password_hash(token.code_hash, code):
+                token.attempts += 1
+                db.session.commit()
+                return _envelope_error("Неверный код подтверждения.", code="invalid_code", status=400)
+
+            user.password_hash = generate_password_hash(new_password, method="scrypt")
+            token.used_at = datetime.utcnow()
+            db.session.commit()
+            return _envelope_ok({})
+        except Exception:
+            db.session.rollback()
+            current_app.logger.exception("mobile_reset_password failed")
+            return _envelope_error("Внутренняя ошибка сервера", code="server_error", status=500)
+
     @app.get("/api/mobile/v1/auth/me")
     @_with_mobile_user
     def mobile_me(user: User, access_token: str):
