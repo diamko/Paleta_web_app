@@ -1,27 +1,42 @@
+# ── Uploads (user images) ──────────────────────────────
 static/uploads/*
 !static/uploads/.gitkeep
 
+# ── Python ─────────────────────────────────────────────
 .venv/
 venv/
+env/
 __pycache__/
-*.pyc
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+*.egg
+
+# ── Testing & QA ───────────────────────────────────────
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 .coverage
+coverage.xml
 htmlcov/
 
+# ── IDE ────────────────────────────────────────────────
 .vscode/
 .idea/
-.DS_Store
 *.swp
 *.swo
-*.log
+*~
 
+# ── Environment & secrets ─────────────────────────────
 .env
 .env.*
 !.env.prod.example
+*.pem
+*.key
+*.crt
 
+# ── Docker persistent data ────────────────────────────
 data/instance/*
 !data/instance/.gitkeep
 data/postgres/*
@@ -30,6 +45,7 @@ data/uploads/*
 !data/uploads/.gitkeep
 backups/
 
+# ── Database (local SQLite) ───────────────────────────
 paleta.db
 *.sqlite3
 *.db-journal
@@ -37,5 +53,9 @@ paleta.db
 *.db-shm
 instance/*.db
 
-*.pem
-*.key
+# ── OS ─────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Logs ───────────────────────────────────────────────
+*.log

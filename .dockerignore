@@ -1,42 +1,61 @@
-.git
+# ── Git & GitHub ───────────────────────────────────────
+.git/
 .gitignore
 .gitattributes
 .github/
+
+# ── IDE ────────────────────────────────────────────────
 .vscode/
 .idea/
-.DS_Store
 
+# ── Python virtual environments ───────────────────────
 .venv/
 venv/
 env/
 __pycache__/
 *.py[cod]
+
+# ── Testing & QA ───────────────────────────────────────
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 .coverage
 coverage.xml
 htmlcov/
+tests/
 
+# ── Environment & secrets ─────────────────────────────
 .env
 .env.*
 !.env.prod.example
 *.pem
 *.key
 
-instance/
+# ── Docker persistent data (mounted at runtime) ──────
 data/
 backups/
-static/uploads/
+instance/
 
-tests/
-*.log
-*.swp
-*.swo
+# ── User uploads (mounted at runtime) ────────────────
+static/uploads/*
+!static/uploads/.gitkeep
 
+# ── Documentation (not needed in image) ───────────────
 README.md
 README.ru.md
 CONTRIBUTING.md
 CONTRIBUTING.ru.md
 DEPLOYMENT.ru.md
+LICENCE
+
+# ── Docker config (not needed inside image) ──────────
 docker-compose*.yml
+Dockerfile
+.dockerignore
+
+# ── OS ─────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.log
+*.swp
+*.swo
