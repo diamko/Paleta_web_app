@@ -57,5 +57,8 @@ instance/*.db
 .DS_Store
 Thumbs.db
 
+# ── Yandex verification ────────────────────────────
+yandex_*.html
+
 # ── Logs ───────────────────────────────────────────────
 *.log
