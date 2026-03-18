@@ -1,13 +1,14 @@
 # Paleta
 
 <p align="right">
-  🌍  <strong>Язык:</strong>
-  🇬🇧  English |
-  🇷🇺  <a href="README.ru.md">Русский</a>
+  🌍 <strong>Language:</strong>
+  🇬🇧 English |
+  🇷🇺 <a href="README.ru.md">Русский</a>
 </p>
 
 [![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-2.3-black.svg)](https://flask.palletsprojects.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791.svg)](https://www.postgresql.org/)
 [![Status](https://img.shields.io/badge/status-active-success.svg)](#)
 
 <p align="center">
@@ -16,16 +17,9 @@
   </a>
 </p>
 
-<p align="center">
-  <strong>Visit my website:</strong> <a href="https://diamko.ru">diamko.ru</a>
-</p>
+Paleta is a web application for generating, editing, saving, and exporting color palettes. Build palettes from uploaded images (dominant color extraction via KMeans) or generate random ones, then manage them in your personal account.
 
-Paleta is a web app for generating, editing, saving, and exporting color palettes.
-You can build palettes from uploaded images (dominant color extraction with KMeans) or generate random palettes, then manage them in your personal account.
-
-The project is aimed at designers, frontend developers, and anyone who works with color systems and needs a fast workflow from image to ready-to-use color codes.
-
-Production deployment guide (PostgreSQL + Docker + Nginx + HTTPS): `DEPLOYMENT.ru.md`.
+The project is aimed at designers, frontend developers, and anyone who works with color and needs a fast workflow from image to ready-to-use HEX codes.
 
 ## Table of Contents
 
@@ -37,19 +31,20 @@ Production deployment guide (PostgreSQL + Docker + Nginx + HTTPS): `DEPLOYMENT.r
 6. [Run the Project](#run-the-project)
 7. [Configuration](#configuration)
 8. [Usage Guide](#usage-guide)
-9. [API Endpoints](#api-endpoints)
-10. [Project Structure](#project-structure)
-11. [Testing](#testing)
-12. [Roadmap](#roadmap)
-13. [Contributing](#contributing)
-14. [Author](#author)
-15. [License](#license)
+9. [Web API Endpoints](#web-api-endpoints)
+10. [Mobile API Endpoints](#mobile-api-endpoints)
+11. [Project Structure](#project-structure)
+12. [Testing](#testing)
+13. [Related Projects](#related-projects)
+14. [Contributing](#contributing)
+15. [Authors](#authors)
+16. [License](#license)
 
 ## Why Paleta
 
 ### Goal
 
-To provide a practical, browser-based tool for turning visual references into reusable color palettes.
+Provide a practical, browser-based tool for turning visual references into reusable color palettes — with a companion Android app for on-the-go use.
 
 ### Problem It Solves
 
@@ -57,49 +52,45 @@ To provide a practical, browser-based tool for turning visual references into re
 - Exporting palettes to design-tool formats often requires extra tools.
 - Managing multiple palettes in one place is inconvenient without authentication and storage.
 
-### What Was Learned During Development
-
-- Building modular Flask architecture with separated routes and utilities.
-- Integrating image processing and color clustering (Pillow + NumPy + scikit-learn KMeans).
-- Implementing authentication and per-user data management with Flask-Login + SQLAlchemy.
-- Supporting multi-format export workflows (JSON, GPL, ASE, CSV, PNG, ACO).
-
 ### What Makes It Different
 
-- Two generation modes: from image and random.
-- Inline palette editing (color picker + HEX field + copy to clipboard).
-- Palette management inside account (save, rename, delete, filter, sort).
-- Ready exports for both development and design tools.
+- **Two generation modes**: from image (KMeans clustering) and random.
+- **Inline palette editing**: color picker + HEX field + copy to clipboard.
+- **Palette management**: save, rename, delete, filter, sort — all within your account.
+- **6 export formats**: JSON, GPL, ASE, CSV, PNG, ACO — ready for both development and design tools.
+- **Mobile API**: full REST API for the [Paleta Mobile](https://github.com/diamko/Paleta_mobile_app) Android app.
+- **Password recovery**: email-based code verification with rate limiting.
 
 ## Key Features
 
-- Image upload with drag-and-drop support.
-- Dominant color extraction from image using KMeans.
-- Random palette generation.
-- Palette editing (HEX + picker), re-analysis with a custom number of colors.
-- Export formats: `JSON`, `GPL`, `ASE`, `CSV`, `PNG`, `ACO`.
-- User authentication (register/login/logout).
-- Personal palette library with search, filters, and sorting.
-- Recent image uploads (last 7 days) for signed-in users.
-- Automatic cleanup of old uploads on app startup.
+| Category | Features |
+| --- | --- |
+| **Generation** | Dominant color extraction from image (KMeans), random palette generation |
+| **Editing** | Color picker, HEX input, re-analysis with custom color count |
+| **Export** | JSON, GPL, ASE, CSV, PNG, ACO |
+| **Library** | Personal palette library with search, filters by color count, sorting |
+| **Auth** | Register, login, logout, password reset via email |
+| **Uploads** | Drag-and-drop image upload, recent uploads (last 7 days) |
+| **Mobile** | Full REST API for Android client (auth, palettes, generation, export) |
+| **i18n** | Russian and English interface |
 
 ## Tech Stack
 
-- `Python 3.12`
-- `Flask 2.3.3`
-- `Flask-SQLAlchemy`
-- `Flask-Login`
-- `Flask-CORS`
-- `Pillow`
-- `NumPy`
-- `scikit-learn` (KMeans)
-- `PostgreSQL` (default database)
-- `Bootstrap 5` + Vanilla JavaScript
+| Layer | Technology |
+| --- | --- |
+| Backend | Python 3.12, Flask 2.3.3 |
+| ORM | Flask-SQLAlchemy |
+| Auth | Flask-Login (web), JWT-like tokens (mobile API) |
+| Database | PostgreSQL (psycopg) |
+| Image processing | Pillow, NumPy, scikit-learn (KMeans) |
+| Frontend | Bootstrap 5 + Vanilla JavaScript |
+| Email | smtplib (password reset codes) |
+| Deployment | Docker + Nginx + HTTPS (see `DEPLOYMENT.ru.md`) |
 
 ## How It Works
 
-1. User uploads an image.
-2. Backend resizes it and runs KMeans clustering.
+1. User uploads an image (or generates a random palette).
+2. Backend resizes the image and runs KMeans clustering.
 3. Dominant RGB colors are converted to HEX.
 4. User edits, copies, exports, or saves the palette.
 5. Saved palettes are linked to the authenticated account and managed in "My Palettes".
@@ -111,22 +102,20 @@ To provide a practical, browser-based tool for turning visual references into re
 - `git`
 - `Python 3.10+` (recommended `3.12`)
 - `pip`
-- `PostgreSQL` (or Docker for running PostgreSQL container)
+- `PostgreSQL` (or Docker)
 
-### 1) Clone repository
+### 1) Clone the repository
 
 ```bash
-git clone <your-repo-url>
-cd Paleta
+git clone https://github.com/diamko/Paleta_web_app.git
+cd Paleta_web_app
 ```
 
 ### 2) Create and activate virtual environment
 
-Important:
-- use `.venv` (with a leading dot), not `venv`;
-- on Windows use `python` commands, not `python3`.
+> Use `.venv` (with a leading dot), not `venv`. On Windows use `python` instead of `python3`.
 
-Linux/macOS:
+Linux / macOS:
 
 ```bash
 python3 -m venv .venv
@@ -149,7 +138,7 @@ pip install -r requirements.txt
 
 ### 4) Initialize database (first run)
 
-Quick local PostgreSQL start (Docker):
+Quick local PostgreSQL via Docker:
 
 ```bash
 docker run --name paleta-postgres \
@@ -160,37 +149,25 @@ docker run --name paleta-postgres \
   -d postgres:latest
 ```
 
-Linux/macOS:
+Create tables:
 
 ```bash
 python3 -c "from app import app; from extensions import db; import models; app.app_context().push(); db.create_all()"
 ```
 
-Windows (PowerShell):
+Default database URLs:
 
-```powershell
-python -c "from app import app; from extensions import db; import models; app.app_context().push(); db.create_all()"
-```
-
-By default, app expects PostgreSQL:
-
-- development: `postgresql+psycopg://paleta:paleta@localhost:5432/paleta`
-- production: `postgresql+psycopg://paleta:paleta@db:5432/paleta`
+| Environment | URL |
+| --- | --- |
+| Development | `postgresql+psycopg://paleta:paleta@localhost:5432/paleta` |
+| Production | `postgresql+psycopg://paleta:paleta@db:5432/paleta` |
 
 ## Run the Project
 
-### Option A: direct run
-
-Linux/macOS:
+### Option A: Direct run
 
 ```bash
 python3 app.py
-```
-
-Windows (PowerShell):
-
-```powershell
-python app.py
 ```
 
 ### Option B: Flask CLI
@@ -203,123 +180,174 @@ Open in browser: `http://127.0.0.1:5000`
 
 ## Configuration
 
-Main config is in `config.py`.
+Main config is in `config.py`. Override via environment variables:
 
-### Environment variables
+### Core settings
 
-- `SECRET_KEY` (required in `production`, optional in local development)
-- `DATABASE_URL` (optional; defaults to local PostgreSQL in development and PostgreSQL container `db` in production)
-- `FLASK_ENV` (`production` for prod setup)
-- `SESSION_COOKIE_SECURE` (`true` by default in production, `false` in development)
-- `CORS_ENABLED` (`false` by default; enable only if API is called from another origin)
-- `CORS_ORIGINS` (comma-separated list of allowed origins when `CORS_ENABLED=true`)
-- `MAX_IMAGE_PIXELS` (max image resolution in pixels; default `20000000`)
-- `MIN_COLOR_COUNT`, `MAX_COLOR_COUNT` (palette size bounds for generation and validation; defaults `3` and `15`)
-- `PASSWORD_RESET_CODE_TTL_MINUTES` (reset code lifetime in minutes; default `15`)
-- `PASSWORD_RESET_MAX_ATTEMPTS` (max code attempts before forcing re-request; default `5`)
-- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM` (email delivery for password reset)
-- `SMTP_USE_TLS`, `SMTP_USE_SSL` (secure transport options for SMTP)
+| Variable | Description | Default |
+| --- | --- | --- |
+| `SECRET_KEY` | Session secret (required in production) | Auto-generated in dev |
+| `DATABASE_URL` | PostgreSQL connection string | Local PostgreSQL |
+| `FLASK_ENV` | `development` or `production` | `development` |
 
-Example (Linux/macOS):
+### Security
 
-```bash
-export SECRET_KEY="replace-with-a-secure-random-value"
-export DATABASE_URL="postgresql+psycopg://paleta:paleta@localhost:5432/paleta"
-export FLASK_ENV="development"
-export SESSION_COOKIE_SECURE="false"
-export CORS_ENABLED="false"
-export MAX_IMAGE_PIXELS="20000000"
-export PASSWORD_RESET_CODE_TTL_MINUTES="15"
-export PASSWORD_RESET_MAX_ATTEMPTS="5"
-```
+| Variable | Description | Default |
+| --- | --- | --- |
+| `SESSION_COOKIE_SECURE` | HTTPS-only cookies | `true` in prod |
+| `CORS_ENABLED` | Enable CORS | `false` |
+| `CORS_ORIGINS` | Allowed origins (comma-separated) | — |
 
-### Default app settings
+### Image processing
 
-- `SQLALCHEMY_DATABASE_URI` comes from `DATABASE_URL`
-- default DB URL (if not set):
-  - development: `postgresql+psycopg://paleta:paleta@localhost:5432/paleta`
-  - production: `postgresql+psycopg://paleta:paleta@db:5432/paleta`
+| Variable | Description | Default |
+| --- | --- | --- |
+| `MAX_IMAGE_PIXELS` | Max image resolution (pixels) | `20000000` |
+| `MIN_COLOR_COUNT` | Min colors in palette | `3` |
+| `MAX_COLOR_COUNT` | Max colors in palette | `15` |
+
+### Password reset (email)
+
+| Variable | Description | Default |
+| --- | --- | --- |
+| `SMTP_HOST` | SMTP server hostname | — |
+| `SMTP_PORT` | SMTP port | `587` |
+| `SMTP_USER` | SMTP username | — |
+| `SMTP_PASSWORD` | SMTP password | — |
+| `SMTP_FROM` | Sender email address | — |
+| `SMTP_USE_TLS` | Use STARTTLS | `true` |
+| `SMTP_USE_SSL` | Use SSL (mutually exclusive with TLS) | `false` |
+| `PASSWORD_RESET_CODE_TTL_MINUTES` | Code lifetime | `15` |
+| `PASSWORD_RESET_MAX_ATTEMPTS` | Max code entry attempts | `5` |
+
+### Other defaults
+
 - `UPLOAD_FOLDER = static/uploads`
 - `MAX_CONTENT_LENGTH = 16 MB`
 - Allowed image extensions: `png`, `jpg`, `jpeg`, `webp`
-- Color count bounds: `MIN_COLOR_COUNT = 3`, `MAX_COLOR_COUNT = 15`
-
-If needed, pass a different DB URL via `DATABASE_URL`.
 
 ## Usage Guide
 
 ### Guest mode (without account)
 
-You can:
-
-- extract palette from image,
-- generate random palettes,
-- edit and copy HEX colors,
-- export palettes.
+- Extract palette from an uploaded image
+- Generate random palettes
+- Edit and copy HEX colors
+- Export palettes to any format
 
 ### Authenticated mode
 
-You also get:
+Additionally:
 
-- saving palettes to your personal library,
-- rename/delete palettes,
-- search/filter/sort in "My Palettes",
-- quick reuse of recent uploaded images,
-- password recovery via email (if contact is attached to account).
+- Save palettes to your personal library
+- Rename and delete palettes
+- Search, filter, and sort in "My Palettes"
+- Reuse recent image uploads (last 7 days)
+- Recover password via email
 
 ### Basic flow
 
-1. Open home page (`/`).
-2. Upload image (or go to `/generatePalet` for random palette generation).
-3. Select number of colors and generate/recalculate palette.
-4. Edit colors if needed.
-5. Export or save palette.
-6. Manage saved palettes at `/myPalet`.
+1. Open home page → upload image or go to random generator.
+2. Select number of colors and generate/recalculate.
+3. Edit colors if needed.
+4. Export or save palette.
+5. Manage saved palettes in "My Palettes".
 
-### Authentication rules
+## Web API Endpoints
 
-Registration password requirements:
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `POST` | `/api/upload` | Upload image and extract palette |
+| `POST` | `/api/palettes/save` | Save palette (auth required) |
+| `POST` | `/api/palettes/rename/<id>` | Rename palette (auth required) |
+| `DELETE` | `/api/palettes/delete/<id>` | Delete palette (auth required) |
+| `POST` | `/api/export?format=<type>` | Export palette (json, gpl, ase, csv, png, aco) |
 
-- length 10 to 16 characters,
-- at least one uppercase letter,
-- at least one lowercase letter,
-- at least one digit,
-- at least one special character,
-- must not contain spaces,
-- registration requires a recovery email.
+## Mobile API Endpoints
 
-## API Endpoints
+REST API for the [Paleta Mobile](https://github.com/diamko/Paleta_mobile_app) Android client. All endpoints are prefixed with `/api/mobile/v1`.
 
-| Method   | Endpoint                            | Description                                         |
-| -------- | ----------------------------------- | --------------------------------------------------- |
-| `POST`   | `/api/upload`                       | Upload image and extract palette                    |
-| `POST`   | `/api/palettes/save`                | Save palette (login required)                       |
-| `POST`   | `/api/palettes/rename/<palette_id>` | Rename palette (login required)                     |
-| `DELETE` | `/api/palettes/delete/<palette_id>` | Delete palette (login required)                     |
-| `POST`   | `/api/export?format=<type>`         | Export palette (`json`, `gpl`, `ase`, `csv`, `png`, `aco`) |
-| `GET`    | `/static/uploads/<filename>`        | Serve uploaded image                                |
+### Auth
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `POST` | `/auth/login` | Login, returns access + refresh tokens |
+| `POST` | `/auth/register` | Register new user |
+| `POST` | `/auth/refresh` | Refresh access token |
+| `POST` | `/auth/logout` | Revoke tokens |
+| `GET` | `/auth/me` | Get current user profile |
+| `POST` | `/auth/password/forgot` | Request password reset code (email) |
+| `POST` | `/auth/password/reset` | Reset password with code |
+
+### Profile
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `GET` | `/profile` | Get user profile |
+| `PATCH` | `/profile` | Update username / email |
+| `POST` | `/profile/password/send-code` | Send password change code |
+| `POST` | `/profile/password/change` | Change password with code |
+
+### Palettes
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `GET` | `/palettes` | List user palettes (search, sort, filter) |
+| `POST` | `/palettes` | Create palette |
+| `PATCH` | `/palettes/<id>` | Rename palette |
+| `DELETE` | `/palettes/<id>` | Delete palette |
+| `POST` | `/palettes/<id>/save` | Update palette colors |
+
+### Generation & Export
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `POST` | `/generate/image` | Extract colors from uploaded image |
+| `POST` | `/generate/random` | Generate random palette |
+| `GET` | `/uploads/recent` | Recent image uploads (last 7 days) |
+| `GET` | `/uploads/<filename>` | Serve uploaded image |
+| `POST` | `/export` | Export palette to file |
 
 ## Project Structure
 
 ```text
 Paleta/
-├─ app.py
-├─ config.py
-├─ extensions.py
-├─ models/
-├─ routes/
-├─ utils/
-├─ templates/
-├─ static/
-├─ LICENCE
-├─ requirements.txt
-├─ README.md
-└─ README.ru.md
+├── app.py                  # Flask app factory and startup
+├── config.py               # Configuration (env vars, defaults)
+├── extensions.py           # SQLAlchemy, login manager init
+├── models/
+│   ├── user.py             # User model
+│   ├── user_contact.py     # User email contacts
+│   ├── palette.py          # Palette model
+│   ├── upload.py           # Upload tracking
+│   └── password_reset_token.py  # Password reset codes
+├── routes/
+│   ├── main.py             # Main web routes (pages)
+│   ├── auth.py             # Web auth routes (login, register, etc.)
+│   ├── palette_routes.py   # Web palette API (save, rename, delete, export)
+│   └── mobile_api.py       # Mobile REST API (all mobile endpoints)
+├── utils/
+│   ├── image_processor.py  # KMeans color extraction
+│   ├── export_handler.py   # Multi-format palette export
+│   ├── reset_delivery.py   # Email code sending (SMTP)
+│   ├── contact_normalizer.py  # Email normalization
+│   └── rate_limit.py       # Request rate limiting
+├── templates/              # Jinja2 HTML templates
+├── translations/           # i18n message catalogs (ru, en)
+├── static/
+│   ├── css/                # Stylesheets
+│   ├── js/                 # Frontend JavaScript
+│   ├── uploads/            # User-uploaded images
+│   └── paleta.apk          # Latest Android APK
+├── requirements.txt
+├── LICENCE
+├── README.md
+├── README.ru.md
+├── CONTRIBUTING.md
+└── CONTRIBUTING.ru.md
 ```
 
 ## Testing
-
-Automated tests are currently not committed in this repository.
 
 Manual smoke test checklist:
 
@@ -328,38 +356,34 @@ Manual smoke test checklist:
 3. Recalculate palette with a different color count.
 4. Save palette and verify it appears in "My Palettes".
 5. Rename and delete palette.
-6. Export palette in all supported formats.
+6. Export palette in all 6 formats.
+7. Request password reset code via email.
+8. Test mobile API endpoints with a REST client.
 
-## Roadmap
+## Related Projects
 
-- Add automated test suite (`pytest`).
-- Add migration support (`Flask-Migrate` / Alembic).
-- Add production-ready config profiles.
-- Improve i18n QA and complete remaining translation gaps.
+- [Paleta Mobile](https://github.com/diamko/Paleta_mobile_app) — Android companion app built with Kotlin and Jetpack Compose.
 
 ## Contributing
 
-Contributions are welcome.
+Contributions are welcome. Please read the full guidelines:
 
-Please read the full contribution guides:
-[`CONTRIBUTING.md`](CONTRIBUTING.md) (EN),
-[`CONTRIBUTING.ru.md`](CONTRIBUTING.ru.md) (RU).
+- [`CONTRIBUTING.md`](CONTRIBUTING.md) (English)
+- [`CONTRIBUTING.ru.md`](CONTRIBUTING.ru.md) (Russian)
+
+Quick start:
 
 1. Fork the repo.
 2. Create a branch: `git checkout -b feature/your-feature-name`.
 3. Commit changes: `git commit -m "Add: your feature"`.
 4. Push branch: `git push origin feature/your-feature-name`.
-5. Open a Pull Request with clear description and test steps.
+5. Open a Pull Request with a clear description and test steps.
 
-## Author
+## Authors
 
 - Diana Konanerova
 - Yuliya Tyurina
 
 ## License
 
-This project is licensed under the MIT License.
-
-See:
-
-- [`LICENCE`](LICENCE)
+This project is licensed under the MIT License — see [`LICENCE`](LICENCE).
