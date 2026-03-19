@@ -27,6 +27,7 @@ htmlcov/
 *.swp
 *.swo
 *~
+.claude/
 
 # ── Environment & secrets ─────────────────────────────
 .env
