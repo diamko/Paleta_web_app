@@ -64,7 +64,7 @@
                             </div>
                             <small class="text-muted">{{ _('Создано:') }} {{ palette.created_at.strftime('%d.%m.%Y %H:%M') if current_lang == 'ru' else palette.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
                             <div class="mt-2 mt-auto d-flex flex-wrap gap-1 align-items-center">
-                                <button class="btn btn-sm btn-outline-primary me-1"
+                                <button class="btn btn-sm btn-outline-primary"
                                     onclick="copyPalette('{{ palette.colors | join(' ') }}')">{{ _('Копировать') }}</button>
                                 <div class="btn-group" role="group">
                                     <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle"
@@ -106,11 +106,11 @@
                                         </a></li>
                                     </ul>
                                 </div>
-                                <button class="btn btn-sm btn-outline-primary mt-2 me-1 btn-edit-palette"
+                                <button class="btn btn-sm btn-outline-primary btn-edit-palette"
                                     data-palette-id="{{ palette.id }}">
                                     <i class="fas fa-edit me-1"></i>{{ _('Редактировать') }}
                                 </button>
-                                <button class="btn btn-sm btn-outline-danger mt-2 btn-delete-palette"
+                                <button class="btn btn-sm btn-outline-danger btn-delete-palette"
                                     data-palette-id="{{ palette.id }}" data-palette-name="{{ palette.name }}">
                                     {{ _('Удалить') }}
                                 </button>
