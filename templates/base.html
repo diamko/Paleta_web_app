@@ -39,6 +39,10 @@
             </ul>
 
             <div class="col-md-3 text-end d-flex align-items-center justify-content-md-end justify-content-center gap-2">
+                <button id="themeToggleBtn" class="btn btn-outline-secondary btn-sm rounded-circle"
+                    title="{{ _('Переключить тему') }}" aria-label="{{ _('Переключить тему') }}">
+                    <i id="themeIcon" class="fas fa-circle-half-stroke"></i>
+                </button>
                 <div class="btn-group btn-group-sm" role="group" aria-label="{{ _('Переключение языка') }}">
                     <a href="{{ alternate_lang_url('ru') }}"
                        class="btn {{ 'btn-primary' if current_lang == 'ru' else 'btn-outline-primary' }}">RU</a>

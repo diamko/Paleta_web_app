@@ -77,6 +77,67 @@ window.addEventListener('load', function () {
     }, 100);
 });
 
+/* ===== ТЕМА ===== */
+(function initTheme() {
+    const STORAGE_KEY = 'paleta-theme';
+    const html = document.documentElement;
+    const darkMq = window.matchMedia('(prefers-color-scheme: dark)');
+
+    function applyTheme(mode) {
+        if (mode === 'dark') {
+            html.setAttribute('data-theme', 'dark');
+            html.setAttribute('data-bs-theme', 'dark');
+        } else if (mode === 'light') {
+            html.setAttribute('data-theme', 'light');
+            html.setAttribute('data-bs-theme', 'light');
+        } else {
+            html.removeAttribute('data-theme');
+            html.setAttribute('data-bs-theme', darkMq.matches ? 'dark' : 'light');
+        }
+    }
+
+    function updateIcon(mode) {
+        const icon = document.getElementById('themeIcon');
+        if (!icon) return;
+        icon.className = mode === 'dark' ? 'fas fa-moon'
+            : mode === 'light' ? 'fas fa-sun'
+            : 'fas fa-circle-half-stroke';
+    }
+
+    function getStoredTheme() {
+        return localStorage.getItem(STORAGE_KEY) || 'system';
+    }
+
+    function setStoredTheme(mode) {
+        if (mode === 'system') {
+            localStorage.removeItem(STORAGE_KEY);
+        } else {
+            localStorage.setItem(STORAGE_KEY, mode);
+        }
+    }
+
+    const initial = getStoredTheme();
+    applyTheme(initial);
+
+    darkMq.addEventListener('change', () => {
+        if (getStoredTheme() === 'system') applyTheme('system');
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        updateIcon(getStoredTheme());
+        const btn = document.getElementById('themeToggleBtn');
+        if (btn) {
+            btn.addEventListener('click', () => {
+                const cycle = { system: 'dark', dark: 'light', light: 'system' };
+                const next = cycle[getStoredTheme()] || 'system';
+                setStoredTheme(next);
+                applyTheme(next);
+                updateIcon(next);
+            });
+        }
+    });
+})();
+
 document.addEventListener('DOMContentLoaded', function () {
     if (typeof bootstrap === 'undefined') {
         console.error(t('bootstrap_missing', 'Bootstrap не загружен!'));

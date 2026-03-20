@@ -7,6 +7,7 @@ import { copyPalette } from './clipboard.js';
 import { createFiltersController } from './filters.js';
 import { showToast } from './notifications.js';
 import { createPaletteActions } from './palette-actions.js';
+import { createPaletteEditor } from './palette-editor.js';
 import { createMyPaletState } from './state.js';
 
 const t = window.t || ((key, fallback) => fallback || key);
@@ -39,6 +40,7 @@ export function initMyPaletPage() {
     const state = createMyPaletState();
     const filtersController = createFiltersController(elements);
     const actions = createPaletteActions({ state, showToast });
+    const editor = createPaletteEditor({ showToast });
 
     if (elements.deleteModalElement) {
         elements.deleteModalElement.addEventListener('hidden.bs.modal', () => {
@@ -101,6 +103,43 @@ export function initMyPaletPage() {
         const renameButton = target ? target.closest('.btn-rename-palette') : null;
         if (renameButton) {
             actions.renamePalette(renameButton.dataset.paletteId, renameButton.dataset.paletteName);
+            return;
+        }
+
+        const editButton = target ? target.closest('.btn-edit-palette') : null;
+        if (editButton) {
+            editor.openEditor(editButton.dataset.paletteId);
+            return;
+        }
+
+        const cancelButton = target ? target.closest('.btn-cancel-edit') : null;
+        if (cancelButton) {
+            editor.closeEditor(cancelButton.dataset.paletteId);
+            return;
+        }
+
+        const saveButton = target ? target.closest('.btn-save-colors') : null;
+        if (saveButton) {
+            editor.saveColors(saveButton.dataset.paletteId);
+            return;
+        }
+
+        const addButton = target ? target.closest('.btn-add-color') : null;
+        if (addButton) {
+            editor.addColor(addButton.dataset.paletteId);
+            return;
+        }
+
+        const removeButton = target ? target.closest('.btn-remove-color') : null;
+        if (removeButton) {
+            editor.removeColor(removeButton.dataset.paletteId, parseInt(removeButton.dataset.index, 10));
+            return;
+        }
+
+        const gradientButton = target ? target.closest('.btn-gradient-fill') : null;
+        if (gradientButton) {
+            editor.applyGradient(gradientButton.dataset.paletteId);
+            return;
         }
     });
 

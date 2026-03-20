@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const SCHEME_REQUIRED_COUNTS = {
         triad: 3,
         tetrad: 4,
+        square: 4,
     };
 
     function getSchemeDisplayName(scheme) {
@@ -31,6 +32,8 @@ document.addEventListener('DOMContentLoaded', function() {
             split_complementary: t('scheme_split_complementary', 'Раздельно-комплементарная'),
             triad: t('scheme_triad', 'Триада'),
             tetrad: t('scheme_tetrad', 'Тетрада'),
+            sequential: t('scheme_sequential', 'Последовательная'),
+            square: t('scheme_square', 'Квадрат'),
         };
         return names[scheme] || scheme;
     }
@@ -112,6 +115,55 @@ document.addEventListener('DOMContentLoaded', function() {
         return rgbToHex(rgb.r, rgb.g, rgb.b);
     }
 
+    function hexToRgb(hex) {
+        const h = hex.replace('#', '');
+        return {
+            r: parseInt(h.substring(0, 2), 16),
+            g: parseInt(h.substring(2, 4), 16),
+            b: parseInt(h.substring(4, 6), 16),
+        };
+    }
+
+    function rgbToHsl(r, g, b) {
+        r /= 255; g /= 255; b /= 255;
+        const max = Math.max(r, g, b), min = Math.min(r, g, b);
+        let h, s, l = (max + min) / 2;
+        if (max === min) {
+            h = s = 0;
+        } else {
+            const d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch (max) {
+                case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+                case g: h = ((b - r) / d + 2) / 6; break;
+                case b: h = ((r - g) / d + 4) / 6; break;
+            }
+        }
+        return { h: h * 360, s: s * 100, l: l * 100 };
+    }
+
+    function generateGradient(colors) {
+        if (colors.length < 2) return colors;
+        const first = hexToRgb(colors[0]);
+        const last = hexToRgb(colors[colors.length - 1]);
+        const firstHsl = rgbToHsl(first.r, first.g, first.b);
+        const lastHsl = rgbToHsl(last.r, last.g, last.b);
+
+        let hueDiff = lastHsl.h - firstHsl.h;
+        if (hueDiff > 180) hueDiff -= 360;
+        if (hueDiff < -180) hueDiff += 360;
+
+        const result = [];
+        for (let i = 0; i < colors.length; i++) {
+            const t = i / (colors.length - 1);
+            const h = normalizeHue(firstHsl.h + hueDiff * t);
+            const s = firstHsl.s + (lastHsl.s - firstHsl.s) * t;
+            const l = firstHsl.l + (lastHsl.l - firstHsl.l) * t;
+            result.push(hslToHex(h, s, l));
+        }
+        return result;
+    }
+
     function ensureUniqueColor(candidate, usedColors, fallbackFactory) {
         if (!usedColors.has(candidate)) {
             return candidate;
@@ -140,6 +192,8 @@ document.addEventListener('DOMContentLoaded', function() {
             case 'triad':
                 return [baseHue, baseHue + 120, baseHue + 240];
             case 'tetrad':
+                return [baseHue, baseHue + 90, baseHue + 180, baseHue + 270];
+            case 'square':
                 return [baseHue, baseHue + 90, baseHue + 180, baseHue + 270];
             default:
                 return [baseHue];
@@ -222,6 +276,31 @@ document.addEventListener('DOMContentLoaded', function() {
         return colors;
     }
 
+    function generateSequentialPalette(count, baseHue) {
+        const colors = [];
+        const usedColors = new Set();
+        const hueRange = 220;
+
+        for (let i = 0; i < count; i += 1) {
+            const position = count > 1 ? i / (count - 1) : 0.5;
+            const hue = normalizeHue(baseHue - hueRange / 2 + position * hueRange);
+            const saturation = clamp(randomInt(55, 80) + randomInt(-5, 5), 30, 92);
+            const lightness = clamp(randomInt(42, 62) + randomInt(-4, 4), 18, 86);
+            const color = ensureUniqueColor(
+                hslToHex(hue, saturation, lightness),
+                usedColors,
+                (attempt) => hslToHex(
+                    hue + (attempt + 1) * 3,
+                    clamp(saturation + randomInt(-6, 6), 25, 95),
+                    clamp(lightness + (attempt % 2 === 0 ? 7 : -7), 14, 90)
+                )
+            );
+            usedColors.add(color);
+            colors.push(color);
+        }
+        return colors;
+    }
+
     function generateFreePalette(count) {
         const colors = [];
         const usedColors = new Set();
@@ -248,6 +327,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const baseHue = randomInt(0, 359);
         if (scheme === 'monochromatic') {
             return generateMonochromaticPalette(count, baseHue);
+        }
+        if (scheme === 'sequential') {
+            return generateSequentialPalette(count, baseHue);
         }
 
         const anchors = getSchemeAnchors(baseHue, scheme).map(normalizeHue);
@@ -316,6 +398,18 @@ document.addEventListener('DOMContentLoaded', function() {
         currentColors = generatePaletteByScheme(count, selectedScheme);
         displayPalette(currentColors);
     });
+
+    const gradientBtn = document.getElementById('gradientBtn');
+    if (gradientBtn) {
+        gradientBtn.addEventListener('click', () => {
+            if (currentColors.length < 2) {
+                showToast(t('generate_palette_first', 'Сначала сгенерируйте палитру!'), 'error');
+                return;
+            }
+            currentColors = generateGradient(currentColors);
+            displayPalette(currentColors);
+        });
+    }
 
     function normalizeHexColor(value) {
         if (typeof value !== 'string') return null;

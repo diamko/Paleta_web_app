@@ -4,6 +4,7 @@
  */
 
 @import url('./main/base.css');
+@import url('./main/theme.css');
 @import url('./main/typography.css');
 @import url('./main/faq.css');
 @import url('./main/layout.css');

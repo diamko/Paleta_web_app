@@ -1,0 +1,162 @@
+/*
+ * Файл: `static/css/main/theme.css`.
+ * Назначение: Тёмная тема — переопределение CSS-переменных и жёстко заданных цветов.
+ */
+
+/* ===== ТЕМНАЯ ТЕМА (явный выбор) ===== */
+html[data-theme="dark"] {
+    --primary-color: #9b59ff;
+    --secondary-color: #5b9bff;
+    --accent-color: #ff9a7a;
+    --success-color: #2ecc71;
+    --danger-color: #e74c3c;
+    --warning-color: #f1c40f;
+    --text-color: #e0e0e0;
+    --text-light: #b0b0b0;
+    --light-gray: #1e1e2e;
+    --medium-gray: #2a2a3e;
+    --dark-gray: #9e9ea8;
+    --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --shadow-medium: 0 10px 20px rgba(0, 0, 0, 0.4);
+    --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.5);
+    --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+}
+
+html[data-theme="dark"] body {
+    background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+}
+
+html[data-theme="dark"] header {
+    background: rgba(20, 20, 35, 0.95);
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="dark"] footer {
+    background: rgba(20, 20, 35, 0.95);
+    border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="dark"] .palette-edit-item {
+    background: #2a2a3e;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+html[data-theme="dark"] .palette-edit-hex {
+    background: #1e1e2e;
+    border-color: rgba(255, 255, 255, 0.15);
+    color: #e0e0e0;
+}
+
+html[data-theme="dark"] .upload-zone {
+    border-color: #555;
+    background: rgba(30, 30, 46, 0.5);
+}
+
+html[data-theme="dark"] .accordion-button {
+    background: #2a2a3e;
+    color: #e0e0e0;
+}
+
+html[data-theme="dark"] .accordion-body {
+    background: #1e1e2e;
+}
+
+html[data-theme="dark"] .faq-page .accordion-item {
+    background: #1e1e2e;
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+html[data-theme="dark"] .color-swatch-small {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+html[data-theme="dark"] .card {
+    background: #2a2a3e;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="dark"] .gradient-text {
+    background: linear-gradient(135deg, #9b59ff 0%, #5b9bff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* ===== СИСТЕМНАЯ ТЕМА (prefers-color-scheme) ===== */
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) {
+        --primary-color: #9b59ff;
+        --secondary-color: #5b9bff;
+        --accent-color: #ff9a7a;
+        --success-color: #2ecc71;
+        --danger-color: #e74c3c;
+        --warning-color: #f1c40f;
+        --text-color: #e0e0e0;
+        --text-light: #b0b0b0;
+        --light-gray: #1e1e2e;
+        --medium-gray: #2a2a3e;
+        --dark-gray: #9e9ea8;
+        --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.3);
+        --shadow-medium: 0 10px 20px rgba(0, 0, 0, 0.4);
+        --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.5);
+        --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    }
+
+    html:not([data-theme="light"]) body {
+        background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+    }
+
+    html:not([data-theme="light"]) header {
+        background: rgba(20, 20, 35, 0.95);
+        border-bottom-color: rgba(255, 255, 255, 0.08);
+    }
+
+    html:not([data-theme="light"]) footer {
+        background: rgba(20, 20, 35, 0.95);
+        border-top-color: rgba(255, 255, 255, 0.08);
+    }
+
+    html:not([data-theme="light"]) .palette-edit-item {
+        background: #2a2a3e;
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    html:not([data-theme="light"]) .palette-edit-hex {
+        background: #1e1e2e;
+        border-color: rgba(255, 255, 255, 0.15);
+        color: #e0e0e0;
+    }
+
+    html:not([data-theme="light"]) .upload-zone {
+        border-color: #555;
+        background: rgba(30, 30, 46, 0.5);
+    }
+
+    html:not([data-theme="light"]) .accordion-button {
+        background: #2a2a3e;
+        color: #e0e0e0;
+    }
+
+    html:not([data-theme="light"]) .accordion-body {
+        background: #1e1e2e;
+    }
+
+    html:not([data-theme="light"]) .faq-page .accordion-item {
+        background: #1e1e2e;
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    html:not([data-theme="light"]) .color-swatch-small {
+        border-color: rgba(255, 255, 255, 0.2) !important;
+    }
+
+    html:not([data-theme="light"]) .card {
+        background: #2a2a3e;
+        border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    html:not([data-theme="light"]) .gradient-text {
+        background: linear-gradient(135deg, #9b59ff 0%, #5b9bff 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+}

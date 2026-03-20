@@ -362,6 +362,46 @@ def register_routes(app):
             current_app.logger.exception("Ошибка переименования палитры")
             return _api_error(_("Внутренняя ошибка сервера"), 500)
 
+    @app.route("/api/palettes/update/<int:palette_id>", methods=["POST"])
+    @login_required
+    def update_palette_colors(palette_id: int):
+        """Обновить цвета существующей палитры текущего пользователя."""
+        try:
+            if _rate_limited(f"palette_update:user:{current_user.id}", limit=60, window_seconds=10 * 60):
+                return _api_error(_("Слишком много запросов. Попробуйте позже."), 429)
+
+            data = request.get_json(force=True)
+            colors = _normalize_palette_colors(data.get("colors", []))
+
+            if colors is None:
+                return _api_error(
+                    _("Некорректные цвета. Укажите от %(min)s до %(max)s цветов в формате #RRGGBB",
+                      min=Config.MIN_COLOR_COUNT, max=Config.MAX_COLOR_COUNT),
+                    400,
+                )
+
+            palette = Palette.query.get_or_404(palette_id)
+
+            if palette.user_id != current_user.id:
+                return (
+                    jsonify(
+                        {
+                            "success": False,
+                            "error": _("У вас нет прав на изменение этой палитры"),
+                        }
+                    ),
+                    403,
+                )
+
+            palette.colors = colors
+            db.session.commit()
+
+            return jsonify({"success": True})
+
+        except Exception:
+            current_app.logger.exception("Ошибка обновления цветов палитры")
+            return _api_error(_("Внутренняя ошибка сервера"), 500)
+
     @app.route("/api/palettes/delete/<int:palette_id>", methods=["DELETE"])
     @login_required
     def delete_palette(palette_id: int):

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-03-20 13:55+0300\n"
+"POT-Creation-Date: 2026-03-20 18:31+0300\n"
 "PO-Revision-Date: 2026-02-21 21:50+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -162,7 +162,7 @@ msgstr "Colors copied to clipboard!"
 msgid "Сначала сгенерируйте палитру!"
 msgstr "Generate a palette first!"
 
-#: app.py:241 routes/api.py:149 routes/api.py:150 templates/base.html:102
+#: app.py:241 routes/api.py:149 routes/api.py:150 templates/base.html:106
 msgid "Моя палитра"
 msgstr "My Palette"
 
@@ -217,23 +217,47 @@ msgstr "Triad"
 msgid "Тетрада"
 msgstr "Tetrad"
 
-#: app.py:254
+#: app.py:254 templates/generatePalet.html:36
+msgid "Последовательная"
+msgstr "Sequential"
+
+#: app.py:255 templates/generatePalet.html:37
+msgid "Квадрат"
+msgstr "Square"
+
+#: app.py:256
 #, python-brace-format
 msgid "Схема \"{scheme}\" доступна только при {count} цветах."
 msgstr "The \"{scheme}\" scheme is available only with {count} colors."
 
-#: app.py:255
+#: app.py:257
 #, python-brace-format
 msgid "Схема \"{scheme}\" недоступна при {count} цветах. Выбрана монохромная."
 msgstr ""
 "The \"{scheme}\" scheme is unavailable for {count} colors. Monochromatic "
 "was selected."
 
-#: app.py:280
+#: app.py:258
+msgid "Цвета палитры обновлены!"
+msgstr "Palette colors updated!"
+
+#: app.py:259
+msgid "Ошибка при обновлении палитры"
+msgstr "Error updating palette"
+
+#: app.py:260
+msgid "Максимум 15 цветов"
+msgstr "Maximum 15 colors"
+
+#: app.py:261
+msgid "Минимум 3 цвета"
+msgstr "Minimum 3 colors"
+
+#: app.py:286
 msgid "Недействительный CSRF-токен. Обновите страницу и повторите попытку."
 msgstr "Invalid CSRF token. Refresh the page and try again."
 
-#: app.py:286
+#: app.py:292
 msgid "Сессия формы истекла. Обновите страницу и попробуйте снова."
 msgstr "Form session expired. Refresh the page and try again."
 
@@ -269,12 +293,13 @@ msgstr "Unsupported file type"
 msgid "Не удалось извлечь цвета из изображения"
 msgstr "Failed to extract colors from image"
 
-#: routes/api.py:232 routes/api.py:312 routes/api.py:363 routes/api.py:393
-#: routes/api.py:435
+#: routes/api.py:232 routes/api.py:312 routes/api.py:363 routes/api.py:403
+#: routes/api.py:433 routes/api.py:475
 msgid "Внутренняя ошибка сервера"
 msgstr "Internal server error"
 
-#: routes/api.py:240 routes/api.py:320 routes/api.py:371 routes/auth.py:490
+#: routes/api.py:240 routes/api.py:320 routes/api.py:371 routes/api.py:411
+#: routes/auth.py:490
 msgid "Слишком много запросов. Попробуйте позже."
 msgstr "Too many requests. Please try again later."
 
@@ -294,23 +319,28 @@ msgstr "You already have a palette with this name"
 msgid "Название палитры не может быть пустым"
 msgstr "Palette name cannot be empty"
 
-#: routes/api.py:343
+#: routes/api.py:343 routes/api.py:390
 msgid "У вас нет прав на изменение этой палитры"
 msgstr "You do not have permission to edit this palette"
 
-#: routes/api.py:380
+#: routes/api.py:378
+#, python-format
+msgid "Некорректные цвета. Укажите от %(min)s до %(max)s цветов в формате #RRGGBB"
+msgstr "Invalid colors. Specify %(min)s to %(max)s colors in #RRGGBB format"
+
+#: routes/api.py:420
 msgid "У вас нет прав на удаление этой палитры"
 msgstr "You do not have permission to delete this palette"
 
-#: routes/api.py:400
+#: routes/api.py:440
 msgid "Слишком много экспортов. Попробуйте позже."
 msgstr "Too many exports. Please try again later."
 
-#: routes/api.py:408
+#: routes/api.py:448
 msgid "Не переданы корректные цвета палитры"
 msgstr "No valid palette colors were provided"
 
-#: routes/api.py:412
+#: routes/api.py:452
 msgid "Неподдерживаемый формат экспорта"
 msgstr "Unsupported export format"
 
@@ -546,49 +576,54 @@ msgstr "My Palettes"
 msgid "Приложение"
 msgstr "App"
 
-#: templates/base.html:42
+#: templates/base.html:43
+msgid "Переключить тему"
+msgstr "Toggle theme"
+
+#: templates/base.html:46
 msgid "Переключение языка"
 msgstr "Language switch"
 
-#: templates/base.html:51
+#: templates/base.html:55
 msgid "Привет,"
 msgstr "Hi,"
 
-#: templates/base.html:58
+#: templates/base.html:62
 msgid "Выйти"
 msgstr "Sign out"
 
-#: templates/base.html:61 templates/login.html:59 templates/register.html:80
+#: templates/base.html:65 templates/login.html:59 templates/register.html:80
 msgid "Войти"
 msgstr "Sign in"
 
-#: templates/base.html:62 templates/login.html:64 templates/register.html:76
+#: templates/base.html:66 templates/login.html:64 templates/register.html:76
 msgid "Зарегистрироваться"
 msgstr "Register"
 
-#: templates/base.html:76
+#: templates/base.html:80
 msgid "© 2026 Paleta. Все права защищены."
 msgstr "© 2026 Paleta. All rights reserved."
 
-#: templates/base.html:95 templates/faq.html:87 templates/generatePalet.html:52
+#: templates/base.html:99 templates/faq.html:87 templates/generatePalet.html:57
 #: templates/index.html:76
 msgid "Сохранить палитру"
 msgstr "Save Palette"
 
-#: templates/base.html:96 templates/myPalet.html:121 templates/myPalet.html:139
+#: templates/base.html:100 templates/myPalet.html:144
+#: templates/myPalet.html:162
 msgid "Закрыть"
 msgstr "Close"
 
-#: templates/base.html:101
+#: templates/base.html:105
 msgid "Название палитры"
 msgstr "Palette Name"
 
-#: templates/base.html:106 templates/myPalet.html:127
-#: templates/myPalet.html:151
+#: templates/base.html:110 templates/myPalet.html:118
+#: templates/myPalet.html:150 templates/myPalet.html:174
 msgid "Отмена"
 msgstr "Cancel"
 
-#: templates/base.html:107 templates/myPalet.html:152
+#: templates/base.html:111 templates/myPalet.html:175
 msgid "Сохранить"
 msgstr "Save"
 
@@ -800,12 +835,12 @@ msgstr "Saving a palette is available only for registered users:"
 msgid "Зарегистрируйтесь"
 msgstr "Register"
 
-#: templates/faq.html:85 templates/generatePalet.html:54
+#: templates/faq.html:85 templates/generatePalet.html:59
 #: templates/index.html:78
 msgid "или"
 msgstr "or"
 
-#: templates/faq.html:85 templates/generatePalet.html:54
+#: templates/faq.html:85 templates/generatePalet.html:59
 #: templates/index.html:78
 msgid "войдите"
 msgstr "sign in"
@@ -976,53 +1011,57 @@ msgstr "Number of Colors:"
 msgid "Цветовая схема:"
 msgstr "Color harmony:"
 
-#: templates/generatePalet.html:38
+#: templates/generatePalet.html:40
 msgid "Сгенерировать палитру"
 msgstr "Generate Palette"
 
-#: templates/generatePalet.html:41
-msgid "Триада доступна только при 3 цветах, тетрада — только при 4."
-msgstr "Triad is available only for 3 colors, tetrad only for 4."
+#: templates/generatePalet.html:43
+msgid "Триада доступна только при 3 цветах, тетрада и квадрат — только при 4."
+msgstr "Triad is available only for 3 colors, tetrad and square only for 4."
 
-#: templates/generatePalet.html:46 templates/index.html:56
+#: templates/generatePalet.html:48 templates/index.html:56
 msgid ""
 "Меняйте цвет через палитру или HEX-поле. Нажмите на цвет, чтобы "
 "скопировать HEX."
 msgstr "Adjust colors using the picker or HEX field. Click a color to copy HEX."
 
-#: templates/generatePalet.html:50 templates/index.html:73
+#: templates/generatePalet.html:52 templates/index.html:73
 msgid "Действия"
 msgstr "Actions"
 
-#: templates/generatePalet.html:54 templates/index.html:78
+#: templates/generatePalet.html:54 templates/myPalet.html:112
+msgid "Градиент"
+msgstr "Gradient"
+
+#: templates/generatePalet.html:59 templates/index.html:78
 msgid "Чтобы сохранить палитру,"
 msgstr "To save a palette,"
 
-#: templates/generatePalet.html:54 templates/index.html:78
+#: templates/generatePalet.html:59 templates/index.html:78
 msgid "зарегистрируйтесь"
 msgstr "register"
 
-#: templates/generatePalet.html:57 templates/index.html:81
+#: templates/generatePalet.html:62 templates/index.html:81
 msgid "Экспорт JSON"
 msgstr "Export JSON"
 
-#: templates/generatePalet.html:58 templates/index.html:82
+#: templates/generatePalet.html:63 templates/index.html:82
 msgid "Экспорт GPL"
 msgstr "Export GPL"
 
-#: templates/generatePalet.html:59 templates/index.html:83
+#: templates/generatePalet.html:64 templates/index.html:83
 msgid "Экспорт ASE"
 msgstr "Export ASE"
 
-#: templates/generatePalet.html:60 templates/index.html:84
+#: templates/generatePalet.html:65 templates/index.html:84
 msgid "Экспорт CSV"
 msgstr "Export CSV"
 
-#: templates/generatePalet.html:61 templates/index.html:85
+#: templates/generatePalet.html:66 templates/index.html:85
 msgid "Экспорт PNG"
 msgstr "Export PNG"
 
-#: templates/generatePalet.html:62 templates/index.html:86
+#: templates/generatePalet.html:67 templates/index.html:86
 msgid "Экспорт ACO"
 msgstr "Export ACO"
 
@@ -1169,55 +1208,67 @@ msgstr "By color count: high-low"
 msgid "Показано палитр:"
 msgstr "Shown palettes:"
 
-#: templates/myPalet.html:64
+#: templates/myPalet.html:65
 msgid "Создано:"
 msgstr "Created:"
 
-#: templates/myPalet.html:67
+#: templates/myPalet.html:68
 msgid "Копировать"
 msgstr "Copy"
 
-#: templates/myPalet.html:71
+#: templates/myPalet.html:72
 msgid "Экспорт"
 msgstr "Export"
 
-#: templates/myPalet.html:92
+#: templates/myPalet.html:93
+msgid "Редактировать"
+msgstr "Edit"
+
+#: templates/myPalet.html:97
 msgid "Переименовать"
 msgstr "Rename"
 
-#: templates/myPalet.html:96 templates/myPalet.html:128
+#: templates/myPalet.html:101 templates/myPalet.html:151
 msgid "Удалить"
 msgstr "Delete"
 
-#: templates/myPalet.html:107
+#: templates/myPalet.html:109
+msgid "Добавить цвет"
+msgstr "Add color"
+
+#: templates/myPalet.html:115
+msgid "Сохранить изменения"
+msgstr "Save changes"
+
+#: templates/myPalet.html:130
 msgid "У вас пока нет сохраненных палитр"
 msgstr "You have no saved palettes yet"
 
-#: templates/myPalet.html:108
+#: templates/myPalet.html:131
 msgid "Создайте и сохраните свою первую палитру!"
 msgstr "Create and save your first palette!"
 
-#: templates/myPalet.html:109
+#: templates/myPalet.html:132
 msgid "Создать палитру"
 msgstr "Create Palette"
 
-#: templates/myPalet.html:120
+#: templates/myPalet.html:143
 msgid "Подтверждение удаления"
 msgstr "Delete Confirmation"
 
-#: templates/myPalet.html:124
+#: templates/myPalet.html:147
 msgid "Вы уверены, что хотите удалить эту палитру?"
 msgstr "Are you sure you want to delete this palette?"
 
-#: templates/myPalet.html:138
+#: templates/myPalet.html:161
 msgid "Переименовать палитру"
 msgstr "Rename Palette"
 
-#: templates/myPalet.html:143
+#: templates/myPalet.html:166
 msgid "Новое название палитры"
 msgstr "New palette name"
 
-#: templates/myPalet.html:146
+#: templates/myPalet.html:169
 msgid "Название должно быть уникальным среди ваших палитр."
 msgstr "The name must be unique among your palettes."
 

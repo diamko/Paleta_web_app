@@ -50,6 +50,7 @@
                 <div class="col-md-6 col-lg-4 mb-4 palette-card" data-name="{{ palette.name | lower }}"
                     data-color-count="{{ palette.colors | length }}" data-palette-id="{{ palette.id }}"
                     data-palette-name="{{ palette.name }}"
+                    data-palette-colors='{{ palette.colors | tojson }}'
                     data-created-at="{{ palette.created_at.timestamp() }}">
                     <div class="card shadow-sm h-100">
                         <div class="card-body d-flex flex-column">
@@ -87,6 +88,10 @@
                                                 data-colors='["{{ colors_json }}"]' data-name="{{ palette.name }}">ACO</a></li>
                                     </ul>
                                 </div>
+                                <button class="btn btn-sm btn-outline-primary mt-2 me-1 btn-edit-palette"
+                                    data-palette-id="{{ palette.id }}">
+                                    <i class="fas fa-edit me-1"></i>{{ _('Редактировать') }}
+                                </button>
                                 <button class="btn btn-sm btn-outline-secondary mt-2 me-1 btn-rename-palette"
                                     data-palette-id="{{ palette.id }}" data-palette-name="{{ palette.name }}">
                                     {{ _('Переименовать') }}
@@ -95,6 +100,24 @@
                                     data-palette-id="{{ palette.id }}" data-palette-name="{{ palette.name }}">
                                     {{ _('Удалить') }}
                                 </button>
+                            </div>
+
+                            <div class="palette-editor-section d-none mt-3" id="editor-{{ palette.id }}">
+                                <div class="d-flex flex-wrap gap-2 palette-editor-colors"></div>
+                                <div class="d-flex flex-wrap gap-2 mt-2">
+                                    <button class="btn btn-sm btn-outline-success btn-add-color" data-palette-id="{{ palette.id }}">
+                                        <i class="fas fa-plus me-1"></i>{{ _('Добавить цвет') }}
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-info btn-gradient-fill" data-palette-id="{{ palette.id }}">
+                                        <i class="fas fa-fill-drip me-1"></i>{{ _('Градиент') }}
+                                    </button>
+                                    <button class="btn btn-sm btn-success btn-save-colors" data-palette-id="{{ palette.id }}">
+                                        <i class="fas fa-check me-1"></i>{{ _('Сохранить изменения') }}
+                                    </button>
+                                    <button class="btn btn-sm btn-secondary btn-cancel-edit" data-palette-id="{{ palette.id }}">
+                                        {{ _('Отмена') }}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
