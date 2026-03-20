@@ -58,43 +58,57 @@
                             <div class="d-flex flex-wrap gap-1 mb-3">
                                 {% for color in palette.colors %}
                                 <div class="color-swatch-small"
-                                    style="background-color: {{ color }}; width: 25px; height: 25px; border-radius: 3px; border: 1px solid #ddd;">
+                                    style="background-color: {{ color }}; width: 25px; height: 25px; border-radius: 3px;">
                                 </div>
                                 {% endfor %}
                             </div>
                             <small class="text-muted">{{ _('Создано:') }} {{ palette.created_at.strftime('%d.%m.%Y %H:%M') if current_lang == 'ru' else palette.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
-                            <div class="mt-2 mt-auto">
+                            <div class="mt-2 mt-auto d-flex flex-wrap gap-1 align-items-center">
                                 <button class="btn btn-sm btn-outline-primary me-1"
                                     onclick="copyPalette('{{ palette.colors | join(' ') }}')">{{ _('Копировать') }}</button>
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                                    <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle"
                                         data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ _('Экспорт') }}
+                                        <i class="fas fa-file-export me-1"></i>{{ _('Экспорт') }}
                                     </button>
-                                    <ul class="dropdown-menu">
+                                    <ul class="dropdown-menu dropdown-menu-export">
                                         <li><a class="dropdown-item export-option" href="#" data-format="json"
                                                 data-colors='["{{ colors_json }}"]'
-                                                data-name="{{ palette.name }}">JSON</a></li>
-                                        <li><a class="dropdown-item export-option" href="#" data-format="gpl"
-                                                data-colors='["{{ colors_json }}"]' data-name="{{ palette.name }}">GPL</a></li>
-                                        <li><a class="dropdown-item export-option" href="#" data-format="ase"
-                                                data-colors='["{{ colors_json }}"]' data-name="{{ palette.name }}">ASE</a></li>
+                                                data-name="{{ palette.name }}">
+                                            <i class="fas fa-code me-2 text-primary"></i>JSON
+                                        </a></li>
                                         <li><a class="dropdown-item export-option" href="#" data-format="csv"
                                                 data-colors='["{{ colors_json }}"]'
-                                                data-name="{{ palette.name }}">CSV</a></li>
+                                                data-name="{{ palette.name }}">
+                                            <i class="fas fa-table me-2 text-success"></i>CSV
+                                        </a></li>
                                         <li><a class="dropdown-item export-option" href="#" data-format="png"
-                                                data-colors='["{{ colors_json }}"]' data-name="{{ palette.name }}">PNG</a></li>
+                                                data-colors='["{{ colors_json }}"]'
+                                                data-name="{{ palette.name }}">
+                                            <i class="fas fa-image me-2 text-info"></i>PNG
+                                        </a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li class="dropdown-header small text-uppercase">{{ _('Для дизайн-инструментов') }}</li>
+                                        <li><a class="dropdown-item export-option" href="#" data-format="gpl"
+                                                data-colors='["{{ colors_json }}"]'
+                                                data-name="{{ palette.name }}">
+                                            <i class="fas fa-fill-drip me-2 text-warning"></i>GPL <small class="text-muted">GIMP</small>
+                                        </a></li>
+                                        <li><a class="dropdown-item export-option" href="#" data-format="ase"
+                                                data-colors='["{{ colors_json }}"]'
+                                                data-name="{{ palette.name }}">
+                                            <i class="fas fa-swatchbook me-2 text-danger"></i>ASE <small class="text-muted">Adobe</small>
+                                        </a></li>
                                         <li><a class="dropdown-item export-option" href="#" data-format="aco"
-                                                data-colors='["{{ colors_json }}"]' data-name="{{ palette.name }}">ACO</a></li>
+                                                data-colors='["{{ colors_json }}"]'
+                                                data-name="{{ palette.name }}">
+                                            <i class="fas fa-brush me-2 text-secondary"></i>ACO <small class="text-muted">Photoshop</small>
+                                        </a></li>
                                     </ul>
                                 </div>
                                 <button class="btn btn-sm btn-outline-primary mt-2 me-1 btn-edit-palette"
                                     data-palette-id="{{ palette.id }}">
                                     <i class="fas fa-edit me-1"></i>{{ _('Редактировать') }}
-                                </button>
-                                <button class="btn btn-sm btn-outline-secondary mt-2 me-1 btn-rename-palette"
-                                    data-palette-id="{{ palette.id }}" data-palette-name="{{ palette.name }}">
-                                    {{ _('Переименовать') }}
                                 </button>
                                 <button class="btn btn-sm btn-outline-danger mt-2 btn-delete-palette"
                                     data-palette-id="{{ palette.id }}" data-palette-name="{{ palette.name }}">
@@ -103,6 +117,12 @@
                             </div>
 
                             <div class="palette-editor-section d-none mt-3" id="editor-{{ palette.id }}">
+                                <div class="mb-2">
+                                    <label class="form-label small fw-semibold">{{ _('Название палитры') }}</label>
+                                    <input type="text" class="form-control form-control-sm palette-editor-name"
+                                           value="{{ palette.name }}" maxlength="100"
+                                           data-palette-id="{{ palette.id }}">
+                                </div>
                                 <div class="d-flex flex-wrap gap-2 palette-editor-colors"></div>
                                 <div class="d-flex flex-wrap gap-2 mt-2">
                                     <button class="btn btn-sm btn-outline-success btn-add-color" data-palette-id="{{ palette.id }}">
@@ -149,30 +169,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Отмена') }}</button>
                 <button type="button" class="btn btn-danger" id="confirmDeleteBtn">{{ _('Удалить') }}</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="renameModal" tabindex="-1" aria-labelledby="renameModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="renameModalLabel">{{ _('Переименовать палитру') }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ _('Закрыть') }}"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label for="newPaletteName" class="form-label">{{ _('Новое название палитры') }}</label>
-                    <input type="text" class="form-control" id="newPaletteName" maxlength="100" required>
-                    <div class="form-text">
-                        {{ _('Название должно быть уникальным среди ваших палитр.') }}
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Отмена') }}</button>
-                <button type="button" class="btn btn-primary" id="confirmRenameBtn">{{ _('Сохранить') }}</button>
             </div>
         </div>
     </div>

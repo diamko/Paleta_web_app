@@ -5,7 +5,7 @@
 
 /* ===== ПОДВАЛ ===== */
 footer {
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--bg-surface);
     backdrop-filter: blur(10px);
     border-top: 1px solid rgba(0, 0, 0, 0.05);
     margin-top: auto;
@@ -13,7 +13,7 @@ footer {
 }
 
 .footer__copyright {
-    color: #6c757d;
+    color: var(--dark-gray);
     font-size: 0.95rem;
 }
 

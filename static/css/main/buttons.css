@@ -94,9 +94,65 @@
     box-shadow: var(--shadow-hover);
 }
 
+/* Контурная второстепенная кнопка */
+.btn-outline-secondary {
+    background: transparent;
+    border: 2px solid var(--dark-gray);
+    color: var(--dark-gray);
+}
+
+.btn-outline-secondary:hover {
+    background: var(--dark-gray);
+    border-color: var(--dark-gray);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Контурная кнопка успеха */
+.btn-outline-success {
+    background: transparent;
+    border: 2px solid var(--success-color);
+    color: var(--success-color);
+}
+
+.btn-outline-success:hover {
+    background: var(--gradient-success);
+    border-color: transparent;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Контурная информационная кнопка */
+.btn-outline-info {
+    background: transparent;
+    border: 2px solid #0dcaf0;
+    color: #0dcaf0;
+}
+
+.btn-outline-info:hover {
+    background: linear-gradient(135deg, #0dcaf0 0%, #6610f2 100%);
+    border-color: transparent;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Второстепенная кнопка */
+.btn-secondary {
+    background: var(--dark-gray);
+    color: white;
+}
+
+.btn-secondary:hover, .btn-secondary:focus {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
 /* Размеры кнопок */
 .btn-sm {
-    padding: 0.25rem 1rem !important;
+    padding: 0.3rem 0.85rem;
     font-size: 0.9rem;
     font-weight: 500;
 }

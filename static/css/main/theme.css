@@ -16,6 +16,10 @@ html[data-theme="dark"] {
     --light-gray: #1e1e2e;
     --medium-gray: #2a2a3e;
     --dark-gray: #9e9ea8;
+    --bg-surface: #2a2a3e;
+    --bg-surface-alt: #1e1e2e;
+    --border-color: rgba(255, 255, 255, 0.15);
+    --border-light: rgba(255, 255, 255, 0.05);
     --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.3);
     --shadow-medium: 0 10px 20px rgba(0, 0, 0, 0.4);
     --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.5);
@@ -81,6 +85,66 @@ html[data-theme="dark"] .gradient-text {
     background-clip: text;
 }
 
+html[data-theme="dark"] .dropdown-menu {
+    background: var(--bg-surface);
+    border-color: var(--border-color);
+}
+
+html[data-theme="dark"] .dropdown-item {
+    color: var(--text-color);
+}
+
+html[data-theme="dark"] .dropdown-item:hover,
+html[data-theme="dark"] .dropdown-item:focus {
+    background: var(--bg-surface-alt);
+}
+
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .form-select {
+    background: var(--bg-surface-alt);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+html[data-theme="dark"] .form-text {
+    color: var(--text-light) !important;
+}
+
+html[data-theme="dark"] .input-group-text {
+    background: var(--bg-surface-alt);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+html[data-theme="dark"] .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+html[data-theme="dark"] .text-muted {
+    color: var(--text-light) !important;
+}
+
+html[data-theme="dark"] .modal-content {
+    background: var(--bg-surface);
+    color: var(--text-color);
+}
+
+html[data-theme="dark"] .modal-header {
+    border-bottom-color: var(--border-color);
+}
+
+html[data-theme="dark"] .modal-footer {
+    border-top-color: var(--border-color);
+}
+
+html[data-theme="dark"] .dropdown-header {
+    color: var(--text-light);
+}
+
+html[data-theme="dark"] .dropdown-divider {
+    border-top-color: var(--border-color);
+}
+
 /* ===== СИСТЕМНАЯ ТЕМА (prefers-color-scheme) ===== */
 @media (prefers-color-scheme: dark) {
     html:not([data-theme="light"]) {
@@ -95,6 +159,10 @@ html[data-theme="dark"] .gradient-text {
         --light-gray: #1e1e2e;
         --medium-gray: #2a2a3e;
         --dark-gray: #9e9ea8;
+        --bg-surface: #2a2a3e;
+        --bg-surface-alt: #1e1e2e;
+        --border-color: rgba(255, 255, 255, 0.15);
+        --border-light: rgba(255, 255, 255, 0.05);
         --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.3);
         --shadow-medium: 0 10px 20px rgba(0, 0, 0, 0.4);
         --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.5);
@@ -158,5 +226,65 @@ html[data-theme="dark"] .gradient-text {
         background: linear-gradient(135deg, #9b59ff 0%, #5b9bff 100%);
         -webkit-background-clip: text;
         background-clip: text;
+    }
+
+    html:not([data-theme="light"]) .dropdown-menu {
+        background: var(--bg-surface);
+        border-color: var(--border-color);
+    }
+
+    html:not([data-theme="light"]) .dropdown-item {
+        color: var(--text-color);
+    }
+
+    html:not([data-theme="light"]) .dropdown-item:hover,
+    html:not([data-theme="light"]) .dropdown-item:focus {
+        background: var(--bg-surface-alt);
+    }
+
+    html:not([data-theme="light"]) .form-control,
+    html:not([data-theme="light"]) .form-select {
+        background: var(--bg-surface-alt);
+        border-color: var(--border-color);
+        color: var(--text-color);
+    }
+
+    html:not([data-theme="light"]) .form-text {
+        color: var(--text-light) !important;
+    }
+
+    html:not([data-theme="light"]) .input-group-text {
+        background: var(--bg-surface-alt);
+        border-color: var(--border-color);
+        color: var(--text-color);
+    }
+
+    html:not([data-theme="light"]) .btn-close {
+        filter: invert(1) grayscale(100%) brightness(200%);
+    }
+
+    html:not([data-theme="light"]) .text-muted {
+        color: var(--text-light) !important;
+    }
+
+    html:not([data-theme="light"]) .modal-content {
+        background: var(--bg-surface);
+        color: var(--text-color);
+    }
+
+    html:not([data-theme="light"]) .modal-header {
+        border-bottom-color: var(--border-color);
+    }
+
+    html:not([data-theme="light"]) .modal-footer {
+        border-top-color: var(--border-color);
+    }
+
+    html:not([data-theme="light"]) .dropdown-header {
+        color: var(--text-light);
+    }
+
+    html:not([data-theme="light"]) .dropdown-divider {
+        border-top-color: var(--border-color);
     }
 }

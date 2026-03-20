@@ -393,6 +393,16 @@ def register_routes(app):
                     403,
                 )
 
+            new_name = (data.get("name") or "").strip()
+            if new_name and new_name != palette.name:
+                existing = Palette.query.filter_by(
+                    user_id=current_user.id,
+                    name=new_name,
+                ).first()
+                if existing and existing.id != palette.id:
+                    return _api_error(_("У вас уже есть палитра с таким названием"), 400)
+                palette.name = new_name
+
             palette.colors = colors
             db.session.commit()
 

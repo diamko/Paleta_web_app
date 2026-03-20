@@ -15,9 +15,7 @@ const t = window.t || ((key, fallback) => fallback || key);
 function collectMyPaletElements(root = document) {
     return {
         deleteModalElement: root.getElementById('deleteModal'),
-        renameModalElement: root.getElementById('renameModal'),
         confirmDeleteBtn: root.getElementById('confirmDeleteBtn'),
-        confirmRenameBtn: root.getElementById('confirmRenameBtn'),
         searchInput: root.getElementById('paletteSearch'),
         colorCountFilter: root.getElementById('colorCountFilter'),
         sortSelect: root.getElementById('paletteSort'),
@@ -49,21 +47,9 @@ export function initMyPaletPage() {
         });
     }
 
-    if (elements.renameModalElement) {
-        elements.renameModalElement.addEventListener('hidden.bs.modal', () => {
-            state.currentRenameId = null;
-        });
-    }
-
     if (elements.confirmDeleteBtn) {
         elements.confirmDeleteBtn.addEventListener('click', () => {
             actions.confirmDelete();
-        });
-    }
-
-    if (elements.confirmRenameBtn) {
-        elements.confirmRenameBtn.addEventListener('click', () => {
-            actions.confirmRename();
         });
     }
 
@@ -97,12 +83,6 @@ export function initMyPaletPage() {
         const deleteButton = target ? target.closest('.btn-delete-palette') : null;
         if (deleteButton) {
             actions.deletePalette(deleteButton.dataset.paletteId, deleteButton.dataset.paletteName);
-            return;
-        }
-
-        const renameButton = target ? target.closest('.btn-rename-palette') : null;
-        if (renameButton) {
-            actions.renamePalette(renameButton.dataset.paletteId, renameButton.dataset.paletteName);
             return;
         }
 

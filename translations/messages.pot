@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-03-20 18:31+0300\n"
+"POT-Creation-Date: 2026-03-20 20:19+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -290,12 +290,12 @@ msgstr ""
 msgid "Не удалось извлечь цвета из изображения"
 msgstr ""
 
-#: routes/api.py:232 routes/api.py:312 routes/api.py:363 routes/api.py:403
-#: routes/api.py:433 routes/api.py:475
+#: routes/api.py:232 routes/api.py:312 routes/api.py:363 routes/api.py:413
+#: routes/api.py:443 routes/api.py:485
 msgid "Внутренняя ошибка сервера"
 msgstr ""
 
-#: routes/api.py:240 routes/api.py:320 routes/api.py:371 routes/api.py:411
+#: routes/api.py:240 routes/api.py:320 routes/api.py:371 routes/api.py:421
 #: routes/auth.py:490
 msgid "Слишком много запросов. Попробуйте позже."
 msgstr ""
@@ -308,7 +308,7 @@ msgstr ""
 msgid "Название палитры не может быть пустым или состоять только из пробелов"
 msgstr ""
 
-#: routes/api.py:298 routes/api.py:354
+#: routes/api.py:298 routes/api.py:354 routes/api.py:403
 msgid "У вас уже есть палитра с таким названием"
 msgstr ""
 
@@ -325,19 +325,19 @@ msgstr ""
 msgid "Некорректные цвета. Укажите от %(min)s до %(max)s цветов в формате #RRGGBB"
 msgstr ""
 
-#: routes/api.py:420
+#: routes/api.py:430
 msgid "У вас нет прав на удаление этой палитры"
 msgstr ""
 
-#: routes/api.py:440
+#: routes/api.py:450
 msgid "Слишком много экспортов. Попробуйте позже."
 msgstr ""
 
-#: routes/api.py:448
+#: routes/api.py:458
 msgid "Не переданы корректные цвета палитры"
 msgstr ""
 
-#: routes/api.py:452
+#: routes/api.py:462
 msgid "Неподдерживаемый формат экспорта"
 msgstr ""
 
@@ -606,21 +606,20 @@ msgstr ""
 msgid "Сохранить палитру"
 msgstr ""
 
-#: templates/base.html:100 templates/myPalet.html:144
-#: templates/myPalet.html:162
+#: templates/base.html:100 templates/myPalet.html:164
 msgid "Закрыть"
 msgstr ""
 
-#: templates/base.html:105
+#: templates/base.html:105 templates/myPalet.html:121
 msgid "Название палитры"
 msgstr ""
 
-#: templates/base.html:110 templates/myPalet.html:118
-#: templates/myPalet.html:150 templates/myPalet.html:174
+#: templates/base.html:110 templates/myPalet.html:138
+#: templates/myPalet.html:170
 msgid "Отмена"
 msgstr ""
 
-#: templates/base.html:111 templates/myPalet.html:175
+#: templates/base.html:111
 msgid "Сохранить"
 msgstr ""
 
@@ -1022,7 +1021,7 @@ msgstr ""
 msgid "Действия"
 msgstr ""
 
-#: templates/generatePalet.html:54 templates/myPalet.html:112
+#: templates/generatePalet.html:54 templates/myPalet.html:132
 msgid "Градиент"
 msgstr ""
 
@@ -1211,56 +1210,44 @@ msgstr ""
 msgid "Экспорт"
 msgstr ""
 
-#: templates/myPalet.html:93
+#: templates/myPalet.html:91
+msgid "Для дизайн-инструментов"
+msgstr ""
+
+#: templates/myPalet.html:111
 msgid "Редактировать"
 msgstr ""
 
-#: templates/myPalet.html:97
-msgid "Переименовать"
-msgstr ""
-
-#: templates/myPalet.html:101 templates/myPalet.html:151
+#: templates/myPalet.html:115 templates/myPalet.html:171
 msgid "Удалить"
 msgstr ""
 
-#: templates/myPalet.html:109
+#: templates/myPalet.html:129
 msgid "Добавить цвет"
 msgstr ""
 
-#: templates/myPalet.html:115
+#: templates/myPalet.html:135
 msgid "Сохранить изменения"
 msgstr ""
 
-#: templates/myPalet.html:130
+#: templates/myPalet.html:150
 msgid "У вас пока нет сохраненных палитр"
 msgstr ""
 
-#: templates/myPalet.html:131
+#: templates/myPalet.html:151
 msgid "Создайте и сохраните свою первую палитру!"
 msgstr ""
 
-#: templates/myPalet.html:132
+#: templates/myPalet.html:152
 msgid "Создать палитру"
 msgstr ""
 
-#: templates/myPalet.html:143
+#: templates/myPalet.html:163
 msgid "Подтверждение удаления"
 msgstr ""
 
-#: templates/myPalet.html:147
+#: templates/myPalet.html:167
 msgid "Вы уверены, что хотите удалить эту палитру?"
-msgstr ""
-
-#: templates/myPalet.html:161
-msgid "Переименовать палитру"
-msgstr ""
-
-#: templates/myPalet.html:166
-msgid "Новое название палитры"
-msgstr ""
-
-#: templates/myPalet.html:169
-msgid "Название должно быть уникальным среди ваших палитр."
 msgstr ""
 
 #: templates/profile.html:6 templates/profile.html:15

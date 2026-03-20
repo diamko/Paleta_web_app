@@ -22,15 +22,6 @@
         padding: 0.56rem 1.12rem;
     }
 
-    #palettesContainer .btn.btn-sm {
-        padding: 0.42rem 1rem !important;
-        font-size: 0.98rem;
-    }
-
-    #palettesContainer .btn-group .btn.btn-sm {
-        padding: 0.42rem 0.92rem !important;
-    }
-
     #palettesContainer .card-title {
         font-size: 1.4rem;
     }
@@ -88,13 +79,6 @@
         font-size: 0.82rem;
         line-height: 1.2;
         white-space: nowrap;
-    }
-
-    .col-md-3.text-end.d-flex .btn-group.btn-group-sm > .btn,
-    .col-md-3.text-end.d-flex > form #logoutBtn {
-        padding: 0.28rem 0.56rem !important;
-        font-size: 0.76rem;
-        line-height: 1.1;
     }
 
     .content .container {
@@ -220,11 +204,11 @@
         width: auto;
     }
 
-    .col-md-3.text-end.d-flex .btn-group.btn-group-sm > .btn,
-    .col-md-3.text-end.d-flex > form #logoutBtn {
-        padding: 0.24rem 0.46rem !important;
-        font-size: 0.72rem;
-        line-height: 1.05;
+    .col-md-3.text-end.d-flex > .btn,
+    .col-md-3.text-end.d-flex > form .btn {
+        padding: 0.28rem 0.55rem !important;
+        font-size: 0.75rem;
+        line-height: 1.1;
     }
     
     .color-swatch {
@@ -271,7 +255,7 @@
         font-size: 0.84rem;
     }
     
-    .btn-group {
+    header .btn-group {
         flex-direction: column;
         width: 100%;
     }
@@ -288,16 +272,14 @@
         line-height: 1.2;
     }
 
-    .palette-card .btn-group .btn {
-        padding: 0.28rem 0.55rem !important;
-        font-size: 0.75rem;
-        line-height: 1.15;
+    .palette-editor-section input[type="text"] {
+        width: 75px !important;
     }
-    
+
     .upload-zone {
         padding: 1.5rem 1rem !important;
     }
-    
+
     footer {
         flex-direction: column;
         text-align: center;

@@ -16,7 +16,7 @@
 }
 
 .faq-page .accordion-button {
-    background-color: #ffffff;
+    background-color: var(--bg-surface);
     color: var(--text-color);
     transition: var(--transition);
 }

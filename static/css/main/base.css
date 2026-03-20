@@ -24,6 +24,10 @@
     --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     --gradient-success: linear-gradient(135deg, #28a745 0%, #20c997 100%);
     --gradient-danger: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+    --bg-surface: #ffffff;
+    --bg-surface-alt: #f8f9fa;
+    --border-color: #dddddd;
+    --border-light: rgba(0, 0, 0, 0.05);
     --font-main: 'Exo 2', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-heading: 'Exo 2', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }

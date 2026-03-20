@@ -145,6 +145,10 @@ export function createPaletteEditor({ showToast }) {
 
         const section = document.getElementById(`editor-${paletteId}`);
         if (section) {
+            const nameInput = section.querySelector('.palette-editor-name');
+            if (nameInput) {
+                nameInput.value = card.dataset.paletteName || '';
+            }
             section.classList.remove('d-none');
             renderColors(paletteId);
         }
@@ -189,11 +193,20 @@ export function createPaletteEditor({ showToast }) {
         const colors = editColors[paletteId];
         if (!colors || colors.length < MIN_COLORS) return;
 
+        const section = document.getElementById(`editor-${paletteId}`);
+        const nameInput = section?.querySelector('.palette-editor-name');
+        const newName = (nameInput?.value || '').trim();
+
+        if (!newName) {
+            showToast(t('rename_empty', 'Название палитры не может быть пустым.'), 'error');
+            return;
+        }
+
         try {
             const response = await fetch(`/api/palettes/update/${paletteId}`, {
                 method: 'POST',
                 headers: withCsrfHeaders({ 'Content-Type': 'application/json' }),
-                body: JSON.stringify({ colors }),
+                body: JSON.stringify({ colors, name: newName }),
             });
 
             if (!response.ok) {
@@ -214,10 +227,16 @@ export function createPaletteEditor({ showToast }) {
                 if (card) {
                     card.dataset.paletteColors = JSON.stringify(colors);
                     card.dataset.colorCount = String(colors.length);
+                    card.dataset.paletteName = newName;
+                    card.dataset.name = newName.toLowerCase();
+                    const titleEl = card.querySelector('.card-title');
+                    if (titleEl) titleEl.textContent = newName;
+                    const deleteBtn = card.querySelector('.btn-delete-palette');
+                    if (deleteBtn) deleteBtn.dataset.paletteName = newName;
                     const swatchContainer = card.querySelector('.d-flex.flex-wrap.gap-1.mb-3');
                     if (swatchContainer) {
                         swatchContainer.innerHTML = colors.map(c =>
-                            `<div class="color-swatch-small" style="background-color: ${c}; width: 25px; height: 25px; border-radius: 3px; border: 1px solid #ddd;"></div>`
+                            `<div class="color-swatch-small" style="background-color: ${c}; width: 25px; height: 25px; border-radius: 3px;"></div>`
                         ).join('');
                     }
                 }

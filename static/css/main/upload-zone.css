@@ -5,7 +5,7 @@
 
 /* ===== ОБЛАСТЬ ЗАГРУЗКИ ===== */
 .upload-zone {
-    border: 2px dashed #ddd;
+    border: 2px dashed var(--border-color);
     border-radius: 10px;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
