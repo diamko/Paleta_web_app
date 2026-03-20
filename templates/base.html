@@ -39,7 +39,7 @@
             </ul>
 
             <div class="col-md-3 text-end d-flex flex-column flex-md-row align-items-center justify-content-md-end justify-content-center gap-2">
-                <div class="d-flex align-items-center gap-2">
+                <div class="d-flex align-items-center gap-2 flex-wrap justify-content-center">
                     {% if current_user.is_authenticated %}
                         <span class="header-greeting">
                             {{ _('Привет,') }}
@@ -52,7 +52,7 @@
                             <button type="submit" class="btn btn-outline-danger btn-sm" id="logoutBtn">{{ _('Выйти') }}</button>
                         </form>
                     {% else %}
-                        <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-sm">{{ _('Войти') }}</a>
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-primary">{{ _('Войти') }}</a>
                         <a href="{{ url_for('register') }}" class="btn btn-primary">{{ _('Зарегистрироваться') }}</a>
                     {% endif %}
                 </div>
