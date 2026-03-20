@@ -39,7 +39,7 @@
             </ul>
 
             <div class="col-md-3 text-end d-flex align-items-center justify-content-md-end justify-content-center gap-2">
-                <button id="themeToggleBtn" class="btn btn-outline-secondary btn-sm rounded-circle"
+                <button id="themeToggleBtn" class="btn btn-outline-secondary btn-sm"
                     title="{{ _('Переключить тему') }}" aria-label="{{ _('Переключить тему') }}">
                     <i id="themeIcon" class="fas fa-circle-half-stroke"></i>
                 </button>
@@ -51,7 +51,7 @@
                 </div>
 
                 {% if current_user.is_authenticated %}
-                    <span class="mx-2">
+                    <span class="header-greeting">
                         {{ _('Привет,') }}
                         <a href="{{ url_for('profile') }}" class="link-primary fw-semibold text-decoration-none">
                             {{ current_user.username }}
@@ -59,11 +59,11 @@
                     </span>
                     <form method="POST" action="{{ url_for('logout') }}" class="d-inline" id="logoutForm">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-                        <button type="submit" class="btn btn-outline-danger" id="logoutBtn">{{ _('Выйти') }}</button>
+                        <button type="submit" class="btn btn-outline-danger btn-sm" id="logoutBtn">{{ _('Выйти') }}</button>
                     </form>
                 {% else %}
-                    <a href="{{ url_for('login') }}" class="btn btn-outline-primary me-2">{{ _('Войти') }}</a>
-                    <a href="{{ url_for('register') }}" class="btn btn-primary">{{ _('Зарегистрироваться') }}</a>
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-sm">{{ _('Войти') }}</a>
+                    <a href="{{ url_for('register') }}" class="btn btn-primary btn-sm">{{ _('Зарегистрироваться') }}</a>
                 {% endif %}
             </div>
         </header>

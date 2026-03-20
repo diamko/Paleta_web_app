@@ -66,19 +66,27 @@
         font-size: 0.88rem;
     }
 
+    .content .btn {
+        margin-top: 0.25rem;
+        margin-bottom: 0.25rem;
+    }
+
     .col-md-3.text-end.d-flex {
         flex-wrap: wrap;
         row-gap: 0.35rem;
         column-gap: 0.5rem !important;
     }
 
-    .col-md-3.text-end.d-flex > .btn,
-    .col-md-3.text-end.d-flex > form .btn {
-        margin: 0 !important;
-        padding: 0.35rem 0.72rem !important;
-        font-size: 0.82rem;
+    /* Единый размер для всех кнопок шапки */
+    .col-md-3.text-end.d-flex .btn {
+        padding: 0.32rem 0.65rem !important;
+        font-size: 0.8rem;
         line-height: 1.2;
         white-space: nowrap;
+    }
+
+    .header-greeting {
+        font-size: 0.82rem;
     }
 
     .content .container {
@@ -191,24 +199,23 @@
 
     .col-md-3.text-end.d-flex {
         justify-content: center;
-        gap: 0.35rem !important;
+        gap: 0.3rem !important;
     }
 
     .col-md-3.text-end.d-flex .btn-group {
         width: auto;
         flex-direction: row;
-        margin-bottom: 0.2rem;
     }
 
-    .col-md-3.text-end.d-flex .btn-group .btn {
-        width: auto;
-    }
-
-    .col-md-3.text-end.d-flex > .btn,
-    .col-md-3.text-end.d-flex > form .btn {
-        padding: 0.28rem 0.55rem !important;
-        font-size: 0.75rem;
+    /* Единый размер для всех кнопок шапки на маленьких экранах */
+    .col-md-3.text-end.d-flex .btn {
+        padding: 0.26rem 0.5rem !important;
+        font-size: 0.72rem;
         line-height: 1.1;
+    }
+
+    .header-greeting {
+        font-size: 0.75rem;
     }
     
     .color-swatch {
@@ -250,14 +257,18 @@
     
     .btn {
         width: auto;
-        margin: 0;
         padding: 0.4rem 0.8rem !important;
         font-size: 0.84rem;
     }
-    
+
+    .content .btn {
+        margin-top: 0.25rem;
+        margin-bottom: 0.25rem;
+    }
+
     header .btn-group {
-        flex-direction: column;
-        width: 100%;
+        flex-direction: row;
+        width: auto;
     }
 
     .export-actions .btn {

@@ -95,3 +95,8 @@ header.scrolled {
 .nav-link.active::after {
     width: 70%;
 }
+
+.header-greeting {
+    white-space: nowrap;
+    font-size: 0.95rem;
+}
