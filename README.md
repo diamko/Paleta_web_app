@@ -54,24 +54,26 @@ Provide a practical, browser-based tool for turning visual references into reusa
 
 ### What Makes It Different
 
-- **Two generation modes**: from image (KMeans clustering) and random.
-- **Inline palette editing**: color picker + HEX field + copy to clipboard.
-- **Palette management**: save, rename, delete, filter, sort — all within your account.
+- **Three generation modes**: from image (KMeans clustering), random, and color harmonies (sequential, tetradic/square).
+- **Inline palette editing**: color picker + HEX field + copy to clipboard + gradient fill between colors.
+- **Palette management**: save, edit name and colors together, delete, filter, sort — all within your account.
 - **6 export formats**: JSON, GPL, ASE, CSV, PNG, ACO — ready for both development and design tools.
-- **Mobile API**: full REST API for the [Paleta Mobile](https://github.com/diamko/Paleta_mobile_app) Android app.
+- **Dark / light theme**: toggle between themes, with system preference detection.
+- **Mobile app**: Android client available for download directly from the site, with a full REST API backend.
 - **Password recovery**: email-based code verification with rate limiting.
 
 ## Key Features
 
 | Category | Features |
 | --- | --- |
-| **Generation** | Dominant color extraction from image (KMeans), random palette generation |
-| **Editing** | Color picker, HEX input, re-analysis with custom color count |
+| **Generation** | Dominant color extraction from image (KMeans), random palette, sequential and tetradic color harmonies |
+| **Editing** | Color picker, HEX input, gradient fill between colors, re-analysis with custom color count |
 | **Export** | JSON, GPL, ASE, CSV, PNG, ACO |
-| **Library** | Personal palette library with search, filters by color count, sorting |
+| **Library** | Personal palette library with search, filter by color count, sorting, inline name + color editing |
 | **Auth** | Register, login, logout, password reset via email |
 | **Uploads** | Drag-and-drop image upload, recent uploads (last 7 days) |
-| **Mobile** | Full REST API for Android client (auth, palettes, generation, export) |
+| **UI** | Dark / light theme toggle, responsive layout for mobile and desktop |
+| **Mobile** | Full REST API for Android client (auth, palettes, generation, export); APK available on the download page |
 | **i18n** | Russian and English interface |
 
 ## Tech Stack
@@ -89,10 +91,10 @@ Provide a practical, browser-based tool for turning visual references into reusa
 
 ## How It Works
 
-1. User uploads an image (or generates a random palette).
+1. User uploads an image (or generates a random/harmony palette).
 2. Backend resizes the image and runs KMeans clustering.
 3. Dominant RGB colors are converted to HEX.
-4. User edits, copies, exports, or saves the palette.
+4. User edits (including gradient fill between colors), copies, exports, or saves the palette.
 5. Saved palettes are linked to the authenticated account and managed in "My Palettes".
 
 ## Installation and Setup
@@ -231,8 +233,8 @@ Main config is in `config.py`. Override via environment variables:
 ### Guest mode (without account)
 
 - Extract palette from an uploaded image
-- Generate random palettes
-- Edit and copy HEX colors
+- Generate random palettes or build harmonies
+- Edit colors (picker, HEX, gradient fill)
 - Export palettes to any format
 
 ### Authenticated mode
@@ -240,17 +242,18 @@ Main config is in `config.py`. Override via environment variables:
 Additionally:
 
 - Save palettes to your personal library
-- Rename and delete palettes
+- Edit palette name and colors in one step
+- Delete palettes
 - Search, filter, and sort in "My Palettes"
 - Reuse recent image uploads (last 7 days)
 - Recover password via email
 
 ### Basic flow
 
-1. Open home page → upload image or go to random generator.
-2. Select number of colors and generate/recalculate.
-3. Edit colors if needed.
-4. Export or save palette.
+1. Open home page → upload image or go to the palette generator.
+2. Select generation mode (from image / random / harmony) and number of colors.
+3. Edit colors if needed (picker, HEX input, or gradient fill).
+4. Export or save the palette.
 5. Manage saved palettes in "My Palettes".
 
 ## Web API Endpoints
@@ -259,9 +262,10 @@ Additionally:
 | --- | --- | --- |
 | `POST` | `/api/upload` | Upload image and extract palette |
 | `POST` | `/api/palettes/save` | Save palette (auth required) |
+| `POST` | `/api/palettes/update/<id>` | Update palette colors and/or name (auth required) |
 | `POST` | `/api/palettes/rename/<id>` | Rename palette (auth required) |
 | `DELETE` | `/api/palettes/delete/<id>` | Delete palette (auth required) |
-| `POST` | `/api/export?format=<type>` | Export palette (json, gpl, ase, csv, png, aco) |
+| `POST` | `/api/export` | Export palette (json, gpl, ase, csv, png, aco) |
 
 ## Mobile API Endpoints
 
@@ -322,9 +326,9 @@ Paleta/
 │   ├── upload.py           # Upload tracking
 │   └── password_reset_token.py  # Password reset codes
 ├── routes/
-│   ├── main.py             # Main web routes (pages)
+│   ├── pages.py            # Main web routes (pages)
 │   ├── auth.py             # Web auth routes (login, register, etc.)
-│   ├── palette_routes.py   # Web palette API (save, rename, delete, export)
+│   ├── api.py              # Web palette API (upload, save, update, export)
 │   └── mobile_api.py       # Mobile REST API (all mobile endpoints)
 ├── utils/
 │   ├── image_processor.py  # KMeans color extraction
@@ -353,12 +357,16 @@ Manual smoke test checklist:
 
 1. Register and login.
 2. Upload image and generate palette.
-3. Recalculate palette with a different color count.
-4. Save palette and verify it appears in "My Palettes".
-5. Rename and delete palette.
-6. Export palette in all 6 formats.
-7. Request password reset code via email.
-8. Test mobile API endpoints with a REST client.
+3. Generate a random palette and a harmony palette.
+4. Use gradient fill to interpolate colors.
+5. Recalculate palette with a different color count.
+6. Save palette and verify it appears in "My Palettes".
+7. Edit palette name and colors together; verify both are saved.
+8. Delete palette.
+9. Export palette in all 6 formats.
+10. Toggle dark / light theme; verify all pages are readable.
+11. Request password reset code via email.
+12. Test mobile API endpoints with a REST client.
 
 ## Related Projects
 
