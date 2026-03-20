@@ -8,227 +8,229 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-02-27 11:44+0300\n"
+"POT-Creation-Date: 2026-03-20 13:55+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.3\n"
+"Generated-By: Babel 2.18.0\n"
 
-#: app.py:203
+#: app.py:205
 msgid "HEX код скопирован!"
 msgstr ""
 
-#: app.py:204
+#: app.py:206
 msgid "Ошибка копирования:"
 msgstr ""
 
-#: app.py:205
+#: app.py:207
 msgid "Bootstrap не загружен!"
 msgstr ""
 
-#: app.py:206
+#: app.py:208
 msgid "Bootstrap загружен успешно"
 msgstr ""
 
-#: app.py:207
+#: app.py:209
 msgid "Сначала загрузите изображение!"
 msgstr ""
 
-#: app.py:208
+#: app.py:210
 msgid "Палитра пересчитана!"
 msgstr ""
 
-#: app.py:209
+#: app.py:211
 msgid "Ошибка при пересчете палитры"
 msgstr ""
 
-#: app.py:210
+#: app.py:212
 msgid "Произошла ошибка при пересчете"
 msgstr ""
 
-#: app.py:211
+#: app.py:213
 msgid "Сначала создайте палитру!"
 msgstr ""
 
-#: app.py:212
+#: app.py:214
 msgid "Название палитры не может состоять только из пробелов"
 msgstr ""
 
-#: app.py:213
+#: app.py:215
 msgid "Сессия истекла. Пожалуйста, войдите снова."
 msgstr ""
 
-#: app.py:214
+#: app.py:216
 msgid "Ошибка при сохранении"
 msgstr ""
 
-#: app.py:215
+#: app.py:217
 msgid "Палитра сохранена!"
 msgstr ""
 
-#: app.py:216
+#: app.py:218
 msgid "Ошибка при сохранении палитры"
 msgstr ""
 
-#: app.py:217
+#: app.py:219
 msgid "Ошибка при экспорте"
 msgstr ""
 
-#: app.py:218
+#: app.py:220
 msgid "Введите корректный HEX-код, например #A1B2C3"
 msgstr ""
 
-#: app.py:219
+#: app.py:221
 msgid "Готово для новой загрузки!"
 msgstr ""
 
-#: app.py:220
+#: app.py:222
 msgid "Пожалуйста, выберите изображение"
 msgstr ""
 
-#: app.py:221
+#: app.py:223
 msgid "Файл слишком большой. Максимальный размер: 16 МБ"
 msgstr ""
 
-#: app.py:222
+#: app.py:224
 msgid "Ошибка загрузки изображения"
 msgstr ""
 
-#: app.py:223
+#: app.py:225
 msgid "Ошибка при анализе изображения"
 msgstr ""
 
-#: app.py:224
+#: app.py:226
 msgid "Произошла ошибка при загрузке файла"
 msgstr ""
 
-#: app.py:225
+#: app.py:227
 msgid "Не удалось загрузить сохранённое изображение"
 msgstr ""
 
-#: app.py:226
+#: app.py:228
 msgid "Произошла ошибка при использовании сохранённого изображения"
 msgstr ""
 
-#: app.py:227 templates/index.html:121
+#: app.py:229 templates/index.html:121
 msgid "Использовать"
 msgstr ""
 
-#: app.py:228 templates/index.html:112
+#: app.py:230 templates/index.html:112
 msgid "Недавнее изображение"
 msgstr ""
 
-#: app.py:229
+#: app.py:231
 msgid "Палитра удалена!"
 msgstr ""
 
-#: app.py:230
+#: app.py:232
 msgid "Ошибка при удалении:"
 msgstr ""
 
-#: app.py:231
+#: app.py:233
 msgid "Произошла ошибка при удалении"
 msgstr ""
 
-#: app.py:232
+#: app.py:234
 msgid "Вы уверены, что хотите удалить палитру"
 msgstr ""
 
-#: app.py:233
+#: app.py:235
 msgid "Название палитры не может быть пустым."
 msgstr ""
 
-#: app.py:234
+#: app.py:236
 msgid "Название палитры обновлено!"
 msgstr ""
 
-#: app.py:235
+#: app.py:237
 msgid "Ошибка при переименовании палитры"
 msgstr ""
 
-#: app.py:236
+#: app.py:238
 msgid "Произошла ошибка при переименовании палитры"
 msgstr ""
 
-#: app.py:237
+#: app.py:239
 msgid "Цвета скопированы в буфер обмена!"
 msgstr ""
 
-#: app.py:238
+#: app.py:240
 msgid "Сначала сгенерируйте палитру!"
 msgstr ""
 
-#: app.py:239 routes/api.py:149 routes/api.py:150 templates/base.html:101
+#: app.py:241 routes/api.py:149 routes/api.py:150 templates/base.html:102
 msgid "Моя палитра"
 msgstr ""
 
-#: app.py:240
-msgid "Скопировать HEX"
-msgstr ""
-
-#: app.py:241
-#, python-format
-msgid "Выбор цвета %(index)s"
-msgstr ""
-
 #: app.py:242
-#, python-format
-msgid "HEX цвета %(index)s"
+msgid "Скопировать HEX"
 msgstr ""
 
 #: app.py:243
 #, python-format
+msgid "Выбор цвета %(index)s"
+msgstr ""
+
+#: app.py:244
+#, python-format
+msgid "HEX цвета %(index)s"
+msgstr ""
+
+#: app.py:245
+#, python-format
 msgid "Маркер цвета %(index)s"
 msgstr ""
 
-#: app.py:244 templates/generatePalet.html:28
+#: app.py:246 templates/generatePalet.html:28
 msgid "Произвольная"
 msgstr ""
 
-#: app.py:245 templates/generatePalet.html:29
+#: app.py:247 templates/generatePalet.html:29
 msgid "Монохромная"
 msgstr ""
 
-#: app.py:246 templates/generatePalet.html:30
+#: app.py:248 templates/generatePalet.html:30
 msgid "Комплементарная"
 msgstr ""
 
-#: app.py:247 templates/generatePalet.html:31
+#: app.py:249 templates/generatePalet.html:31
 msgid "Аналоговая"
 msgstr ""
 
-#: app.py:248 templates/generatePalet.html:32
+#: app.py:250 templates/generatePalet.html:32
 msgid "Аналогово-комплементарная"
 msgstr ""
 
-#: app.py:249 templates/generatePalet.html:33
+#: app.py:251 templates/generatePalet.html:33
 msgid "Раздельно-комплементарная"
 msgstr ""
 
-#: app.py:250 templates/generatePalet.html:34
+#: app.py:252 templates/generatePalet.html:34
 msgid "Триада"
 msgstr ""
 
-#: app.py:251 templates/generatePalet.html:35
+#: app.py:253 templates/generatePalet.html:35
 msgid "Тетрада"
 msgstr ""
 
-#: app.py:252
+#: app.py:254
+#, python-brace-format
 msgid "Схема \"{scheme}\" доступна только при {count} цветах."
 msgstr ""
 
-#: app.py:253
+#: app.py:255
+#, python-brace-format
 msgid "Схема \"{scheme}\" недоступна при {count} цветах. Выбрана монохромная."
 msgstr ""
 
-#: app.py:275
+#: app.py:280
 msgid "Недействительный CSRF-токен. Обновите страницу и повторите попытку."
 msgstr ""
 
-#: app.py:281
+#: app.py:286
 msgid "Сессия формы истекла. Обновите страницу и попробуйте снова."
 msgstr ""
 
@@ -537,50 +539,160 @@ msgstr ""
 msgid "Мои палитры"
 msgstr ""
 
-#: templates/base.html:41
+#: templates/base.html:38
+msgid "Приложение"
+msgstr ""
+
+#: templates/base.html:42
 msgid "Переключение языка"
 msgstr ""
 
-#: templates/base.html:50
+#: templates/base.html:51
 msgid "Привет,"
 msgstr ""
 
-#: templates/base.html:57
+#: templates/base.html:58
 msgid "Выйти"
 msgstr ""
 
-#: templates/base.html:60 templates/login.html:59 templates/register.html:80
+#: templates/base.html:61 templates/login.html:59 templates/register.html:80
 msgid "Войти"
 msgstr ""
 
-#: templates/base.html:61 templates/login.html:64 templates/register.html:76
+#: templates/base.html:62 templates/login.html:64 templates/register.html:76
 msgid "Зарегистрироваться"
 msgstr ""
 
-#: templates/base.html:75
+#: templates/base.html:76
 msgid "© 2026 Paleta. Все права защищены."
 msgstr ""
 
-#: templates/base.html:94 templates/faq.html:87 templates/generatePalet.html:52
+#: templates/base.html:95 templates/faq.html:87 templates/generatePalet.html:52
 #: templates/index.html:76
 msgid "Сохранить палитру"
 msgstr ""
 
-#: templates/base.html:95 templates/myPalet.html:121 templates/myPalet.html:139
+#: templates/base.html:96 templates/myPalet.html:121 templates/myPalet.html:139
 msgid "Закрыть"
 msgstr ""
 
-#: templates/base.html:100
+#: templates/base.html:101
 msgid "Название палитры"
 msgstr ""
 
-#: templates/base.html:105 templates/myPalet.html:127
+#: templates/base.html:106 templates/myPalet.html:127
 #: templates/myPalet.html:151
 msgid "Отмена"
 msgstr ""
 
-#: templates/base.html:106 templates/myPalet.html:152
+#: templates/base.html:107 templates/myPalet.html:152
 msgid "Сохранить"
+msgstr ""
+
+#: templates/download.html:6
+msgid "Скачать приложение Paleta"
+msgstr ""
+
+#: templates/download.html:13
+msgid "Мобильное приложение Paleta"
+msgstr ""
+
+#: templates/download.html:14
+msgid "Создавайте и управляйте цветовыми палитрами прямо на смартфоне"
+msgstr ""
+
+#: templates/download.html:27
+msgid "Paleta для Android"
+msgstr ""
+
+#: templates/download.html:28
+msgid "Версия"
+msgstr ""
+
+#: templates/download.html:29 templates/faq.html:178
+msgid "Требуется Android 8.0 и выше"
+msgstr ""
+
+#: templates/download.html:32 templates/faq.html:175
+msgid "Скачать APK"
+msgstr ""
+
+#: templates/download.html:42
+msgid "Цветовые гармонии"
+msgstr ""
+
+#: templates/download.html:43
+msgid "9 режимов: аналоговые, комплементарные, триадные, тетрадные и другие"
+msgstr ""
+
+#: templates/download.html:51
+msgid "Цветовое колесо HSV"
+msgstr ""
+
+#: templates/download.html:52
+msgid "Интерактивное колесо с ползунком яркости для точной настройки цветов"
+msgstr ""
+
+#: templates/download.html:60
+msgid "Пипетка на изображении"
+msgstr ""
+
+#: templates/download.html:61
+msgid "Берите цвета прямо с фото с помощью лупы-увеличителя"
+msgstr ""
+
+#: templates/download.html:69
+msgid "Градиенты"
+msgstr ""
+
+#: templates/download.html:70
+msgid "Генерация плавных градиентов между выбранными цветами"
+msgstr ""
+
+#: templates/download.html:78
+msgid "6 форматов экспорта"
+msgstr ""
+
+#: templates/download.html:79
+msgid "Экспортируйте палитры в форматах JSON, CSV, GPL, ASE, ACO, PNG"
+msgstr ""
+
+#: templates/download.html:87
+msgid "Копирование HEX"
+msgstr ""
+
+#: templates/download.html:88
+msgid "Копируйте HEX-коды цветов в буфер обмена одним нажатием"
+msgstr ""
+
+#: templates/download.html:96
+msgid "Офлайн-режим"
+msgstr ""
+
+#: templates/download.html:97
+msgid "Работайте без интернета с автоматической синхронизацией"
+msgstr ""
+
+#: templates/download.html:105
+msgid "Гостевой режим"
+msgstr ""
+
+#: templates/download.html:106
+msgid "Используйте основные функции без регистрации"
+msgstr ""
+
+#: templates/download.html:114
+msgid "Два языка"
+msgstr ""
+
+#: templates/download.html:115
+msgid "Интерфейс на русском и английском, тёмная и светлая темы"
+msgstr ""
+
+#: templates/download.html:123
+msgid ""
+"Для установки APK разрешите установку из неизвестных источников в "
+"настройках вашего устройства."
 msgstr ""
 
 #: templates/faq.html:6
@@ -786,35 +898,35 @@ msgid "Есть ли мобильная версия?"
 msgstr ""
 
 #: templates/faq.html:165
-msgid "Да! Paleta полностью адаптивна и работает на всех устройствах:"
+msgid ""
+"Да! У Paleta есть нативное Android-приложение со всеми ключевыми "
+"функциями:"
+msgstr ""
+
+#: templates/faq.html:167
+msgid "9 режимов цветовых гармоний и HSV-колесо"
+msgstr ""
+
+#: templates/faq.html:168
+msgid "Пипетка на изображении с увеличителем"
+msgstr ""
+
+#: templates/faq.html:169
+msgid "Экспорт в 6 форматов (JSON, CSV, GPL, ASE, ACO, PNG)"
 msgstr ""
 
 #: templates/faq.html:170
-msgid "Компьютеры"
+msgid "Офлайн-режим с автоматической синхронизацией"
 msgstr ""
 
 #: templates/faq.html:171
-msgid "Полнофункциональная версия"
+msgid "Гостевой режим, тёмная/светлая тема, русский и английский интерфейс"
 msgstr ""
 
-#: templates/faq.html:177
-msgid "Планшеты"
-msgstr ""
-
-#: templates/faq.html:178
-msgid "Удобный интерфейс"
-msgstr ""
-
-#: templates/faq.html:184
-msgid "Смартфоны"
-msgstr ""
-
-#: templates/faq.html:185
-msgid "Оптимизированный дизайн"
-msgstr ""
-
-#: templates/faq.html:189
-msgid "Вы можете использовать Paleta прямо из браузера без установки приложения."
+#: templates/faq.html:179
+msgid ""
+"Кроме того, веб-версия Paleta полностью адаптивна и работает на "
+"компьютерах, планшетах и смартфонах прямо в браузере."
 msgstr ""
 
 #: templates/forgot_password.html:6

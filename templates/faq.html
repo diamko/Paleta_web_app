@@ -162,31 +162,21 @@
                     </h2>
                     <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                         <div class="accordion-body">
-                            <p>{{ _('Да! Paleta полностью адаптивна и работает на всех устройствах:') }}</p>
-                            <div class="row text-center">
-                                <div class="col-md-4 mb-3">
-                                    <div class="device-icon">
-                                        <i class="fas fa-desktop fa-3x text-primary mb-2"></i>
-                                        <h6>{{ _('Компьютеры') }}</h6>
-                                        <p class="small text-muted">{{ _('Полнофункциональная версия') }}</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <div class="device-icon">
-                                        <i class="fas fa-tablet-alt fa-3x text-primary mb-2"></i>
-                                        <h6>{{ _('Планшеты') }}</h6>
-                                        <p class="small text-muted">{{ _('Удобный интерфейс') }}</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <div class="device-icon">
-                                        <i class="fas fa-mobile-alt fa-3x text-primary mb-2"></i>
-                                        <h6>{{ _('Смартфоны') }}</h6>
-                                        <p class="small text-muted">{{ _('Оптимизированный дизайн') }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="mb-0">{{ _('Вы можете использовать Paleta прямо из браузера без установки приложения.') }}</p>
+                            <p>{{ _('Да! У Paleta есть нативное Android-приложение со всеми ключевыми функциями:') }}</p>
+                            <ul>
+                                <li>{{ _('9 режимов цветовых гармоний и HSV-колесо') }}</li>
+                                <li>{{ _('Пипетка на изображении с увеличителем') }}</li>
+                                <li>{{ _('Экспорт в 6 форматов (JSON, CSV, GPL, ASE, ACO, PNG)') }}</li>
+                                <li>{{ _('Офлайн-режим с автоматической синхронизацией') }}</li>
+                                <li>{{ _('Гостевой режим, тёмная/светлая тема, русский и английский интерфейс') }}</li>
+                            </ul>
+                            <p>
+                                <a href="{{ url_for('download_app') }}" class="btn btn-primary">
+                                    <i class="fas fa-download me-2"></i>{{ _('Скачать APK') }}
+                                </a>
+                            </p>
+                            <p class="small text-muted mb-3">{{ _('Требуется Android 8.0 и выше') }}</p>
+                            <p class="mb-0">{{ _('Кроме того, веб-версия Paleta полностью адаптивна и работает на компьютерах, планшетах и смартфонах прямо в браузере.') }}</p>
                         </div>
                     </div>
                 </div>
