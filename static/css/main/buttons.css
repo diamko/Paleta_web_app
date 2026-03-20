@@ -161,3 +161,10 @@
     font-size: 0.9rem;
     font-weight: 500;
 }
+
+/* Градиентный заголовок карточки */
+.card-header-gradient {
+    background: var(--gradient-primary);
+    color: white;
+    border-bottom: none;
+}

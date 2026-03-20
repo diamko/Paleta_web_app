@@ -79,6 +79,16 @@ html[data-theme="dark"] .card {
     border-color: rgba(255, 255, 255, 0.08);
 }
 
+html[data-theme="dark"] .card-body {
+    color: var(--text-color);
+}
+
+html[data-theme="dark"] .card-header:not(.card-header-gradient) {
+    background: var(--bg-surface-alt);
+    border-bottom-color: var(--border-color);
+    color: var(--text-color);
+}
+
 html[data-theme="dark"] .gradient-text {
     background: linear-gradient(135deg, #9b59ff 0%, #5b9bff 100%);
     -webkit-background-clip: text;
@@ -220,6 +230,16 @@ html[data-theme="dark"] .dropdown-divider {
     html:not([data-theme="light"]) .card {
         background: #2a2a3e;
         border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    html:not([data-theme="light"]) .card-body {
+        color: var(--text-color);
+    }
+
+    html:not([data-theme="light"]) .card-header:not(.card-header-gradient) {
+        background: var(--bg-surface-alt);
+        border-bottom-color: var(--border-color);
+        color: var(--text-color);
     }
 
     html:not([data-theme="light"]) .gradient-text {
