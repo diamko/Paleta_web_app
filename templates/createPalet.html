@@ -34,7 +34,7 @@
                         <div class="current-color-preview mt-4">
                             <div class="d-flex align-items-center gap-3">
                                 <div id="currentColorBox" class="current-color-box"></div>
-                                <div class="flex-grow-1">
+                                <div style="width: 110px; flex-shrink: 0;">
                                     <input type="text" id="currentHexInput" class="form-control font-monospace" value="#FF0000" maxlength="7" spellcheck="false">
                                 </div>
                                 <button id="addColorBtn" type="button" class="btn btn-primary btn-sm">
@@ -63,11 +63,9 @@
                                 <div class="d-flex align-items-center gap-2">
                                     <label for="gradientSteps" class="form-label mb-0 small">{{ _('Шагов:') }}</label>
                                     <select id="gradientSteps" class="form-select form-select-sm" style="width: auto;">
-                                        <option value="3">3</option>
-                                        <option value="5" selected>5</option>
-                                        <option value="7">7</option>
-                                        <option value="9">9</option>
-                                        <option value="11">11</option>
+                                        {% for i in range(3, 16) %}
+                                        <option value="{{ i }}"{% if i == 5 %} selected{% endif %}>{{ i }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div>

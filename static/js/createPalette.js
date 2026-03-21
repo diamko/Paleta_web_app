@@ -290,6 +290,8 @@ document.addEventListener('DOMContentLoaded', function () {
         updateGradientPreview();
     }
 
+    let dragFromIndex = null;
+
     function renderPalette() {
         paletteColors.innerHTML = '';
         colorCountLabel.textContent = colors.length;
@@ -313,6 +315,8 @@ document.addEventListener('DOMContentLoaded', function () {
         colors.forEach(function (color, index) {
             const item = document.createElement('div');
             item.className = 'palette-build-item';
+            item.draggable = true;
+            item.dataset.index = index;
             item.innerHTML =
                 '<button type="button" class="palette-build-preview" title="' + t('copy_hex_title', 'Скопировать HEX') + '"></button>' +
                 '<div class="palette-build-controls">' +
@@ -326,6 +330,41 @@ document.addEventListener('DOMContentLoaded', function () {
                 (index === colors.length - 1 ? ' disabled' : '') + '><i class="fas fa-chevron-right"></i></button>' +
                 '    <button type="button" class="btn-icon remove-color" title="' + t('remove', 'Удалить') + '"><i class="fas fa-times"></i></button>' +
                 '</div>';
+
+            item.addEventListener('dragstart', function (e) {
+                dragFromIndex = index;
+                item.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+            });
+
+            item.addEventListener('dragend', function () {
+                item.classList.remove('dragging');
+                dragFromIndex = null;
+                paletteColors.querySelectorAll('.drag-over').forEach(function (el) {
+                    el.classList.remove('drag-over');
+                });
+            });
+
+            item.addEventListener('dragover', function (e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                if (dragFromIndex !== null && dragFromIndex !== index) {
+                    item.classList.add('drag-over');
+                }
+            });
+
+            item.addEventListener('dragleave', function () {
+                item.classList.remove('drag-over');
+            });
+
+            item.addEventListener('drop', function (e) {
+                e.preventDefault();
+                item.classList.remove('drag-over');
+                if (dragFromIndex !== null && dragFromIndex !== index) {
+                    moveColor(dragFromIndex, index);
+                    dragFromIndex = null;
+                }
+            });
 
             const preview = item.querySelector('.palette-build-preview');
             const picker = item.querySelector('.palette-build-picker');
