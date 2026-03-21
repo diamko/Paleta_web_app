@@ -24,6 +24,10 @@ html[data-theme="dark"] {
     --shadow-medium: 0 10px 20px rgba(0, 0, 0, 0.4);
     --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.5);
     --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+
+    /* Bootstrap text-primary / bg-primary → розовый */
+    --bs-primary: #c27ba0;
+    --bs-primary-rgb: 194, 123, 160;
 }
 
 html[data-theme="dark"] body {
@@ -185,6 +189,9 @@ html[data-theme="dark"] .dropdown-divider {
         --shadow-medium: 0 10px 20px rgba(0, 0, 0, 0.4);
         --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.5);
         --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+
+        --bs-primary: #c27ba0;
+        --bs-primary-rgb: 194, 123, 160;
     }
 
     html:not([data-theme="light"]) body {
