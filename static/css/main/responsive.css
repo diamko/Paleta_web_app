@@ -34,10 +34,7 @@
     .palette-container {
         grid-template-columns: repeat(4, 1fr);
     }
-}
 
-/* Горизонтальная шапка (от 1200 пикселей, совпадает с xl-брейкпоинтом) */
-@media (min-width: 1200px) {
     /* Все кнопки шапки — одинаковая высота и шрифт */
     .header-actions .btn,
     .header-actions .btn-group > .btn {
