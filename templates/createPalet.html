@@ -1,0 +1,121 @@
+<!-- Шаблон: `templates/createPalet.html`. Назначение: Страница ручного создания палитры с цветовым кольцом. -->
+
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ _('Создать палитру') }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <h1 class="gradient-text text-center mb-4">{{ _('Создать палитру') }}</h1>
+            <p class="text-center mb-5">{{ _('Выберите цвета на цветовом кольце, настройте яркость и насыщенность') }}</p>
+
+            <div class="create-palette-workspace">
+                <div class="row g-4">
+                    <div class="col-md-5">
+                        <div class="color-wheel-container">
+                            <canvas id="colorWheel" width="300" height="300"></canvas>
+                            <div id="wheelCursor" class="wheel-cursor"></div>
+                        </div>
+
+                        <div class="sliders-container mt-4">
+                            <div class="slider-group">
+                                <label class="form-label d-flex justify-content-between">
+                                    <span>{{ _('Яркость') }}</span>
+                                    <span id="lightnessValue" class="slider-value">50%</span>
+                                </label>
+                                <input type="range" class="form-range" id="lightnessSlider" min="0" max="100" value="50">
+                            </div>
+                            <div class="slider-group mt-3">
+                                <label class="form-label d-flex justify-content-between">
+                                    <span>{{ _('Насыщенность') }}</span>
+                                    <span id="saturationValue" class="slider-value">100%</span>
+                                </label>
+                                <input type="range" class="form-range" id="saturationSlider" min="0" max="100" value="100">
+                            </div>
+                        </div>
+
+                        <div class="current-color-preview mt-4">
+                            <div class="d-flex align-items-center gap-3">
+                                <div id="currentColorBox" class="current-color-box"></div>
+                                <div class="flex-grow-1">
+                                    <input type="text" id="currentHexInput" class="form-control font-monospace" value="#FF0000" maxlength="7" spellcheck="false">
+                                </div>
+                                <button id="addColorBtn" type="button" class="btn btn-primary">
+                                    <i class="fas fa-plus me-1"></i>{{ _('Добавить') }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-7">
+                        <div class="palette-build-area">
+                            <h5 class="mb-3">{{ _('Палитра') }} (<span id="colorCountLabel">0</span>/15)</h5>
+                            <div id="paletteColors" class="palette-build-grid mb-3"></div>
+                            <p id="emptyHint" class="text-muted text-center py-4">
+                                {{ _('Нажмите на цветовое кольцо и добавьте цвет в палитру') }}
+                            </p>
+                        </div>
+
+                        <div id="gradientSection" class="gradient-section mt-4 d-none">
+                            <h5 class="mb-3">{{ _('Градиент') }}</h5>
+                            <div id="gradientPreview" class="gradient-preview mb-3"></div>
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <button id="gradientFillBtn" type="button" class="btn btn-info btn-sm">
+                                    <i class="fas fa-fill-drip me-1"></i>{{ _('Заполнить градиентом') }}
+                                </button>
+                                <div class="d-flex align-items-center gap-2">
+                                    <label for="gradientSteps" class="form-label mb-0 small">{{ _('Шагов:') }}</label>
+                                    <select id="gradientSteps" class="form-select form-select-sm" style="width: auto;">
+                                        <option value="3">3</option>
+                                        <option value="5" selected>5</option>
+                                        <option value="7">7</option>
+                                        <option value="9">9</option>
+                                        <option value="11">11</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="actionsSection" class="mt-4 d-none">
+                            <h5>{{ _('Действия') }}</h5>
+                            <div class="d-flex flex-wrap gap-2">
+                                <button id="clearAllBtn" type="button" class="btn btn-outline-danger btn-sm">
+                                    <i class="fas fa-trash me-1"></i>{{ _('Очистить всё') }}
+                                </button>
+                                {% if current_user.is_authenticated %}
+                                    <button id="savePaletteBtn" type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#saveModal">
+                                        <i class="fas fa-save me-1"></i>{{ _('Сохранить палитру') }}
+                                    </button>
+                                {% else %}
+                                    <a href="{{ url_for('login') }}" class="btn btn-outline-success btn-sm">
+                                        <i class="fas fa-sign-in-alt me-1"></i>{{ _('Войдите, чтобы сохранить') }}
+                                    </a>
+                                {% endif %}
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                                        <i class="fas fa-file-export me-1"></i>{{ _('Экспорт') }}
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-export">
+                                        <li><button class="dropdown-item export-option" data-format="json">JSON</button></li>
+                                        <li><button class="dropdown-item export-option" data-format="gpl">GPL (GIMP)</button></li>
+                                        <li><button class="dropdown-item export-option" data-format="ase">ASE (Adobe)</button></li>
+                                        <li><button class="dropdown-item export-option" data-format="csv">CSV</button></li>
+                                        <li><button class="dropdown-item export-option" data-format="png">PNG</button></li>
+                                        <li><button class="dropdown-item export-option" data-format="aco">ACO (Photoshop)</button></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/createPalette.js') }}"></script>
+{% endblock %}

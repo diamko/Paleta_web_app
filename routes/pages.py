@@ -73,6 +73,16 @@ def register_routes(app):
         """Выполняет операцию `generatePalet` в рамках сценария модуля."""
         return render_template("generatePalet.html")
 
+    @app.get("/createPalet")
+    def createPalet_legacy():
+        """Выполняет операцию `createPalet_legacy` в рамках сценария модуля."""
+        return redirect(url_for("createPalet", lang="ru"), code=301)
+
+    @app.route("/<lang>/createPalet")
+    def createPalet(lang):
+        """Страница ручного создания палитры с цветовым кольцом."""
+        return render_template("createPalet.html")
+
     @app.get("/myPalet")
     def myPalet_legacy():
         """Выполняет операцию `myPalet_legacy` в рамках сценария модуля."""
@@ -126,6 +136,7 @@ def register_routes(app):
         public_endpoints = (
             "index",
             "generatePalet",
+            "createPalet",
             "faq",
             "download_app",
         )

@@ -259,6 +259,7 @@ def create_app() -> Flask:
                 "update_error": _("Ошибка при обновлении палитры"),
                 "max_colors_reached": _("Максимум 15 цветов"),
                 "min_colors_reached": _("Минимум 3 цвета"),
+                "need_two_colors": _("Нужно минимум 2 цвета для градиента"),
                 "lang": _language_for_url(),
             },
         }

@@ -1351,6 +1351,58 @@ msgstr "Update Password"
 msgid "Запросить новый код"
 msgstr "Request a new code"
 
+#: templates/createPalet.html
+msgid "Выберите цвета на цветовом кольце, настройте яркость и насыщенность"
+msgstr "Pick colors on the color wheel, adjust brightness and saturation"
+
+#: templates/createPalet.html
+msgid "Яркость"
+msgstr "Brightness"
+
+#: templates/createPalet.html
+msgid "Насыщенность"
+msgstr "Saturation"
+
+#: templates/createPalet.html
+msgid "Добавить"
+msgstr "Add"
+
+#: templates/createPalet.html
+msgid "Палитра"
+msgstr "Palette"
+
+#: templates/createPalet.html
+msgid "Нажмите на цветовое кольцо и добавьте цвет в палитру"
+msgstr "Click on the color wheel and add a color to the palette"
+
+#: templates/createPalet.html
+msgid "Градиент"
+msgstr "Gradient"
+
+#: templates/createPalet.html
+msgid "Заполнить градиентом"
+msgstr "Fill with gradient"
+
+#: templates/createPalet.html
+msgid "Шагов:"
+msgstr "Steps:"
+
+#: templates/createPalet.html
+msgid "Очистить всё"
+msgstr "Clear all"
+
+#: templates/createPalet.html
+msgid "Войдите, чтобы сохранить"
+msgstr "Log in to save"
+
+#: templates/createPalet.html
+msgid "Экспорт"
+msgstr "Export"
+
+#: app.py
+msgid "Нужно минимум 2 цвета для градиента"
+msgstr "At least 2 colors are needed for a gradient"
+
 #~ msgid "Да! Paleta полностью адаптивна и работает на всех устройствах:"
 #~ msgstr "Yes! Paleta is fully responsive and works on all devices:"
 
