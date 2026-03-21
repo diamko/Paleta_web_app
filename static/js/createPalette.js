@@ -11,9 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const ctx = canvas.getContext('2d');
     const wheelCursor = document.getElementById('wheelCursor');
     const lightnessSlider = document.getElementById('lightnessSlider');
-    const saturationSlider = document.getElementById('saturationSlider');
     const lightnessValue = document.getElementById('lightnessValue');
-    const saturationValue = document.getElementById('saturationValue');
     const currentColorBox = document.getElementById('currentColorBox');
     const currentHexInput = document.getElementById('currentHexInput');
     const addColorBtn = document.getElementById('addColorBtn');
@@ -150,11 +148,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const radius = center - 4;
         const dist = (currentSat / 100) * radius;
         const rad = currentHue * Math.PI / 180;
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = rect.width / size;
-        const scaleY = rect.height / size;
-        const x = (center + dist * Math.cos(rad)) * scaleX;
-        const y = (center + dist * Math.sin(rad)) * scaleY;
+        const scaleX = canvas.offsetWidth / size;
+        const scaleY = canvas.offsetHeight / size;
+        const x = (center + dist * Math.cos(rad)) * scaleX + canvas.offsetLeft;
+        const y = (center + dist * Math.sin(rad)) * scaleY + canvas.offsetTop;
 
         wheelCursor.style.left = x + 'px';
         wheelCursor.style.top = y + 'px';
@@ -184,8 +181,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const clampedDist = Math.min(dist, radius);
             currentHue = ((Math.atan2(dy, dx) * 180 / Math.PI) + 360) % 360;
             currentSat = Math.round((clampedDist / radius) * 100);
-            saturationSlider.value = currentSat;
-            saturationValue.textContent = currentSat + '%';
             updateCurrentColor();
         }
     }
@@ -235,12 +230,6 @@ document.addEventListener('DOMContentLoaded', function () {
         updateCurrentColor();
     });
 
-    saturationSlider.addEventListener('input', function () {
-        currentSat = parseInt(this.value, 10);
-        saturationValue.textContent = currentSat + '%';
-        drawColorWheel();
-        updateCurrentColor();
-    });
 
     // --- HEX input ---
 
@@ -253,9 +242,7 @@ document.addEventListener('DOMContentLoaded', function () {
             currentHue = hsl.h;
             currentSat = Math.round(hsl.s);
             currentLight = Math.round(hsl.l);
-            saturationSlider.value = currentSat;
             lightnessSlider.value = currentLight;
-            saturationValue.textContent = currentSat + '%';
             lightnessValue.textContent = currentLight + '%';
             currentColorBox.style.backgroundColor = hex;
             drawColorWheel();
