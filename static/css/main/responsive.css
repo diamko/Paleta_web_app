@@ -22,14 +22,6 @@
         padding: 0.56rem 1.12rem;
     }
 
-    /* Все кнопки шапки — одинаковая высота и шрифт */
-    .header-actions .btn,
-    .header-actions .btn-group > .btn {
-        font-size: 0.95rem !important;
-        padding: 0.42rem 0.9rem !important;
-        line-height: 1.4;
-    }
-
     #palettesContainer .card-title {
         font-size: 1.4rem;
     }
@@ -41,6 +33,17 @@
 
     .palette-container {
         grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Горизонтальная шапка (от 1200 пикселей, совпадает с xl-брейкпоинтом) */
+@media (min-width: 1200px) {
+    /* Все кнопки шапки — одинаковая высота и шрифт */
+    .header-actions .btn,
+    .header-actions .btn-group > .btn {
+        font-size: 0.95rem !important;
+        padding: 0.42rem 0.9rem !important;
+        line-height: 1.4;
     }
 }
 

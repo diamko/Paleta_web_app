@@ -22,15 +22,15 @@
 </head>
 <body>
     <div class="page">
-        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-1 px-4 mb-4 border-bottom">
-            <div class="col-12 col-md-3 mb-2 mb-md-0 text-center text-md-start">
+        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-xl-between py-1 px-4 mb-4 border-bottom">
+            <div class="col-12 col-xl-3 mb-2 mb-xl-0 text-center text-xl-start">
                 <a href="{{ url_for('index') }}" class="header__logo d-inline-flex link-body-emphasis text-decoration-none">
                     <img class="header_img" src="{{ url_for('static', filename='Palett_logo.png') }}" alt="{{ _('Логотип') }}">
                     <span class="header__brand rock-3d-regular fs-1 ms-2 py-1">Paleta</span>
                 </a>
             </div>
 
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <ul class="nav col-12 col-xl-auto mb-2 justify-content-center mb-xl-0">
                 <li><a href="{{ url_for('index') }}" class="nav-link px-2">{{ _('Главная') }}</a></li>
                 <li><a href="{{ url_for('generatePalet') }}" class="nav-link px-2">{{ _('Генерация палитры') }}</a></li>
                 <li><a href="{{ url_for('myPalet') }}" class="nav-link px-2">{{ _('Мои палитры') }}</a></li>
@@ -38,7 +38,7 @@
                 <li><a href="{{ url_for('download_app') }}" class="nav-link px-2"><i class="fas fa-mobile-alt me-1"></i>{{ _('Приложение') }}</a></li>
             </ul>
 
-            <div class="header-actions col-12 col-md-auto d-flex flex-wrap align-items-center justify-content-center justify-content-md-end gap-2 mt-2 mt-md-0">
+            <div class="header-actions col-12 col-xl-auto d-flex flex-wrap align-items-center justify-content-center justify-content-xl-end gap-2 mt-2 mt-xl-0">
                 <div class="d-flex align-items-center gap-2 flex-wrap justify-content-center">
                     {% if current_user.is_authenticated %}
                         <span class="header-greeting">
