@@ -72,18 +72,18 @@
                 <div class="mt-4">
                     <h5>{{ _('Действия') }}</h5>
                     {% if current_user.is_authenticated %}
-                        <button id="savePaletteBtn" type="button" class="btn btn-success me-2 my-2"
-                                data-bs-toggle="modal" data-bs-target="#saveModal">{{ _('Сохранить палитру') }}</button>
+                        <button id="savePaletteBtn" type="button" class="btn btn-success btn-sm me-2 my-2"
+                                data-bs-toggle="modal" data-bs-target="#saveModal"><i class="fas fa-save me-1"></i>{{ _('Сохранить палитру') }}</button>
                     {% else %}
                         <p class="text-muted mb-2">{{ _('Чтобы сохранить палитру,') }} <a href="{{ url_for('login') }}">{{ _('войдите') }}</a> {{ _('или') }} <a href="{{ url_for('register') }}">{{ _('зарегистрируйтесь') }}</a>.</p>
                     {% endif %}
                     <div class="export-actions d-flex flex-wrap gap-2" role="group">
-                        <button type="button" class="btn btn-outline-primary export-option" data-format="json">{{ _('Экспорт JSON') }}</button>
-                        <button type="button" class="btn btn-outline-primary export-option" data-format="gpl">{{ _('Экспорт GPL') }}</button>
-                        <button type="button" class="btn btn-outline-primary export-option" data-format="ase">{{ _('Экспорт ASE') }}</button>
-                        <button type="button" class="btn btn-outline-primary export-option" data-format="csv">{{ _('Экспорт CSV') }}</button>
-                        <button type="button" class="btn btn-outline-primary export-option" data-format="png">{{ _('Экспорт PNG') }}</button>
-                        <button type="button" class="btn btn-outline-primary export-option" data-format="aco">{{ _('Экспорт ACO') }}</button>
+                        <button type="button" class="btn btn-outline-primary btn-sm export-option" data-format="json"><i class="fas fa-file-export me-1"></i>{{ _('Экспорт JSON') }}</button>
+                        <button type="button" class="btn btn-outline-primary btn-sm export-option" data-format="gpl"><i class="fas fa-file-export me-1"></i>{{ _('Экспорт GPL') }}</button>
+                        <button type="button" class="btn btn-outline-primary btn-sm export-option" data-format="ase"><i class="fas fa-file-export me-1"></i>{{ _('Экспорт ASE') }}</button>
+                        <button type="button" class="btn btn-outline-primary btn-sm export-option" data-format="csv"><i class="fas fa-file-export me-1"></i>{{ _('Экспорт CSV') }}</button>
+                        <button type="button" class="btn btn-outline-primary btn-sm export-option" data-format="png"><i class="fas fa-file-export me-1"></i>{{ _('Экспорт PNG') }}</button>
+                        <button type="button" class="btn btn-outline-primary btn-sm export-option" data-format="aco"><i class="fas fa-file-export me-1"></i>{{ _('Экспорт ACO') }}</button>
                     </div>
                 </div>
             </div>
