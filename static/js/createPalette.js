@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (dist <= radius) {
                     const angle = (Math.atan2(dy, dx) * 180 / Math.PI + 360) % 360;
-                    const sat = (dist / radius) * currentSat;
+                    const sat = (dist / radius) * 100;
                     const rgb = hslToRgb(angle, sat, currentLight);
                     data[idx] = rgb.r;
                     data[idx + 1] = rgb.g;
@@ -148,8 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const size = canvas.width;
         const center = size / 2;
         const radius = center - 4;
-        const satRatio = currentSat > 0 ? 1 : 0;
-        const dist = satRatio * radius;
+        const dist = (currentSat / 100) * radius;
         const rad = currentHue * Math.PI / 180;
         const rect = canvas.getBoundingClientRect();
         const scaleX = rect.width / size;
@@ -182,7 +181,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist <= radius + 4) {
+            const clampedDist = Math.min(dist, radius);
             currentHue = ((Math.atan2(dy, dx) * 180 / Math.PI) + 360) % 360;
+            currentSat = Math.round((clampedDist / radius) * 100);
+            saturationSlider.value = currentSat;
+            saturationValue.textContent = currentSat + '%';
             updateCurrentColor();
         }
     }
