@@ -100,7 +100,7 @@ export function createPaletteEditor({ showToast }) {
             item.className = 'd-flex align-items-center gap-1 mb-1';
             item.innerHTML = `
                 <input type="color" class="form-control form-control-color p-0 border-0" value="${color.toLowerCase()}" style="width:32px;height:32px;">
-                <input type="text" class="form-control form-control-sm" value="${color}" maxlength="7" spellcheck="false" style="width:90px;">
+                <input type="text" class="form-control form-control-sm flex-grow-1 font-monospace" value="${color}" maxlength="7" spellcheck="false">
                 <button class="btn btn-sm btn-outline-danger btn-remove-color" data-palette-id="${paletteId}" data-index="${index}" title="${t('remove', 'Удалить')}">
                     <i class="fas fa-times"></i>
                 </button>
