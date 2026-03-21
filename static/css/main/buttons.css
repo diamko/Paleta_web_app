@@ -158,8 +158,15 @@
 /* Размеры кнопок */
 .btn-sm {
     padding: 0.3rem 0.85rem;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     font-weight: 500;
+}
+
+/* Единый размер кнопок в карточках палитр */
+.palette-card .btn.btn-sm,
+.palette-card .btn-group .btn.btn-sm {
+    font-size: 0.95rem !important;
+    padding: 0.3rem 0.85rem !important;
 }
 
 /* Градиентный заголовок карточки */
