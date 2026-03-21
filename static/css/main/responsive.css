@@ -74,11 +74,6 @@
         font-size: 0.88rem;
     }
 
-    .content .btn {
-        margin-top: 0.25rem;
-        margin-bottom: 0.25rem;
-    }
-
     .header-actions {
         flex-wrap: wrap;
         row-gap: 0.35rem;
@@ -263,11 +258,6 @@
         width: auto;
         padding: 0.4rem 0.8rem !important;
         font-size: 0.84rem;
-    }
-
-    .content .btn {
-        margin-top: 0.25rem;
-        margin-bottom: 0.25rem;
     }
 
     header .btn-group {

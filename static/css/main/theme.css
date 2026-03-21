@@ -5,7 +5,7 @@
 
 /* ===== ТЕМНАЯ ТЕМА (явный выбор) ===== */
 html[data-theme="dark"] {
-    --primary-color: #9b59ff;
+    --primary-color: #d4849a;
     --secondary-color: #c27ba0;
     --accent-color: #ff9a7a;
     --success-color: #2ecc71;
@@ -24,6 +24,13 @@ html[data-theme="dark"] {
     --shadow-medium: 0 10px 20px rgba(0, 0, 0, 0.4);
     --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.5);
     --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+
+    /* Bootstrap primary overrides */
+    --bs-primary: #d4849a;
+    --bs-primary-rgb: 212, 132, 154;
+    --bs-link-color: #e8b4cc;
+    --bs-link-color-rgb: 232, 180, 204;
+    --bs-link-hover-color: #f0cedd;
 }
 
 html[data-theme="dark"] body {
@@ -90,9 +97,13 @@ html[data-theme="dark"] .card-header:not(.card-header-gradient) {
 }
 
 html[data-theme="dark"] .gradient-text {
-    background: linear-gradient(135deg, #9b59ff 0%, #c27ba0 100%);
+    background: linear-gradient(135deg, #d4849a 0%, #c27ba0 100%);
     -webkit-background-clip: text;
     background-clip: text;
+}
+
+html[data-theme="dark"] .nav-link:hover {
+    background: rgba(212, 132, 154, 0.1);
 }
 
 html[data-theme="dark"] .header-greeting a.link-primary {
@@ -166,7 +177,7 @@ html[data-theme="dark"] .dropdown-divider {
 /* ===== СИСТЕМНАЯ ТЕМА (prefers-color-scheme) ===== */
 @media (prefers-color-scheme: dark) {
     html:not([data-theme="light"]) {
-        --primary-color: #9b59ff;
+        --primary-color: #d4849a;
         --secondary-color: #c27ba0;
         --accent-color: #ff9a7a;
         --success-color: #2ecc71;
@@ -185,6 +196,12 @@ html[data-theme="dark"] .dropdown-divider {
         --shadow-medium: 0 10px 20px rgba(0, 0, 0, 0.4);
         --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.5);
         --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+
+        --bs-primary: #d4849a;
+        --bs-primary-rgb: 212, 132, 154;
+        --bs-link-color: #e8b4cc;
+        --bs-link-color-rgb: 232, 180, 204;
+        --bs-link-hover-color: #f0cedd;
     }
 
     html:not([data-theme="light"]) body {
@@ -251,9 +268,13 @@ html[data-theme="dark"] .dropdown-divider {
     }
 
     html:not([data-theme="light"]) .gradient-text {
-        background: linear-gradient(135deg, #9b59ff 0%, #c27ba0 100%);
+        background: linear-gradient(135deg, #d4849a 0%, #c27ba0 100%);
         -webkit-background-clip: text;
         background-clip: text;
+    }
+
+    html:not([data-theme="light"]) .nav-link:hover {
+        background: rgba(212, 132, 154, 0.1);
     }
 
     html:not([data-theme="light"]) .header-greeting a.link-primary {
