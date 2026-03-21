@@ -23,8 +23,8 @@
     }
 
     /* Все кнопки шапки — одинаковая высота и шрифт */
-    .col-md-3.text-end.d-flex .btn,
-    .col-md-3.text-end.d-flex .btn-group > .btn {
+    .header-actions .btn,
+    .header-actions .btn-group > .btn {
         font-size: 0.95rem !important;
         padding: 0.42rem 0.9rem !important;
         line-height: 1.4;
@@ -79,14 +79,14 @@
         margin-bottom: 0.25rem;
     }
 
-    .col-md-3.text-end.d-flex {
+    .header-actions {
         flex-wrap: wrap;
         row-gap: 0.35rem;
         column-gap: 0.5rem !important;
     }
 
     /* Единый размер для всех кнопок шапки */
-    .col-md-3.text-end.d-flex .btn {
+    .header-actions .btn {
         padding: 0.32rem 0.65rem !important;
         font-size: 0.8rem;
         line-height: 1.2;
@@ -200,23 +200,19 @@
         flex-wrap: wrap;
     }
     
-    .col-md-3.text-end {
-        text-align: center !important;
-        margin-top: 0.5rem;
-    }
-
-    .col-md-3.text-end.d-flex {
+    .header-actions {
         justify-content: center;
+        margin-top: 0.5rem;
         gap: 0.3rem !important;
     }
 
-    .col-md-3.text-end.d-flex .btn-group {
+    .header-actions .btn-group {
         width: auto;
         flex-direction: row;
     }
 
     /* Единый размер для всех кнопок шапки на маленьких экранах */
-    .col-md-3.text-end.d-flex .btn {
+    .header-actions .btn {
         padding: 0.26rem 0.5rem !important;
         font-size: 0.72rem;
         line-height: 1.1;
