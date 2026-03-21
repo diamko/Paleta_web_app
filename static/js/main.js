@@ -68,14 +68,6 @@ if (logo) {
     });
 }
 
-window.addEventListener('load', function () {
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.5s';
-
-    setTimeout(() => {
-        document.body.style.opacity = '1';
-    }, 100);
-});
 
 /* ===== ТЕМА ===== */
 (function initTheme() {
@@ -155,7 +147,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const currentPath = window.location.pathname;
     document.querySelectorAll('.nav-link').forEach(link => {
-        if (link.getAttribute('href') === currentPath) {
+        const href = link.getAttribute('href');
+        if (href && href !== '/' && (currentPath === href || currentPath.startsWith(href + '/'))) {
             link.classList.add('active');
         }
     });

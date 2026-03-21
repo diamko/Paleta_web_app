@@ -11,13 +11,13 @@ html[data-theme="dark"] {
     --success-color: #2ecc71;
     --danger-color: #e74c3c;
     --warning-color: #f1c40f;
-    --text-color: #e0e0e0;
-    --text-light: #b0b0b0;
-    --light-gray: #1e1e2e;
-    --medium-gray: #2a2a3e;
+    --text-color: #d0d3e8;
+    --text-light: #9da3bf;
+    --light-gray: #1d2035;
+    --medium-gray: #252840;
     --dark-gray: #9e9ea8;
-    --bg-surface: #2a2a3e;
-    --bg-surface-alt: #1e1e2e;
+    --bg-surface: #252840;
+    --bg-surface-alt: #1d2035;
     --border-color: rgba(255, 255, 255, 0.15);
     --border-light: rgba(255, 255, 255, 0.05);
     --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.3);
@@ -27,46 +27,46 @@ html[data-theme="dark"] {
 }
 
 html[data-theme="dark"] body {
-    background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+    background: linear-gradient(135deg, #181b2e 0%, #1e2240 100%);
 }
 
 html[data-theme="dark"] header {
-    background: rgba(20, 20, 35, 0.95);
+    background: rgba(22, 25, 46, 0.97);
     border-bottom-color: rgba(255, 255, 255, 0.08);
 }
 
 html[data-theme="dark"] footer {
-    background: rgba(20, 20, 35, 0.95);
+    background: rgba(22, 25, 46, 0.97);
     border-top-color: rgba(255, 255, 255, 0.08);
 }
 
 html[data-theme="dark"] .palette-edit-item {
-    background: #2a2a3e;
+    background: #252840;
     border-color: rgba(255, 255, 255, 0.1);
 }
 
 html[data-theme="dark"] .palette-edit-hex {
-    background: #1e1e2e;
+    background: #1d2035;
     border-color: rgba(255, 255, 255, 0.15);
-    color: #e0e0e0;
+    color: #d0d3e8;
 }
 
 html[data-theme="dark"] .upload-zone {
     border-color: #555;
-    background: rgba(30, 30, 46, 0.5);
+    background: rgba(28, 31, 54, 0.5);
 }
 
 html[data-theme="dark"] .accordion-button {
-    background: #2a2a3e;
-    color: #e0e0e0;
+    background: #252840;
+    color: #d0d3e8;
 }
 
 html[data-theme="dark"] .accordion-body {
-    background: #1e1e2e;
+    background: #1d2035;
 }
 
 html[data-theme="dark"] .faq-page .accordion-item {
-    background: #1e1e2e;
+    background: #1d2035;
     border-color: rgba(255, 255, 255, 0.05);
 }
 
@@ -75,7 +75,7 @@ html[data-theme="dark"] .color-swatch-small {
 }
 
 html[data-theme="dark"] .card {
-    background: #2a2a3e;
+    background: #252840;
     border-color: rgba(255, 255, 255, 0.08);
 }
 
@@ -164,8 +164,8 @@ html[data-theme="dark"] .dropdown-divider {
         --success-color: #2ecc71;
         --danger-color: #e74c3c;
         --warning-color: #f1c40f;
-        --text-color: #e0e0e0;
-        --text-light: #b0b0b0;
+        --text-color: #d0d3e8;
+        --text-light: #9da3bf;
         --light-gray: #1e1e2e;
         --medium-gray: #2a2a3e;
         --dark-gray: #9e9ea8;
@@ -180,46 +180,46 @@ html[data-theme="dark"] .dropdown-divider {
     }
 
     html:not([data-theme="light"]) body {
-        background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+        background: linear-gradient(135deg, #181b2e 0%, #1e2240 100%);
     }
 
     html:not([data-theme="light"]) header {
-        background: rgba(20, 20, 35, 0.95);
+        background: rgba(22, 25, 46, 0.97);
         border-bottom-color: rgba(255, 255, 255, 0.08);
     }
 
     html:not([data-theme="light"]) footer {
-        background: rgba(20, 20, 35, 0.95);
+        background: rgba(22, 25, 46, 0.97);
         border-top-color: rgba(255, 255, 255, 0.08);
     }
 
     html:not([data-theme="light"]) .palette-edit-item {
-        background: #2a2a3e;
+        background: #252840;
         border-color: rgba(255, 255, 255, 0.1);
     }
 
     html:not([data-theme="light"]) .palette-edit-hex {
-        background: #1e1e2e;
+        background: #1d2035;
         border-color: rgba(255, 255, 255, 0.15);
-        color: #e0e0e0;
+        color: #d0d3e8;
     }
 
     html:not([data-theme="light"]) .upload-zone {
         border-color: #555;
-        background: rgba(30, 30, 46, 0.5);
+        background: rgba(28, 31, 54, 0.5);
     }
 
     html:not([data-theme="light"]) .accordion-button {
-        background: #2a2a3e;
-        color: #e0e0e0;
+        background: #252840;
+        color: #d0d3e8;
     }
 
     html:not([data-theme="light"]) .accordion-body {
-        background: #1e1e2e;
+        background: #1d2035;
     }
 
     html:not([data-theme="light"]) .faq-page .accordion-item {
-        background: #1e1e2e;
+        background: #1d2035;
         border-color: rgba(255, 255, 255, 0.05);
     }
 
@@ -228,7 +228,7 @@ html[data-theme="dark"] .dropdown-divider {
     }
 
     html:not([data-theme="light"]) .card {
-        background: #2a2a3e;
+        background: #252840;
         border-color: rgba(255, 255, 255, 0.08);
     }
 
