@@ -47,7 +47,7 @@
 
 /* === Превью текущего цвета === */
 .current-color-box {
-    width: 48px;
+    width: 80px;
     height: 48px;
     border-radius: 10px;
     border: 2px solid rgba(0, 0, 0, 0.1);
@@ -56,9 +56,8 @@
 }
 
 .current-color-preview .form-control {
-    font-size: 1rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
 }
 
 /* === Область палитры === */
