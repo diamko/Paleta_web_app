@@ -3,7 +3,7 @@
  * Назначение: Логика генерации случайной палитры и работы с её действиями.
  */
 
-const t = window.t || ((key, fallback) => fallback || key);
+var t = window.t || ((key, fallback) => fallback || key);
 const currentLang = window.currentLang || 'en';
 
 document.addEventListener('DOMContentLoaded', function() {
