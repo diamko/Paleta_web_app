@@ -6,7 +6,7 @@
 /* ===== ТЕМНАЯ ТЕМА (явный выбор) ===== */
 html[data-theme="dark"] {
     --primary-color: #9b59ff;
-    --secondary-color: #5b9bff;
+    --secondary-color: #c27ba0;
     --accent-color: #ff9a7a;
     --success-color: #2ecc71;
     --danger-color: #e74c3c;
@@ -90,9 +90,17 @@ html[data-theme="dark"] .card-header:not(.card-header-gradient) {
 }
 
 html[data-theme="dark"] .gradient-text {
-    background: linear-gradient(135deg, #9b59ff 0%, #5b9bff 100%);
+    background: linear-gradient(135deg, #9b59ff 0%, #c27ba0 100%);
     -webkit-background-clip: text;
     background-clip: text;
+}
+
+html[data-theme="dark"] .header-greeting a.link-primary {
+    color: #e8b4cc !important;
+}
+
+html[data-theme="dark"] .header-greeting a.link-primary:hover {
+    color: #f0cedd !important;
 }
 
 html[data-theme="dark"] .dropdown-menu {
@@ -159,7 +167,7 @@ html[data-theme="dark"] .dropdown-divider {
 @media (prefers-color-scheme: dark) {
     html:not([data-theme="light"]) {
         --primary-color: #9b59ff;
-        --secondary-color: #5b9bff;
+        --secondary-color: #c27ba0;
         --accent-color: #ff9a7a;
         --success-color: #2ecc71;
         --danger-color: #e74c3c;
@@ -243,9 +251,17 @@ html[data-theme="dark"] .dropdown-divider {
     }
 
     html:not([data-theme="light"]) .gradient-text {
-        background: linear-gradient(135deg, #9b59ff 0%, #5b9bff 100%);
+        background: linear-gradient(135deg, #9b59ff 0%, #c27ba0 100%);
         -webkit-background-clip: text;
         background-clip: text;
+    }
+
+    html:not([data-theme="light"]) .header-greeting a.link-primary {
+        color: #e8b4cc !important;
+    }
+
+    html:not([data-theme="light"]) .header-greeting a.link-primary:hover {
+        color: #f0cedd !important;
     }
 
     html:not([data-theme="light"]) .dropdown-menu {
