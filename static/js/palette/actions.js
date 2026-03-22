@@ -72,6 +72,41 @@ function generateGradient(colors) {
     });
 }
 
+function colorDistance(hex1, hex2) {
+    const r1 = parseInt(hex1.slice(1, 3), 16), g1 = parseInt(hex1.slice(3, 5), 16), b1 = parseInt(hex1.slice(5, 7), 16);
+    const r2 = parseInt(hex2.slice(1, 3), 16), g2 = parseInt(hex2.slice(3, 5), 16), b2 = parseInt(hex2.slice(5, 7), 16);
+    return Math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2);
+}
+
+function findNewColorFromImage(canvas, existingColors) {
+    if (!canvas || !canvas.width) return '#808080';
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    const w = canvas.width, h = canvas.height;
+    const step = Math.max(1, Math.floor(Math.sqrt(w * h / 2000)));
+    const freq = {};
+
+    for (let y = 0; y < h; y += step) {
+        for (let x = 0; x < w; x += step) {
+            const [r, g, b] = ctx.getImageData(x, y, 1, 1).data;
+            const qr = Math.min(Math.round(r / 32) * 32, 255);
+            const qg = Math.min(Math.round(g / 32) * 32, 255);
+            const qb = Math.min(Math.round(b / 32) * 32, 255);
+            const key = rgbToHex(qr, qg, qb);
+            freq[key] = (freq[key] || 0) + 1;
+        }
+    }
+
+    const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]);
+    if (sorted.length === 0) return '#808080';
+
+    for (const [color] of sorted) {
+        if (existingColors.every(c => colorDistance(color, c) > 50)) {
+            return color;
+        }
+    }
+    return sorted[0][0];
+}
+
 export function bindPaletteActions({ elements, state, paletteView, markerController }) {
     elements.imagePreview.addEventListener('load', () => {
         markerController.rebuildSampleCanvas();
@@ -152,7 +187,8 @@ export function bindPaletteActions({ elements, state, paletteView, markerControl
                 showToast(t('max_colors_reached', 'Максимум 15 цветов'), 'error');
                 return;
             }
-            state.currentColors.push('#808080');
+            const newColor = findNewColorFromImage(markerController.getSampleCanvas(), state.currentColors);
+            state.currentColors.push(newColor);
             paletteView.displayPalette(state.currentColors);
             localStorage.setItem('lastPalette', JSON.stringify(state.currentColors));
         });

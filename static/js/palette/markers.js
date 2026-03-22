@@ -439,6 +439,7 @@ export function createMarkerController({ elements, state }) {
     return {
         setColorSetter,
         rebuildSampleCanvas,
+        getSampleCanvas() { return sampleCanvas; },
         hideActiveLoupe,
         updateActiveLoupe,
         setActiveMarker,
