@@ -82,18 +82,16 @@ function findNewColorFromImage(canvas, existingColors) {
     if (!canvas || !canvas.width) return '#808080';
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     const w = canvas.width, h = canvas.height;
-    const step = Math.max(1, Math.floor(Math.sqrt(w * h / 2000)));
+    const data = ctx.getImageData(0, 0, w, h).data;
+    const step = Math.max(1, Math.floor(data.length / 4 / 2000)) * 4;
     const freq = {};
 
-    for (let y = 0; y < h; y += step) {
-        for (let x = 0; x < w; x += step) {
-            const [r, g, b] = ctx.getImageData(x, y, 1, 1).data;
-            const qr = Math.min(Math.round(r / 32) * 32, 255);
-            const qg = Math.min(Math.round(g / 32) * 32, 255);
-            const qb = Math.min(Math.round(b / 32) * 32, 255);
-            const key = rgbToHex(qr, qg, qb);
-            freq[key] = (freq[key] || 0) + 1;
-        }
+    for (let i = 0; i < data.length; i += step) {
+        const qr = Math.min(Math.round(data[i] / 32) * 32, 255);
+        const qg = Math.min(Math.round(data[i + 1] / 32) * 32, 255);
+        const qb = Math.min(Math.round(data[i + 2] / 32) * 32, 255);
+        const key = rgbToHex(qr, qg, qb);
+        freq[key] = (freq[key] || 0) + 1;
     }
 
     const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]);
