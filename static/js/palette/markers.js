@@ -287,7 +287,9 @@ export function createMarkerController({ elements, state }) {
         state.markerElements.forEach((markerElement, markerIndex) => {
             markerElement.classList.toggle('active', markerIndex === state.activeMarkerIndex);
         });
-        updateActiveLoupe();
+        if (state.draggingMarkerIndex >= 0) {
+            updateActiveLoupe();
+        }
     }
 
     function clearMarkers() {

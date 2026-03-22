@@ -146,12 +146,13 @@
 
 /* Информационная кнопка (Градиент) */
 .btn-info {
-    background: linear-gradient(135deg, #0dcaf0 0%, #6610f2 100%);
+    background: #0dcaf0;
     color: white;
     border: none;
 }
 
 .btn-info:hover, .btn-info:focus {
+    background: #0bb5d8;
     transform: translateY(-3px);
     box-shadow: var(--shadow-hover);
 }
@@ -178,7 +179,7 @@
 }
 
 .btn-info:active {
-    background: linear-gradient(135deg, #0dcaf0 0%, #6610f2 100%) !important;
+    background: #0bb5d8 !important;
     border-color: transparent !important;
     color: white !important;
 }
@@ -221,6 +222,27 @@
 .btn-secondary:hover, .btn-secondary:focus {
     transform: translateY(-3px);
     box-shadow: var(--shadow-hover);
+}
+
+/* Убираем синий Bootstrap focus ring на всех кнопках */
+.btn:focus {
+    box-shadow: 0 0 0 0.25rem rgba(155, 89, 255, 0.25) !important;
+}
+
+.btn-success:focus {
+    box-shadow: 0 0 0 0.25rem rgba(46, 204, 113, 0.25) !important;
+}
+
+.btn-danger:focus, .btn-outline-danger:focus {
+    box-shadow: 0 0 0 0.25rem rgba(231, 76, 60, 0.25) !important;
+}
+
+.btn-info:focus, .btn-outline-info:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.25) !important;
+}
+
+.btn-secondary:focus, .btn-outline-secondary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(158, 158, 168, 0.25) !important;
 }
 
 /* Размеры кнопок */
