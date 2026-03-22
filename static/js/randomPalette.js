@@ -451,6 +451,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (!Array.isArray(colors) || colors.length === 0) {
             currentColors = [];
+            saveState();
             return;
         }
 
@@ -539,6 +540,24 @@ document.addEventListener('DOMContentLoaded', function() {
         if (actionsSection) {
             actionsSection.classList.remove('d-none');
         }
+
+        saveState();
+    }
+
+    function saveState() {
+        localStorage.setItem('randomPalette_colors', JSON.stringify(currentColors));
+    }
+
+    function restoreState() {
+        const saved = localStorage.getItem('randomPalette_colors');
+        if (!saved) return;
+        try {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed) && parsed.length > 0 && parsed.every(c => /^#[0-9A-F]{6}$/i.test(c))) {
+                currentColors = parsed.map(c => c.toUpperCase());
+                displayPalette(currentColors);
+            }
+        } catch (_e) {}
     }
 
     if (addColorBtn) {
@@ -646,6 +665,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (data.success) {
                     showToast(t('palette_saved', 'Палитра сохранена!'));
+                    localStorage.removeItem('randomPalette_colors');
                     if (saveModal) saveModal.hide();
                 } else {
                     showToast(data.error || t('save_error', 'Ошибка при сохранении'), 'error');
@@ -656,6 +676,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    restoreState();
 
     exportOptions.forEach(option => {
         option.addEventListener('click', async (e) => {

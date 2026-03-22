@@ -160,6 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage.removeItem('lastPalette');
             localStorage.removeItem('lastImageDataURL');
             localStorage.removeItem('createPalette_colors');
+            localStorage.removeItem('randomPalette_colors');
         });
     }
 });
