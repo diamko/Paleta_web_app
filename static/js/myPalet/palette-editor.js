@@ -97,22 +97,27 @@ export function createPaletteEditor({ showToast }) {
         const colors = editColors[paletteId] || [];
         colors.forEach((color, index) => {
             const item = document.createElement('div');
-            item.className = 'd-flex align-items-center gap-1 mb-1';
+            item.className = 'palette-editor-item';
             item.innerHTML = `
-                <input type="color" class="form-control form-control-color p-0 border-0" value="${color.toLowerCase()}" style="width:32px;height:32px;">
-                <input type="text" class="form-control form-control-sm flex-grow-1 font-monospace" value="${color}" maxlength="7" spellcheck="false">
-                <button class="btn btn-sm btn-outline-danger btn-remove-color" data-palette-id="${paletteId}" data-index="${index}" title="${t('remove', 'Удалить')}">
+                <div class="palette-editor-preview" style="background:${color}"></div>
+                <input type="color" class="palette-editor-picker" value="${color.toLowerCase()}">
+                <input type="text" class="palette-editor-hex" value="${color}" maxlength="7" spellcheck="false">
+                <button class="btn-icon remove-color btn-remove-color" data-palette-id="${paletteId}" data-index="${index}" title="${t('remove', 'Удалить')}">
                     <i class="fas fa-times"></i>
                 </button>
             `;
 
-            const picker = item.querySelector('input[type="color"]');
-            const hex = item.querySelector('input[type="text"]');
+            const preview = item.querySelector('.palette-editor-preview');
+            const picker = item.querySelector('.palette-editor-picker');
+            const hex = item.querySelector('.palette-editor-hex');
+
+            preview.addEventListener('click', () => picker.click());
 
             picker.addEventListener('input', () => {
                 const val = picker.value.toUpperCase();
                 editColors[paletteId][index] = val;
                 hex.value = val;
+                preview.style.background = val;
             });
 
             hex.addEventListener('blur', () => {
@@ -120,6 +125,7 @@ export function createPaletteEditor({ showToast }) {
                 if (/^#[0-9A-F]{6}$/.test(val)) {
                     editColors[paletteId][index] = val;
                     picker.value = val.toLowerCase();
+                    preview.style.background = val;
                 } else {
                     hex.value = editColors[paletteId][index];
                 }

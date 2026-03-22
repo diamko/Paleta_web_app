@@ -60,6 +60,17 @@ html[data-theme="dark"] .palette-edit-hex {
     color: #d0d3e8;
 }
 
+html[data-theme="dark"] .palette-editor-item {
+    background: #202840;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+html[data-theme="dark"] .palette-editor-hex {
+    background: #0f1323;
+    border-color: rgba(255, 255, 255, 0.12);
+    color: #d0d3e8;
+}
+
 html[data-theme="dark"] .upload-zone {
     border-color: #39435f;
     background: rgba(15, 19, 35, 0.6);
@@ -227,6 +238,17 @@ html[data-theme="dark"] .dropdown-divider {
     }
 
     html:not([data-theme="light"]) .palette-edit-hex {
+        background: #0f1323;
+        border-color: rgba(255, 255, 255, 0.12);
+        color: #d0d3e8;
+    }
+
+    html:not([data-theme="light"]) .palette-editor-item {
+        background: #202840;
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    html:not([data-theme="light"]) .palette-editor-hex {
         background: #0f1323;
         border-color: rgba(255, 255, 255, 0.12);
         color: #d0d3e8;
