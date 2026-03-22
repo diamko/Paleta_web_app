@@ -39,7 +39,7 @@
 }
 
 .slider-value {
-    font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     font-size: 0.85rem;
     min-width: 3em;
     text-align: right;
@@ -141,8 +141,8 @@
     padding: 3px 6px;
     border: 1px solid var(--medium-gray);
     border-radius: 6px;
-    font-size: 12px;
-    font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+    font-size: 14px;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     text-transform: uppercase;
     letter-spacing: 0.2px;
 }

@@ -68,7 +68,7 @@
     border: 1px solid var(--medium-gray);
     border-radius: 8px;
     font-size: 14px;
-    font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     text-transform: uppercase;
     letter-spacing: 0.2px;
 }
@@ -202,7 +202,7 @@
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.4px;
-    font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 .marker-hint {
@@ -400,7 +400,7 @@
     color: white;
     padding: 5px 8px;
     font-size: 11px;
-    font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     font-weight: 600;
     text-align: center;
     border-radius: 0 0 12px 12px;
