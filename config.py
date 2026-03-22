@@ -59,6 +59,8 @@ def _normalize_database_url(url: str) -> str:
 class Config:
     """Базовая конфигурация приложения."""
 
+    APP_VERSION = "1.1.0"
+
     _PRODUCTION = _is_production()
 
     SECRET_KEY = os.environ.get("SECRET_KEY")

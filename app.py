@@ -197,6 +197,7 @@ def create_app() -> Flask:
     def inject_template_globals():
         """Выполняет операцию `inject_template_globals` в рамках сценария модуля."""
         return {
+            "app_version": app.config.get("APP_VERSION", "1.0.0"),
             "csrf_token": _ensure_csrf_token(),
             "current_lang": _language_for_url(),
             "supported_langs": app.config["SUPPORTED_LANGUAGES"],
