@@ -159,6 +159,7 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage.removeItem('lastImageFilename');
             localStorage.removeItem('lastPalette');
             localStorage.removeItem('lastImageDataURL');
+            localStorage.removeItem('createPalette_colors');
         });
     }
 });

@@ -257,6 +257,25 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // --- State persistence ---
+
+    function saveState() {
+        localStorage.setItem('createPalette_colors', JSON.stringify(colors));
+    }
+
+    function restoreState() {
+        var saved = localStorage.getItem('createPalette_colors');
+        if (!saved) return;
+        try {
+            var parsed = JSON.parse(saved);
+            if (Array.isArray(parsed) && parsed.length > 0 && parsed.every(function (c) { return /^#[0-9A-F]{6}$/i.test(c); })) {
+                colors = parsed.map(function (c) { return c.toUpperCase(); });
+                renderPalette();
+                updateGradientPreview();
+            }
+        } catch (_e) {}
+    }
+
     // --- Palette management ---
 
     function addCurrentColor() {
@@ -300,6 +319,7 @@ document.addEventListener('DOMContentLoaded', function () {
             emptyHint.classList.remove('d-none');
             actionsSection.classList.add('d-none');
             gradientSection.classList.add('d-none');
+            saveState();
             return;
         }
 
@@ -423,6 +443,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             paletteColors.appendChild(item);
         });
+
+        saveState();
     }
 
     // --- Gradient ---
@@ -562,6 +584,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 var data = await response.json();
                 if (data.success) {
                     showToast(t('palette_saved', 'Палитра сохранена!'));
+                    localStorage.removeItem('createPalette_colors');
                     if (saveModal) saveModal.hide();
                 } else {
                     showToast(data.error || t('save_error', 'Ошибка при сохранении'), 'error');
@@ -659,4 +682,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
     drawColorWheel();
     updateCurrentColor();
+    restoreState();
 });
