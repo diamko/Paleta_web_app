@@ -91,12 +91,14 @@
                                         <i class="fas fa-file-export me-1"></i>{{ _('Экспорт') }}
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-export">
-                                        <li><button class="dropdown-item export-option" data-format="json">JSON</button></li>
-                                        <li><button class="dropdown-item export-option" data-format="gpl">GPL (GIMP)</button></li>
-                                        <li><button class="dropdown-item export-option" data-format="ase">ASE (Adobe)</button></li>
-                                        <li><button class="dropdown-item export-option" data-format="csv">CSV</button></li>
-                                        <li><button class="dropdown-item export-option" data-format="png">PNG</button></li>
-                                        <li><button class="dropdown-item export-option" data-format="aco">ACO (Photoshop)</button></li>
+                                        <li><button class="dropdown-item export-option" data-format="json"><i class="fas fa-code me-2 text-primary"></i>JSON</button></li>
+                                        <li><button class="dropdown-item export-option" data-format="csv"><i class="fas fa-table me-2 text-success"></i>CSV</button></li>
+                                        <li><button class="dropdown-item export-option" data-format="png"><i class="fas fa-image me-2 text-info"></i>PNG</button></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li class="dropdown-header small text-uppercase">{{ _('Для дизайн-инструментов') }}</li>
+                                        <li><button class="dropdown-item export-option" data-format="gpl"><i class="fas fa-fill-drip me-2 text-warning"></i>GPL <small class="text-muted">GIMP</small></button></li>
+                                        <li><button class="dropdown-item export-option" data-format="ase"><i class="fas fa-swatchbook me-2 text-danger"></i>ASE <small class="text-muted">Adobe</small></button></li>
+                                        <li><button class="dropdown-item export-option" data-format="aco"><i class="fas fa-brush me-2 text-secondary"></i>ACO <small class="text-muted">Photoshop</small></button></li>
                                     </ul>
                                 </div>
                             </div>

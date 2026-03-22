@@ -352,6 +352,8 @@ export function createMarkerController({ elements, state }) {
         window.removeEventListener('pointermove', handleMarkerPointerMove);
         window.removeEventListener('pointerup', handleMarkerPointerUp);
         window.removeEventListener('pointercancel', handleMarkerPointerUp);
+
+        hideActiveLoupe();
     }
 
     function renderMarkers() {

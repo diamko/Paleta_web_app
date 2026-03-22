@@ -35,7 +35,7 @@
 
             <div id="resultSection" class="d-none">
                 <div class="row extract-results-row">
-                    <div class="col-12 col-lg-6 extract-image-col">
+                    <div class="col-12 col-lg-7 extract-image-col">
                         <h4>{{ _('Изображение') }}</h4>
                         <div id="imageStage" class="image-stage">
                             <img id="imagePreview" class="img-fluid rounded" alt="{{ _('Загруженное изображение') }}" style="display: none;">
@@ -49,7 +49,7 @@
                             {{ _('Перетаскивайте маркеры-пипетки по изображению: каждый маркер управляет своим цветом палитры.') }}
                         </p>
                     </div>
-                    <div class="col-12 col-lg-6 extract-palette-col mt-4 mt-lg-0">
+                    <div class="col-12 col-lg-5 extract-palette-col mt-4 mt-lg-0">
                         <h4>{{ _('Цветовая палитра') }}</h4>
                         <div id="colorPalette" class="extract-palette d-flex flex-wrap gap-2 mb-3"></div>
                         <p class="palette-edit-hint text-muted mb-0">
@@ -80,13 +80,20 @@
                     {% else %}
                         <p class="text-muted mb-2">{{ _('Чтобы сохранить палитру,') }} <a href="{{ url_for('login') }}">{{ _('войдите') }}</a> {{ _('или') }} <a href="{{ url_for('register') }}">{{ _('зарегистрируйтесь') }}</a>.</p>
                     {% endif %}
-                    <div class="export-actions d-flex flex-wrap gap-2" role="group">
-                        <button type="button" class="btn btn-outline-primary btn-sm export-option" data-format="json"><i class="fas fa-file-export me-1"></i>{{ _('Экспорт JSON') }}</button>
-                        <button type="button" class="btn btn-outline-primary btn-sm export-option" data-format="gpl"><i class="fas fa-file-export me-1"></i>{{ _('Экспорт GPL') }}</button>
-                        <button type="button" class="btn btn-outline-primary btn-sm export-option" data-format="ase"><i class="fas fa-file-export me-1"></i>{{ _('Экспорт ASE') }}</button>
-                        <button type="button" class="btn btn-outline-primary btn-sm export-option" data-format="csv"><i class="fas fa-file-export me-1"></i>{{ _('Экспорт CSV') }}</button>
-                        <button type="button" class="btn btn-outline-primary btn-sm export-option" data-format="png"><i class="fas fa-file-export me-1"></i>{{ _('Экспорт PNG') }}</button>
-                        <button type="button" class="btn btn-outline-primary btn-sm export-option" data-format="aco"><i class="fas fa-file-export me-1"></i>{{ _('Экспорт ACO') }}</button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fas fa-file-export me-1"></i>{{ _('Экспорт') }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-export">
+                            <li><button class="dropdown-item export-option" data-format="json"><i class="fas fa-code me-2 text-primary"></i>JSON</button></li>
+                            <li><button class="dropdown-item export-option" data-format="csv"><i class="fas fa-table me-2 text-success"></i>CSV</button></li>
+                            <li><button class="dropdown-item export-option" data-format="png"><i class="fas fa-image me-2 text-info"></i>PNG</button></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li class="dropdown-header small text-uppercase">{{ _('Для дизайн-инструментов') }}</li>
+                            <li><button class="dropdown-item export-option" data-format="gpl"><i class="fas fa-fill-drip me-2 text-warning"></i>GPL <small class="text-muted">GIMP</small></button></li>
+                            <li><button class="dropdown-item export-option" data-format="ase"><i class="fas fa-swatchbook me-2 text-danger"></i>ASE <small class="text-muted">Adobe</small></button></li>
+                            <li><button class="dropdown-item export-option" data-format="aco"><i class="fas fa-brush me-2 text-secondary"></i>ACO <small class="text-muted">Photoshop</small></button></li>
+                        </ul>
                     </div>
                 </div>
             </div>
