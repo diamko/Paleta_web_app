@@ -12,6 +12,66 @@ const currentLang = window.currentLang || 'en';
 /**
  * Выполняет операцию `bindPaletteActions` для соответствующего сценария интерфейса.
  */
+function hexToRgb(hex) {
+    const h = hex.replace('#', '');
+    return { r: parseInt(h.substring(0, 2), 16), g: parseInt(h.substring(2, 4), 16), b: parseInt(h.substring(4, 6), 16) };
+}
+
+function rgbToHsl(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h = 0, s = 0, l = (max + min) / 2;
+    if (max !== min) {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+        else if (max === g) h = ((b - r) / d + 2) / 6;
+        else h = ((r - g) / d + 4) / 6;
+    }
+    return { h: h * 360, s: s * 100, l: l * 100 };
+}
+
+function hslToRgb(h, s, l) {
+    h = ((h % 360) + 360) % 360;
+    s = Math.min(100, Math.max(0, s)) / 100;
+    l = Math.min(100, Math.max(0, l)) / 100;
+    const c = (1 - Math.abs(2 * l - 1)) * s;
+    const hp = h / 60;
+    const x = c * (1 - Math.abs((hp % 2) - 1));
+    let r1 = 0, g1 = 0, b1 = 0;
+    if (hp < 1) { r1 = c; g1 = x; }
+    else if (hp < 2) { r1 = x; g1 = c; }
+    else if (hp < 3) { g1 = c; b1 = x; }
+    else if (hp < 4) { g1 = x; b1 = c; }
+    else if (hp < 5) { r1 = x; b1 = c; }
+    else { r1 = c; b1 = x; }
+    const m = l - c / 2;
+    return { r: Math.round((r1 + m) * 255), g: Math.round((g1 + m) * 255), b: Math.round((b1 + m) * 255) };
+}
+
+function rgbToHex(r, g, b) {
+    return '#' + [r, g, b].map(c => c.toString(16).padStart(2, '0')).join('').toUpperCase();
+}
+
+function generateGradient(colors) {
+    if (colors.length < 2) return [...colors];
+    const first = hexToRgb(colors[0]);
+    const last = hexToRgb(colors[colors.length - 1]);
+    const fHsl = rgbToHsl(first.r, first.g, first.b);
+    const lHsl = rgbToHsl(last.r, last.g, last.b);
+    let hueDiff = lHsl.h - fHsl.h;
+    if (hueDiff > 180) hueDiff -= 360;
+    if (hueDiff < -180) hueDiff += 360;
+    return colors.map((_, i) => {
+        const p = i / (colors.length - 1);
+        const h = ((fHsl.h + hueDiff * p) % 360 + 360) % 360;
+        const s = fHsl.s + (lHsl.s - fHsl.s) * p;
+        const l = fHsl.l + (lHsl.l - fHsl.l) * p;
+        const rgb = hslToRgb(h, s, l);
+        return rgbToHex(rgb.r, rgb.g, rgb.b);
+    });
+}
+
 export function bindPaletteActions({ elements, state, paletteView, markerController }) {
     elements.imagePreview.addEventListener('load', () => {
         markerController.rebuildSampleCanvas();
@@ -71,6 +131,18 @@ export function bindPaletteActions({ elements, state, paletteView, markerControl
     if (elements.newImageBtn) {
         elements.newImageBtn.addEventListener('click', () => {
             paletteView.resetForNewUpload();
+        });
+    }
+
+    if (elements.gradientBtn) {
+        elements.gradientBtn.addEventListener('click', () => {
+            if (state.currentColors.length < 2) {
+                showToast(t('need_two_colors', 'Нужно минимум 2 цвета для градиента'), 'error');
+                return;
+            }
+            state.currentColors = generateGradient(state.currentColors);
+            paletteView.displayPalette(state.currentColors);
+            localStorage.setItem('lastPalette', JSON.stringify(state.currentColors));
         });
     }
 
