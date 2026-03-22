@@ -28,6 +28,11 @@ html[data-theme="dark"] {
     /* Bootstrap text-primary / bg-primary → розовый */
     --bs-primary: #c27ba0;
     --bs-primary-rgb: 194, 123, 160;
+
+    /* Убираем синие Bootstrap focus/active на кнопках */
+    --bs-btn-active-bg: transparent;
+    --bs-btn-active-border-color: transparent;
+    --bs-btn-focus-shadow-rgb: 155, 89, 255;
 }
 
 html[data-theme="dark"] body {
@@ -192,6 +197,10 @@ html[data-theme="dark"] .dropdown-divider {
 
         --bs-primary: #c27ba0;
         --bs-primary-rgb: 194, 123, 160;
+
+        --bs-btn-active-bg: transparent;
+        --bs-btn-active-border-color: transparent;
+        --bs-btn-focus-shadow-rgb: 155, 89, 255;
     }
 
     html:not([data-theme="light"]) body {
