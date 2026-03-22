@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const colorSchemeSelect = document.getElementById('harmonyType');
     const savePaletteBtn = document.getElementById('savePaletteBtn');
     const confirmSaveBtn = document.getElementById('confirmSaveBtn');
+    const addColorBtn = document.getElementById('addColorBtn');
     const exportOptions = document.querySelectorAll('.export-option');
 
     let currentColors = [];
@@ -464,6 +465,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     <input type="color" class="palette-edit-picker" value="${color.toLowerCase()}" aria-label="${t('color_picker_label', 'Выбор цвета {index}', { index: index + 1 })}">
                     <input type="text" class="palette-edit-hex" value="${color}" maxlength="7" spellcheck="false" aria-label="${t('color_hex_label', 'HEX цвета {index}', { index: index + 1 })}">
                 </div>
+                <button type="button" class="btn-icon remove-color" title="${t('remove', 'Удалить')}">
+                    <i class="fas fa-times"></i>
+                </button>
             `;
 
             const preview = item.querySelector('.palette-edit-preview');
@@ -514,6 +518,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 applyColor(hexInput.value, true);
             });
 
+            item.querySelector('.remove-color').addEventListener('click', () => {
+                if (currentColors.length <= 3) {
+                    showToast(t('min_colors_reached', 'Минимум 3 цвета'), 'error');
+                    return;
+                }
+                currentColors.splice(index, 1);
+                displayPalette(currentColors);
+            });
+
             colorPalette.appendChild(item);
         });
 
@@ -521,6 +534,17 @@ document.addEventListener('DOMContentLoaded', function() {
         if (actionsSection) {
             actionsSection.classList.remove('d-none');
         }
+    }
+
+    if (addColorBtn) {
+        addColorBtn.addEventListener('click', function () {
+            if (currentColors.length >= 15) {
+                showToast(t('max_colors_reached', 'Максимум 15 цветов'), 'error');
+                return;
+            }
+            currentColors.push('#808080');
+            displayPalette(currentColors);
+        });
     }
 
     async function copyToClipboard(text) {

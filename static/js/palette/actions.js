@@ -146,6 +146,18 @@ export function bindPaletteActions({ elements, state, paletteView, markerControl
         });
     }
 
+    if (elements.addColorBtn) {
+        elements.addColorBtn.addEventListener('click', () => {
+            if (state.currentColors.length >= 15) {
+                showToast(t('max_colors_reached', 'Максимум 15 цветов'), 'error');
+                return;
+            }
+            state.currentColors.push('#808080');
+            paletteView.displayPalette(state.currentColors);
+            localStorage.setItem('lastPalette', JSON.stringify(state.currentColors));
+        });
+    }
+
     if (elements.savePaletteBtn) {
         elements.savePaletteBtn.addEventListener('click', (event) => {
             event.stopPropagation();

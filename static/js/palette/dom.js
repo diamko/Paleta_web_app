@@ -27,6 +27,7 @@ export function collectPaletteElements(root = document) {
         savePaletteBtn: root.getElementById('savePaletteBtn'),
         confirmSaveBtn: root.getElementById('confirmSaveBtn'),
         gradientBtn: root.getElementById('gradientBtn'),
+        addColorBtn: root.getElementById('addColorBtn'),
         exportOptions: root.querySelectorAll('.export-option'),
     };
 }

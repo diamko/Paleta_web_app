@@ -9,12 +9,29 @@
 }
 
 .palette-edit-item {
+    position: relative;
     width: 100px;
     background: var(--bg-surface);
     border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 12px;
     padding: 8px;
     box-shadow: var(--shadow-light);
+}
+
+.palette-edit-item > .btn-icon.remove-color {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 18px;
+    height: 18px;
+    font-size: 8px;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.palette-edit-item:hover > .btn-icon.remove-color {
+    opacity: 1;
 }
 
 .palette-edit-preview {

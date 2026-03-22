@@ -65,6 +65,9 @@ export function createPaletteView({ elements, state, markerController }) {
                     <input type="color" class="palette-edit-picker" value="${color.toLowerCase()}" aria-label="${t('color_picker_label', 'Выбор цвета {index}', { index: index + 1 })}">
                     <input type="text" class="palette-edit-hex" value="${color}" maxlength="7" spellcheck="false" aria-label="${t('color_hex_label', 'HEX цвета {index}', { index: index + 1 })}">
                 </div>
+                <button type="button" class="btn-icon remove-color" title="${t('remove', 'Удалить')}">
+                    <i class="fas fa-times"></i>
+                </button>
             `;
 
             const preview = item.querySelector('.palette-edit-preview');
@@ -96,6 +99,15 @@ export function createPaletteView({ elements, state, markerController }) {
 
             hexInput.addEventListener('blur', () => {
                 setColorAtIndex(index, hexInput.value, { showError: true });
+            });
+
+            item.querySelector('.remove-color').addEventListener('click', () => {
+                if (state.currentColors.length <= 3) {
+                    showToast(t('min_colors_reached', 'Минимум 3 цвета'), 'error');
+                    return;
+                }
+                state.currentColors.splice(index, 1);
+                displayPalette(state.currentColors);
             });
 
             elements.colorPalette.appendChild(item);
