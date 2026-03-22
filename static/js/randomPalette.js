@@ -460,9 +460,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const item = document.createElement('div');
             item.className = 'palette-edit-item';
             item.innerHTML = `
-                <button type="button" class="palette-edit-preview" title="${t('copy_hex_title', 'Скопировать HEX')}"></button>
+                <button type="button" class="palette-edit-preview" title="${t('pick_color_title', 'Выбрать цвет')}"></button>
                 <div class="palette-edit-controls">
-                    <input type="color" class="palette-edit-picker" value="${color.toLowerCase()}" aria-label="${t('color_picker_label', 'Выбор цвета {index}', { index: index + 1 })}">
+                    <input type="color" class="palette-edit-picker" value="${color.toLowerCase()}" style="display:none" aria-label="${t('color_picker_label', 'Выбор цвета {index}', { index: index + 1 })}">
+                    <button type="button" class="palette-edit-copy" title="${t('copy_hex_title', 'Скопировать HEX')}"></button>
                     <input type="text" class="palette-edit-hex" value="${color}" maxlength="7" spellcheck="false" aria-label="${t('color_hex_label', 'HEX цвета {index}', { index: index + 1 })}">
                 </div>
                 <button type="button" class="btn-icon remove-color" title="${t('remove', 'Удалить')}">
@@ -472,9 +473,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const preview = item.querySelector('.palette-edit-preview');
             const picker = item.querySelector('.palette-edit-picker');
+            const copyBtn = item.querySelector('.palette-edit-copy');
             const hexInput = item.querySelector('.palette-edit-hex');
 
             preview.style.backgroundColor = color;
+            copyBtn.style.backgroundColor = color;
 
             const applyColor = (rawValue, showError = false) => {
                 const normalized = normalizeHexColor(rawValue);
@@ -488,12 +491,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 currentColors[index] = normalized;
                 preview.style.backgroundColor = normalized;
+                copyBtn.style.backgroundColor = normalized;
                 picker.value = normalized.toLowerCase();
                 hexInput.value = normalized;
                 return true;
             };
 
-            preview.addEventListener('click', () => copyToClipboard(currentColors[index]));
+            preview.addEventListener('click', () => picker.click());
+            copyBtn.addEventListener('click', () => copyToClipboard(currentColors[index]));
 
             picker.addEventListener('input', () => {
                 applyColor(picker.value);

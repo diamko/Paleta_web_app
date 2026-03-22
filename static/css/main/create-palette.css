@@ -135,6 +135,16 @@
 .palette-build-picker::-webkit-color-swatch { border: none; }
 .palette-build-picker::-moz-color-swatch { border: none; }
 
+.palette-build-copy {
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+}
+
 .palette-build-hex {
     width: 100%;
     min-width: 0;

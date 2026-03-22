@@ -338,9 +338,10 @@ document.addEventListener('DOMContentLoaded', function () {
             item.draggable = true;
             item.dataset.index = index;
             item.innerHTML =
-                '<button type="button" class="palette-build-preview" title="' + t('copy_hex_title', 'Скопировать HEX') + '"></button>' +
+                '<button type="button" class="palette-build-preview" title="' + t('pick_color_title', 'Выбрать цвет') + '"></button>' +
                 '<div class="palette-build-controls">' +
-                '    <input type="color" class="palette-build-picker" value="' + color.toLowerCase() + '">' +
+                '    <input type="color" class="palette-build-picker" value="' + color.toLowerCase() + '" style="display:none">' +
+                '    <button type="button" class="palette-build-copy" title="' + t('copy_hex_title', 'Скопировать HEX') + '"></button>' +
                 '    <input type="text" class="palette-build-hex" value="' + color + '" maxlength="7" spellcheck="false">' +
                 '</div>' +
                 '<div class="palette-build-actions">' +
@@ -388,11 +389,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const preview = item.querySelector('.palette-build-preview');
             const picker = item.querySelector('.palette-build-picker');
+            const copyBtn = item.querySelector('.palette-build-copy');
             const hexInput = item.querySelector('.palette-build-hex');
 
             preview.style.backgroundColor = color;
+            copyBtn.style.backgroundColor = color;
 
             preview.addEventListener('click', function () {
+                picker.click();
+            });
+
+            copyBtn.addEventListener('click', function () {
                 copyToClipboard(colors[index]);
             });
 
@@ -401,6 +408,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (normalized) {
                     colors[index] = normalized;
                     preview.style.backgroundColor = normalized;
+                    copyBtn.style.backgroundColor = normalized;
                     hexInput.value = normalized;
                     updateGradientPreview();
                 }
@@ -412,6 +420,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (normalized) {
                     colors[index] = normalized;
                     preview.style.backgroundColor = normalized;
+                    copyBtn.style.backgroundColor = normalized;
                     picker.value = normalized.toLowerCase();
                     updateGradientPreview();
                 }

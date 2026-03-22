@@ -3,7 +3,7 @@
  * Назначение: Модуль клиентской логики страницы извлечения и редактирования палитры.
  */
 
-import { copyToClipboard, normalizeHexColor, showToast } from './utils.js';
+import { normalizeHexColor, showToast } from './utils.js';
 
 const t = window.t || ((key, fallback) => fallback || key);
 
@@ -60,7 +60,7 @@ export function createPaletteView({ elements, state, markerController }) {
             const item = document.createElement('div');
             item.className = 'palette-edit-item';
             item.innerHTML = `
-                <button type="button" class="palette-edit-preview" title="${t('copy_hex_title', 'Скопировать HEX')}"></button>
+                <button type="button" class="palette-edit-preview" title="${t('select_marker_title', 'Выделить маркер')}"></button>
                 <div class="palette-edit-controls">
                     <input type="color" class="palette-edit-picker" value="${color.toLowerCase()}" aria-label="${t('color_picker_label', 'Выбор цвета {index}', { index: index + 1 })}">
                     <input type="text" class="palette-edit-hex" value="${color}" maxlength="7" spellcheck="false" aria-label="${t('color_hex_label', 'HEX цвета {index}', { index: index + 1 })}">
@@ -76,7 +76,10 @@ export function createPaletteView({ elements, state, markerController }) {
             state.paletteControls[index] = { preview, picker, hexInput };
             setColorAtIndex(index, color);
 
-            preview.addEventListener('click', () => copyToClipboard(state.currentColors[index]));
+            preview.addEventListener('click', () => {
+                markerController.setActiveMarker(index);
+                markerController.updateActiveLoupe();
+            });
 
             picker.addEventListener('input', () => {
                 setColorAtIndex(index, picker.value);

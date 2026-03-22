@@ -78,6 +78,16 @@
     border: none;
 }
 
+.palette-edit-copy {
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+}
+
 .palette-edit-hex {
     width: 100%;
     min-width: 0;
@@ -345,6 +355,11 @@
     }
 
     .random-palette-grid .palette-edit-picker {
+        width: 28px;
+        height: 28px;
+    }
+
+    .random-palette-grid .palette-edit-copy {
         width: 28px;
         height: 28px;
     }
