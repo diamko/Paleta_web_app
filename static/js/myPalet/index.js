@@ -121,6 +121,12 @@ export function initMyPaletPage() {
             editor.applyGradient(gradientButton.dataset.paletteId);
             return;
         }
+
+        const colorSwatch = target ? target.closest('.js-copy-color') : null;
+        if (colorSwatch) {
+            copyPalette(colorSwatch.dataset.color, showToast, true);
+            return;
+        }
     });
 
     window.copyPalette = (colors) => copyPalette(colors, showToast);

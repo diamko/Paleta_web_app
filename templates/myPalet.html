@@ -57,8 +57,10 @@
                             <h5 class="card-title">{{ palette.name }}</h5>
                             <div class="d-flex flex-wrap gap-1 mb-3">
                                 {% for color in palette.colors %}
-                                <div class="color-swatch-small"
-                                    style="background-color: {{ color }}; width: 25px; height: 25px; border-radius: 3px;">
+                                <div class="color-swatch-small js-copy-color"
+                                    data-color="{{ color }}"
+                                    style="background-color: {{ color }}; width: 25px; height: 25px; border-radius: 3px;"
+                                    title="{{ color }}">
                                 </div>
                                 {% endfor %}
                             </div>
