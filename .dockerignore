@@ -48,6 +48,9 @@ CONTRIBUTING.md
 CONTRIBUTING.ru.md
 DEPLOYMENT.ru.md
 LICENCE
+CLAUDE.md
+план-презентации.md
+тезисы.md
 
 # ── Docker config (not needed inside image) ──────────
 docker-compose*.yml

@@ -66,3 +66,7 @@ static/*.apk
 
 # ── Logs ───────────────────────────────────────────────
 *.log
+
+# ── Conference materials (not part of the codebase) ───
+план-презентации.md
+тезисы.md
