@@ -44,7 +44,6 @@
 
 .shadow-hover:hover {
     box-shadow: var(--shadow-hover) !important;
-    transform: translateY(-5px);
 }
 
 .pulse {

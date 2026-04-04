@@ -46,7 +46,6 @@ footer {
 .footer__social a:hover {
     background: var(--gradient-primary);
     color: white;
-    transform: translateY(-3px) rotate(5deg);
 }
 
 .footer__social-link i {

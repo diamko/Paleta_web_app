@@ -38,7 +38,7 @@ header.scrolled {
 }
 
 .header__logo:hover {
-    transform: translateY(-2px);
+    filter: drop-shadow(0 2px 4px rgba(106, 17, 203, 0.15));
 }
 
 .header_img {
@@ -90,7 +90,6 @@ header.scrolled {
 .nav-link:hover {
     color: var(--primary-color) !important;
     background: rgba(106, 17, 203, 0.08);
-    transform: translateY(-2px);
 }
 
 .nav-link::after {
