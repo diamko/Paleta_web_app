@@ -27,6 +27,14 @@ header.scrolled {
     align-items: center;
     text-decoration: none;
     transition: var(--transition);
+    position: relative;
+}
+
+.header__logo::after {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    z-index: -1;
 }
 
 .header__logo:hover {
@@ -70,6 +78,13 @@ header.scrolled {
     border-radius: 8px;
     margin: 0 0.2rem;
     font-size: 1.2rem;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    z-index: -1;
 }
 
 .nav-link:hover {

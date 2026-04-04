@@ -107,6 +107,14 @@
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
     cursor: pointer;
     transition: var(--transition);
+    position: relative;
+}
+
+.palette-build-preview::after {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    z-index: -1;
 }
 
 .palette-build-preview:hover {

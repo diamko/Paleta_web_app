@@ -50,6 +50,7 @@ DEPLOYMENT.ru.md
 LICENCE
 план-презентации.md
 тезисы.md
+docs/
 
 # ── Docker config (not needed inside image) ──────────
 docker-compose*.yml

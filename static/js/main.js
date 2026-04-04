@@ -51,22 +51,6 @@ document.querySelectorAll('.nav-link').forEach(link => {
     });
 });
 
-const logo = document.querySelector('.header__logo');
-if (logo) {
-    logo.addEventListener('mouseenter', () => {
-        const logoImg = logo.querySelector('.header_img');
-        if (logoImg) {
-            logoImg.style.transform = 'rotate(-5deg) scale(1.05)';
-        }
-    });
-
-    logo.addEventListener('mouseleave', () => {
-        const logoImg = logo.querySelector('.header_img');
-        if (logoImg) {
-            logoImg.style.transform = 'rotate(0) scale(1)';
-        }
-    });
-}
 
 
 /* ===== ТЕМА ===== */

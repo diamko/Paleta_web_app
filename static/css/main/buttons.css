@@ -46,7 +46,6 @@
 }
 
 .btn-primary:hover, .btn-primary:focus {
-    transform: translateY(-3px);
     box-shadow: var(--shadow-hover);
 }
 
@@ -61,7 +60,6 @@
     background: var(--gradient-primary);
     color: white;
     border-color: transparent;
-    transform: translateY(-3px);
     box-shadow: var(--shadow-hover);
 }
 
@@ -71,7 +69,6 @@
 }
 
 .btn-success:hover, .btn-success:focus {
-    transform: translateY(-3px);
     box-shadow: var(--shadow-hover);
 }
 
@@ -81,7 +78,6 @@
 }
 
 .btn-danger:hover, .btn-danger:focus {
-    transform: translateY(-3px);
     box-shadow: var(--shadow-hover);
 }
 
@@ -95,7 +91,6 @@
     background: var(--gradient-danger);
     border-color: transparent;
     color: white;
-    transform: translateY(-3px);
     box-shadow: var(--shadow-hover);
 }
 
@@ -110,7 +105,6 @@
     background: var(--dark-gray);
     border-color: var(--dark-gray);
     color: white;
-    transform: translateY(-3px);
     box-shadow: var(--shadow-hover);
 }
 
@@ -125,7 +119,6 @@
     background: var(--gradient-success);
     border-color: transparent;
     color: white;
-    transform: translateY(-3px);
     box-shadow: var(--shadow-hover);
 }
 
@@ -140,7 +133,6 @@
     background: linear-gradient(135deg, #0dcaf0 0%, #6610f2 100%);
     border-color: transparent;
     color: white;
-    transform: translateY(-3px);
     box-shadow: var(--shadow-hover);
 }
 
@@ -153,13 +145,12 @@
 
 .btn-info:hover, .btn-info:focus {
     background: #0bb5d8;
-    transform: translateY(-3px);
     box-shadow: var(--shadow-hover);
 }
 
 /* Общее состояние :active для всех кнопок */
 .btn:active {
-    transform: translateY(-1px) !important;
+    transform: scale(0.98) !important;
     box-shadow: none !important;
 }
 
@@ -220,7 +211,6 @@
 }
 
 .btn-secondary:hover, .btn-secondary:focus {
-    transform: translateY(-3px);
     box-shadow: var(--shadow-hover);
 }
 
