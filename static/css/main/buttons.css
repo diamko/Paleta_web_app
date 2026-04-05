@@ -40,6 +40,10 @@
     height: 300px;
 }
 
+.btn-sm::before {
+    display: none;
+}
+
 /* Основная кнопка */
 .btn-primary {
     background: var(--gradient-primary);
