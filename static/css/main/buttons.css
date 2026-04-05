@@ -40,8 +40,13 @@
     height: 300px;
 }
 
-.btn-sm::before {
+.btn-sm::before,
+.btn-group-sm > .btn::before {
     display: none;
+}
+
+.btn-group > .btn:hover {
+    box-shadow: none;
 }
 
 /* Основная кнопка */
