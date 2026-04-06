@@ -70,4 +70,8 @@ static/*.apk
 # ── Conference materials (not part of the codebase) ───
 план-презентации.md
 тезисы.md
+тезисы.odt
 docs/
+
+# ── LibreOffice lock files ─────────────────────────────
+.~lock.*
