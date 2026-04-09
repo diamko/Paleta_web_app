@@ -60,6 +60,8 @@ def _validate_uploaded_image(file_storage):
     try:
         with Image.open(file_storage.stream) as image:
             image.verify()
+    except Image.DecompressionBombError:
+        return None, _api_error(_("Изображение слишком большое по разрешению"), 400)
     except (UnidentifiedImageError, OSError):
         return None, _api_error(_("Файл не является корректным изображением"), 400)
     finally:
@@ -69,6 +71,8 @@ def _validate_uploaded_image(file_storage):
         with Image.open(file_storage.stream) as image:
             image_format = (image.format or "").lower()
             width, height = image.size
+    except Image.DecompressionBombError:
+        return None, _api_error(_("Изображение слишком большое по разрешению"), 400)
     except (UnidentifiedImageError, OSError):
         return None, _api_error(_("Файл не является корректным изображением"), 400)
     finally:
