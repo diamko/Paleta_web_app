@@ -7,6 +7,7 @@
 # ── IDE ────────────────────────────────────────────────
 .vscode/
 .idea/
+.obsidian/
 .claude/
 
 # ── Python virtual environments ───────────────────────
@@ -50,6 +51,11 @@ DEPLOYMENT.ru.md
 LICENCE
 план-презентации.md
 тезисы.md
+тезисы.odt
+тезисы.pdf
+тезисы.docx
+презентация.pptx
+презентация.pdf
 docs/
 
 # ── Docker config (not needed inside image) ──────────

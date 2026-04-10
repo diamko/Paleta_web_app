@@ -120,7 +120,7 @@ def create_app() -> Flask:
 
         endpoint = request.endpoint
         if not endpoint:
-            return url_for("index", lang=target_lang)
+            return url_for("index", lang=target_lang, _external=True)
 
         if endpoint in {
             "static",
@@ -131,10 +131,11 @@ def create_app() -> Flask:
             "yandex_verification",
             "language_root",
         }:
-            return url_for("index", lang=target_lang)
+            return url_for("index", lang=target_lang, _external=True)
 
         values = dict(request.view_args or {})
         values["lang"] = target_lang
+        values["_external"] = True
 
         for key, value in request.args.items():
             values.setdefault(key, value)
@@ -142,7 +143,56 @@ def create_app() -> Flask:
         try:
             return url_for(endpoint, **values)
         except BuildError:
-            return url_for("index", lang=target_lang)
+            return url_for("index", lang=target_lang, _external=True)
+
+    _NOINDEX_ENDPOINTS: frozenset[str] = frozenset(
+        {
+            "login",
+            "register",
+            "logout",
+            "forgot_password",
+            "reset_password",
+            "profile",
+            "profile_update",
+            "profile_send_password_code",
+            "profile_change_password",
+            "myPalet",
+        }
+    )
+
+    _PUBLIC_INDEXABLE_ENDPOINTS: frozenset[str] = frozenset(
+        {
+            "index",
+            "generatePalet",
+            "createPalet",
+            "faq",
+            "download_app",
+        }
+    )
+
+    def _canonical_url() -> str | None:
+        """Каноническая абсолютная ссылка для текущего запроса (для SEO)."""
+        endpoint = request.endpoint
+        if not endpoint or endpoint not in _PUBLIC_INDEXABLE_ENDPOINTS:
+            return None
+
+        values = {"_external": True}
+        if "lang" in (request.view_args or {}):
+            values["lang"] = request.view_args["lang"]
+        else:
+            values["lang"] = _language_for_url()
+
+        try:
+            return url_for(endpoint, **values)
+        except BuildError:
+            return None
+
+    def _is_noindex() -> bool:
+        """Должна ли текущая страница содержать <meta name='robots' content='noindex'>."""
+        endpoint = request.endpoint
+        if not endpoint:
+            return False
+        return endpoint in _NOINDEX_ENDPOINTS
 
     @login_manager.unauthorized_handler
     def handle_unauthorized():
@@ -201,7 +251,10 @@ def create_app() -> Flask:
             "csrf_token": _ensure_csrf_token(),
             "current_lang": _language_for_url(),
             "supported_langs": app.config["SUPPORTED_LANGUAGES"],
+            "default_lang": app.config["DEFAULT_LANGUAGE"],
             "alternate_lang_url": _alternate_lang_url,
+            "canonical_url": _canonical_url(),
+            "is_noindex_page": _is_noindex(),
             "js_i18n": {
                 "hex_copied": _("HEX код скопирован!"),
                 "copy_error": _("Ошибка копирования:"),

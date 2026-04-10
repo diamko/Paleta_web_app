@@ -5,7 +5,7 @@
 
 from datetime import datetime, timedelta
 
-from flask import Response, current_app, redirect, render_template, request, send_from_directory, url_for
+from flask import Response, abort, current_app, redirect, render_template, request, send_from_directory, url_for
 from flask_login import login_required, current_user
 
 from models.palette import Palette
@@ -47,7 +47,13 @@ def register_routes(app):
         """Выполняет операцию `index_legacy` в рамках сценария модуля."""
         return redirect(url_for("index", lang="ru"), code=301)
 
-    @app.route("/<lang>/index")
+    @app.get("/<lang>/index")
+    def index_with_path_legacy(lang):
+        """Старый URL `/<lang>/index` редиректит на канонический `/<lang>/`."""
+        if lang not in app.config["SUPPORTED_LANGUAGES"]:
+            abort(404)
+        return redirect(url_for("index", lang=lang), code=301)
+
     @app.route("/<lang>/")
     def index(lang):
         """Выполняет операцию `index` в рамках сценария модуля."""

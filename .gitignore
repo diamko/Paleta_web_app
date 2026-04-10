@@ -24,6 +24,7 @@ htmlcov/
 # ── IDE ────────────────────────────────────────────────
 .vscode/
 .idea/
+.obsidian/
 *.swp
 *.swo
 *~
@@ -72,6 +73,7 @@ static/*.apk
 тезисы.md
 тезисы.odt
 тезисы.pdf
+тезисы.docx
 презентация.pptx
 презентация.pdf
 docs/
